@@ -1,0 +1,8 @@
+.cache
+.env
+.git
+dist
+node_modules
+config
+npm-debug
+tools

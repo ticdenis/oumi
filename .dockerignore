@@ -1,0 +1,7 @@
+.cache
+.env
+.git
+node_modules
+config
+npm-debug
+tools

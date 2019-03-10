@@ -1,0 +1,19 @@
+language: node_js
+sudo: false
+dist: trusty
+node_js:
+  - "10.15.0"
+
+cache:
+  yarn: true
+  directories:
+    - ./node_modules
+
+install:
+  - yarn install
+  - yarn clean
+  - yarn build
+
+script:
+  - yarn lint
+  - yarn test
