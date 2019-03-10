@@ -1,16 +1,14 @@
 {
-  "name": "@oumi-{{projectType}}/{{projectName}}",
-  "description": "{{projectDescription}}",
+  "name": "@oumi-package/shared",
+  "description": "This package share the components between services.",
   "version": "0.0.0",
   "private": true,
   "license": "UNLICENSED",
-  "main": "./dist/main.js",
+  "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
     "preinstall": "node -e 'if(!/yarn\\.js$/.test(process.env.npm_execpath))throw new Error(\"Use yarn\")'",
     "clean": "rimraf dist",
-    "start": "pm2 start --name '@oumi-{{projectType}}/{{projectName}}' ts-node -- -P tsconfig.json ./src/main.ts",
-    "serve": "node dist/main.js",
     "build": "tsc --declaration",
     "watch": "yarn build -w",
     "debug": "nodemon --delay 3 --watch ./dist --legacy-watch ./dist/main.js",
@@ -18,12 +16,12 @@
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "lint:fix": "yarn lint --fix",
     "prettier": "prettier --config .prettierrc --write \"./**/*.ts\"",
-    "test": "ava --verbose",
+    "test": "echo 'ava --verbose'",
     "test:watch": "yarn test --watch",
     "coverage": "nyc ava --verbose",
     "report": "nyc report -r=text-lcov > coverage.lcov"
   },
-  "devDependencies":  {
+  "devDependencies": {
     "@types/node": "^11.11.0",
     "@types/sinon": "^7.0.9",
     "ava": "^1.3.1",
@@ -39,5 +37,13 @@
     "tslint-config-airbnb": "^5.11.1",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.3.3333"
+  },
+  "dependencies": {
+    "@types/ramda": "^0.26.1",
+    "@types/uuid": "^3.4.4",
+    "io-ts": "^1.8.2",
+    "ramda": "^0.26.1",
+    "reflect-metadata": "^0.1.13",
+    "uuid": "^3.3.2"
   }
 }

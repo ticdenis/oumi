@@ -4,7 +4,11 @@
   "version": "0.0.0",
   "private": true,
   "license": "UNLICENSED",
-  "workspaces": [],
+  "workspaces": [
+    "applications/api",
+    "services/shared",
+    "services/user"
+  ],
   "scripts": {
     "preinstall": "node -e 'if(!/yarn\\.js$/.test(process.env.npm_execpath))throw new Error(\"Use yarn\")'",
     "commit": "git-cz",

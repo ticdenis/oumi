@@ -1,0 +1,26 @@
+import { Event, EventSubscriber } from '../../../domain/bus/event';
+
+export class DomainEventSubscriber implements EventSubscriber {
+  public static instance(): DomainEventSubscriber {
+    if (DomainEventSubscriber._instance === null) {
+      DomainEventSubscriber._instance = new this();
+    }
+
+    return DomainEventSubscriber._instance;
+  }
+
+  private static _instance: DomainEventSubscriber = null;
+  protected _events = new Map<string, Event<any>>();
+
+  public events<T>(): Event<T>[] {
+    return Array.from(this._events.values());
+  }
+
+  public handle<T>(event: Event<T>): void {
+    this._events.set(event.id, event);
+  }
+
+  public isSubscribedTo<T>(event: Event<T>): boolean {
+    return true;
+  }
+}
