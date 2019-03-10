@@ -11,9 +11,9 @@ cache:
 
 install:
   - yarn install
-  - yarn clean
-  - yarn build
 
 script:
+  - yarn clean
+  - yarn build
   - yarn lint
   - yarn test
