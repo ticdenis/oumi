@@ -4,10 +4,10 @@ import {
   userIdVO,
   userLastnameVO,
   userPasswordVO,
-} from '../../domain/value-object';
+} from '../../../domain';
 
-import { UserRegistration } from './user-registration';
-import { UserRegistrationCommand } from './user-registration-command';
+import { UserRegistrationCommand } from './user-registration.command';
+import { UserRegistration } from './user-registration.service';
 
 export type UserRegistrationCommandHandler = (
   service: UserRegistration,

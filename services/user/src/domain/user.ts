@@ -1,13 +1,13 @@
 import { DomainEventPublisher } from '@oumi-package/shared';
 
-import { userRegistered } from './bus/event/user-registered';
+import { userRegistered } from './user.events';
 import {
   UserEmail,
   UserFirstname,
   UserId,
   UserLastname,
   UserPassword,
-} from './value-object';
+} from './user.props';
 
 export interface UserConstructor {
   email: UserEmail;

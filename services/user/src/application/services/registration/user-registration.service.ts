@@ -3,16 +3,14 @@ import { Either, left, right } from 'fp-ts/lib/Either';
 import {
   User,
   userAlreadyExistsError,
-  UserQueryRepository,
-} from '../../domain';
-import { UserCommandRepository } from '../../domain/repository';
-import {
+  UserCommandRepository,
   UserEmail,
   UserFirstname,
   UserId,
   UserLastname,
   UserPassword,
-} from '../../domain/value-object';
+  UserQueryRepository,
+} from '../../../domain';
 
 export type UserRegistration = (input: {
   email: UserEmail;

@@ -1,16 +1,20 @@
-import ava, { TestInterface } from 'ava';
-import { User, UserConstructor, UserRegistered } from '../../src/domain';
 import {
   DomainEventPublisher,
   DomainEventSubscriber,
 } from '@oumi-package/shared';
+
+import ava, { TestInterface } from 'ava';
+
 import {
+  User,
+  UserConstructor,
   userEmailVO,
   userFirstnameVO,
   userIdVO,
   userLastnameVO,
   userPasswordVO,
-} from '../../src/domain/value-object';
+  UserRegistered,
+} from '../../src/domain';
 
 const test = ava as TestInterface<UserConstructor>;
 

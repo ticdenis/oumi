@@ -1,18 +1,19 @@
+import { Arg, Substitute } from '@fluffy-spoon/substitute';
+import { ObjectSubstitute } from '@fluffy-spoon/substitute/dist/src/Transformations';
 import ava, { TestInterface } from 'ava';
+
 import {
   userRegistration,
   userRegistrationCommand,
   userRegistrationCommandHandler,
   UserRegistrationInput,
-} from '../../../src/application/registration';
-import { Arg, Substitute } from '@fluffy-spoon/substitute';
+} from '../../../../src/application/services/registration';
 import {
+  User,
   UserCommandRepository,
+  userIdVO,
   UserQueryRepository,
-} from '../../../src/domain/repository';
-import { userIdVO } from '../../../src/domain/value-object';
-import { User } from '../../../src/domain';
-import { ObjectSubstitute } from '@fluffy-spoon/substitute/dist/src/Transformations';
+} from '../../../../src/domain';
 
 const test = ava as TestInterface<{
   input: UserRegistrationInput;
@@ -61,7 +62,7 @@ test('should throw an error registering an user because email already exists', a
   // Given
   t.context.repository.query
     .ofEmail(Arg.any())
-    .returns(Promise.resolve({} as User));
+    .returns(Promise.resolve({} as any));
   const service = userRegistration(
     t.context.repository.query,
     t.context.repository.command,
