@@ -4,11 +4,14 @@
   "version": "0.0.0",
   "private": true,
   "license": "UNLICENSED",
-  "workspaces": [
-    "applications/api",
-    "services/shared",
-    "services/user"
-  ],
+  "workspaces": {
+    "packages": [
+      "packages/shared",
+      "packages/user",
+      "services/account"
+    ],
+    "nohoist": []
+  },
   "scripts": {
     "preinstall": "node -e 'if(!/yarn\\.js$/.test(process.env.npm_execpath))throw new Error(\"Use yarn\")'",
     "commit": "git-cz",
@@ -16,7 +19,6 @@
     "build": "yarn workspaces run build",
     "clean": "yarn workspaces run clean",
     "lint": "yarn workspaces run lint",
-    "lint:fix": "yarn workspaces run lint:fix",
     "prettier": "yarn workspaces run prettier",
     "test": "yarn workspaces run test",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
