@@ -15,11 +15,10 @@ test('should responses a 200 HTTP Status Code', () => {
   // When
   handler(req, res, next);
   // Then
-  res.received(1).status(
-    Arg.is(arg => {
-      const actual = arg === OK;
+  res.received(2).status(
+    Arg.is(actual => {
       expect(actual).toBe(OK);
-      return actual;
+      return actual === OK;
     }),
   );
 });

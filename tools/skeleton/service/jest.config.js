@@ -17,8 +17,5 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: "node",
   testPathIgnorePatterns: ["/dist/", "/node_modules/", "/tools/"],
-  testRegex: './test/.*.ts$',
-  "transform": {
-    "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest"
-  },
+  testRegex: './test/.*.ts$'
 };

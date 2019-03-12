@@ -26,7 +26,8 @@
     "strictNullChecks": false,
     "noUnusedLocals": true,
     "skipLibCheck": true,
-    "target": "esnext"
+    "target": "esnext",
+    "types": ["jest", "node"]
   },
   "exclude": [
     "dist",

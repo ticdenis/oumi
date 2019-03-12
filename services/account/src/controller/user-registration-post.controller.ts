@@ -1,15 +1,15 @@
+import express from 'express';
+import * as t from 'io-ts';
+
+import { Controller } from '../dsl';
+
 import {
   UserCommandRepository,
   UserQueryRepository,
   userRegistration,
   userRegistrationCommand,
   userRegistrationCommandHandler,
-} from '@oumi-package/user';
-
-import express from 'express';
-import * as t from 'io-ts';
-
-import { Controller } from '../dsl';
+} from './../../../../packages/user/src'; // @oumi-package/user
 
 export const userRegistrationPostController: Controller<
   express.Handler

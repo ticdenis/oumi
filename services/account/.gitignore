@@ -18,3 +18,4 @@ build/Release
 .yarn-integrity
 .env
 .cache
+package-lock.json
