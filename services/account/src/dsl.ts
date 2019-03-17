@@ -1,4 +1,3 @@
-import { Container } from 'inversify';
 export interface Environment {
   APP_PORT: string;
 }
@@ -7,10 +6,11 @@ export type EnvironmentLoader = () => Promise<Environment>;
 
 export type ServiceId = string | symbol;
 
-// export interface Container {
-//   get<T>(id: ServiceId): T | null;
-//   set<T>(id: ServiceId, value: T): void;
-// }
+export interface Container {
+  get<T>(id: ServiceId): T | null;
+  set<T>(id: ServiceId, value: T): void;
+  setAsync<T>(id: ServiceId, fn: (context: any) => T | Promise<T>): void;
+}
 
 export type ContainerLoader = () => Promise<Container>;
 
@@ -23,7 +23,7 @@ export interface Logger {
 export type LoggerLoader = (container: Container) => Promise<Logger>;
 
 export interface Application {
-  listen<T>(port: number, hostname: string, callback?: () => void): T;
+  listen<T = any>(port: number, hostname: string, callback?: () => void): T;
 }
 
 export type ApplicationLoader = (container: Container) => Promise<Application>;

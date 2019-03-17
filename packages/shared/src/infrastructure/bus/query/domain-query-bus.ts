@@ -10,8 +10,7 @@ export class DomainQueryBus implements QueryBus {
   }
 
   private static _instance: DomainQueryBus = null;
-
-  private _queryHandlers: Map<string, QueryHandler<any, any>>;
+  private _queryHandlers: Map<string, QueryHandler<any, any>> = new Map();
 
   public addHandler(
     queryName: string,

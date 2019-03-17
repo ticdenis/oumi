@@ -15,7 +15,7 @@ export class DomainCommandBus implements CommandBus {
   }
 
   private static _instance: DomainCommandBus = null;
-  private _commandHandlers: Map<string, CommandHandler<any>>;
+  private _commandHandlers: Map<string, CommandHandler<any>> = new Map();
 
   public addHandler(
     commandName: string,

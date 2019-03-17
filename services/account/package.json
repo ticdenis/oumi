@@ -7,7 +7,9 @@
   "main": "./dist/main.js",
   "types": "./dist/index.d.ts",
   "workspaces": {
-    "nohoist": ["**"]
+    "nohoist": [
+      "**"
+    ]
   },
   "scripts": {
     "clean": "rimraf dist",
@@ -35,7 +37,8 @@
     "inversify": "^5.0.1",
     "io-ts": "^1.8.2",
     "morgan": "^1.9.1",
-    "ramda": "^0.26.1"
+    "ramda": "^0.26.1",
+    "typeorm": "^0.2.15"
   },
   "devDependencies": {
     "@fluffy-spoon/substitute": "^1.76.0",

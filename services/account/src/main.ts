@@ -1,22 +1,26 @@
-import { Container } from 'inversify';
-
-import { appLoader, dbLoader, environmentLoader, loggerLoader } from './config';
+import {
+  appLoader,
+  containerLoader,
+  dbLoader,
+  environmentLoader,
+  loggerLoader,
+} from './config';
 import { Environment, Logger, MainArgs } from './dsl';
 
 export async function main(args?: Partial<MainArgs>) {
-  const container = new Container();
+  const container = await containerLoader();
 
   const env = (args || {}).env || (await environmentLoader());
-  container.bind<Environment>('env').toConstantValue(env);
+  container.set<Environment>('env', env);
 
   const db = (args || {}).db || (await dbLoader(env));
-  container.bind<any>('db').toConstantValue(db);
+  container.set<any>('db', db);
 
   const logger = (args || {}).logger || (await loggerLoader(container));
-  container.bind<Logger>('logger').toConstantValue(logger);
+  container.set<Logger>('logger', logger);
 
   const app = (args || {}).app || (await appLoader(container));
-  app.listen<any>(parseInt(env.APP_PORT, 0), '0.0.0.0', () =>
+  app.listen(parseInt(env.APP_PORT, 0), '0.0.0.0', () =>
     logger.log(`Listening at http://localhost:${env.APP_PORT}`),
   );
 }

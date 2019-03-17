@@ -18,39 +18,39 @@ import {
 
 import express from 'express';
 import helmet from 'helmet';
-import { Container } from 'inversify';
 import morgan from 'morgan';
 
 import {
   healthzGetController,
   userRegistrationPostController,
 } from '../controller';
-import { ApplicationLoader } from '../dsl';
+import { ApplicationLoader, Container } from '../dsl';
 
 function loadRepositories(container: Container) {
-  container
-    .bind<UserCommandRepository>('user.command.repository')
-    .to(InMemoryUserCommandRepository);
+  container.set<UserCommandRepository>(
+    'user.command.repository',
+    new InMemoryUserCommandRepository(),
+  );
 
-  container
-    .bind<UserQueryRepository>('user.query.repository')
-    .to(InMemoryUserQueryRepository);
+  container.set<UserQueryRepository>(
+    'user.query.repository',
+    new InMemoryUserQueryRepository(),
+  );
 }
 
 function loadEventPublisher(container: Container) {
-  container
-    .bind<EventPublisher>('event-publisher')
-    .toConstantValue(DomainEventPublisher.instance());
+  container.set<EventPublisher>(
+    'event-publisher',
+    DomainEventPublisher.instance(),
+  );
 }
 
 function loadQueryBus(container: Container) {
-  container
-    .bind<QueryBus>('query-bus')
-    .toConstantValue(DomainQueryBus.instance());
+  container.set<QueryBus>('query-bus', DomainQueryBus.instance());
 }
 
 function loadCommandBus(container: Container) {
-  container.bind<CommandBus>('command-bus').toDynamicValue(() => {
+  container.setAsync<CommandBus>('command-bus', () => {
     const commandBus = DomainCommandBus.instance();
 
     commandBus.addHandler(
@@ -111,6 +111,6 @@ export const appLoader: ApplicationLoader = container => {
   loadAfterMiddlewares(app, container);
 
   return Promise.resolve({
-    listen: app.listen,
+    listen: app.listen.bind(app),
   });
 };
