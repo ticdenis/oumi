@@ -1,10 +1,10 @@
 import {
+  CommandBus,
   DomainCommandBus,
   DomainEventPublisher,
   DomainQueryBus,
   EventPublisher,
   QueryBus,
-  CommandBus,
 } from '@oumi-package/shared/lib';
 import {
   InMemoryUserCommandRepository,
