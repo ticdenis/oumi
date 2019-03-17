@@ -4,6 +4,7 @@ import {
   userIdVO,
   userLastnameVO,
   userPasswordVO,
+  userPhoneVO,
 } from '../../../domain';
 
 import { UserRegistrationCommand } from './user-registration.command';
@@ -20,6 +21,7 @@ export const userRegistrationCommandHandler: UserRegistrationCommandHandler = se
     id: userIdVO(command.data.id),
     lastname: userLastnameVO(command.data.lastname),
     password: userPasswordVO(command.data.password),
+    phone: userPhoneVO(command.data.phone),
   };
 
   const response = await service(input);

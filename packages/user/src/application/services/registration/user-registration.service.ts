@@ -9,16 +9,22 @@ import {
   UserId,
   UserLastname,
   UserPassword,
+  UserPhone,
   UserQueryRepository,
 } from '../../../domain';
 
-export type UserRegistration = (input: {
+export interface UserRegistrationPayload {
   email: UserEmail;
   firstname: UserFirstname;
   id: UserId;
   lastname: UserLastname;
   password: UserPassword;
-}) => Promise<Either<Error, void>>;
+  phone: UserPhone;
+}
+
+export type UserRegistration = (
+  input: UserRegistrationPayload,
+) => Promise<Either<Error, void>>;
 
 export type UserRegistrationService = (
   queryRepository: UserQueryRepository,

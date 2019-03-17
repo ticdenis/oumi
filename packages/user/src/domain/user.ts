@@ -1,12 +1,13 @@
-import { DomainEventPublisher } from '@oumi-package/shared';
+import { AggregateRoot } from '@oumi-package/shared';
 
-import { userRegistered } from './user.events';
+import { UserEvents, userRegistered } from './user.events';
 import {
   UserEmail,
   UserFirstname,
   UserId,
   UserLastname,
   UserPassword,
+  UserPhone,
 } from './user.props';
 
 export interface UserConstructor {
@@ -15,18 +16,20 @@ export interface UserConstructor {
   id: UserId;
   lastname: UserLastname;
   password: UserPassword;
+  phone: UserPhone;
 }
 
-export class User {
+export class User extends AggregateRoot<UserEvents> {
   public static create(args: UserConstructor): User {
     const user = new this(args);
 
-    DomainEventPublisher.instance().publish(
+    user.recordDomainEvent(
       userRegistered({
         email: user._email.value,
         firstname: user._firstname.value,
         id: user._id.value,
         lastname: user._lastname.value,
+        phone: user._phone.value,
       }),
     );
 
@@ -38,13 +41,17 @@ export class User {
   private _lastname: UserLastname;
   private _email: UserEmail;
   private _password: UserPassword;
+  private _phone: UserPhone;
 
   constructor(args: UserConstructor) {
+    super();
+
     this._id = args.id;
     this._firstname = args.firstname;
     this._lastname = args.lastname;
     this._email = args.email;
     this._password = args.password;
+    this._phone = args.phone;
   }
 
   get id(): UserId {
@@ -65,5 +72,9 @@ export class User {
 
   get password(): UserPassword {
     return this._password;
+  }
+
+  get phone(): UserPhone {
+    return this._phone;
   }
 }

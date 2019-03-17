@@ -6,6 +6,7 @@ export interface UserRegistrationInput {
   id: string;
   lastname: string;
   password: string;
+  phone: string;
 }
 
 export type UserRegistrationCommand = Command<UserRegistrationInput>;

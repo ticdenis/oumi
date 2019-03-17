@@ -30,6 +30,7 @@ test.beforeEach(t => {
     id: userIdVO().value,
     lastname: 'surname',
     password: 'secret',
+    phone: '612345678',
   };
   t.context.repository = {
     command: Substitute.for<UserCommandRepository>(),

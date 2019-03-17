@@ -1,8 +1,3 @@
-import {
-  DomainEventPublisher,
-  DomainEventSubscriber,
-} from '@oumi-package/shared';
-
 import ava, { TestInterface } from 'ava';
 
 import {
@@ -13,7 +8,7 @@ import {
   userIdVO,
   userLastnameVO,
   userPasswordVO,
-  UserRegistered,
+  userPhoneVO,
 } from '../../src/domain';
 
 const test = ava as TestInterface<UserConstructor>;
@@ -24,6 +19,7 @@ test.before(t => {
   t.context.id = userIdVO();
   t.context.lastname = userLastnameVO('surname');
   t.context.password = userPasswordVO('secret');
+  t.context.phone = userPhoneVO('612345678');
 });
 
 test('should create an user', t => {
@@ -38,21 +34,14 @@ test('should create an user', t => {
   t.truthy(user.id);
   t.truthy(user.lastname);
   t.truthy(user.password);
+  t.truthy(user.phone);
 });
 
 test('should publish UserRegistered event after user created', t => {
-  // Given
-  const eventSubscriberId = DomainEventPublisher.instance().subscribe(
-    DomainEventSubscriber.instance(),
-  );
   const args = t.context;
   // When
   const user = User.create(args);
-  DomainEventPublisher.instance().unsubscribe(eventSubscriberId);
+  const domainEvents = user.pullDomainEvents();
   // Then
-  t.truthy(
-    DomainEventSubscriber.instance()
-      .events<UserRegistered>()
-      .find(event => user.id.value === event.data.id),
-  );
+  t.truthy(domainEvents.find(event => user.id.value === event.data.id));
 });
