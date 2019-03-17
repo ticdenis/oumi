@@ -1,4 +1,4 @@
-import { stringVO, uuidVO } from '../value-object';
+import { stringVO, uuidVO } from '..';
 
 export interface Message {
   readonly id: string;

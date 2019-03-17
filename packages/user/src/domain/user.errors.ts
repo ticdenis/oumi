@@ -1,5 +1,7 @@
 import { DomainError, domainError, ReturnType } from '@oumi-package/shared';
 
+export type UserErrors = UserAlreadyExistsError;
+
 export type UserAlreadyExistsError = (email: string) => ReturnType<DomainError>;
 
 export const userAlreadyExistsError: UserAlreadyExistsError = email =>

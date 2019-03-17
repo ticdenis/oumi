@@ -1,6 +1,6 @@
 import * as R from 'ramda';
 
-import { stringVO } from '../value-object';
+import { stringVO } from '..';
 
 import { message, Message } from './message';
 

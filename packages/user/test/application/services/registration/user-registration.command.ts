@@ -1,3 +1,5 @@
+import { EventPublisher } from '@oumi-package/shared';
+
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
 import { ObjectSubstitute } from '@fluffy-spoon/substitute/dist/src/Transformations';
 import ava, { TestInterface } from 'ava';
@@ -17,6 +19,7 @@ import {
 
 const test = ava as TestInterface<{
   input: UserRegistrationInput;
+  eventPublisher: ObjectSubstitute<EventPublisher>;
   repository: {
     command: ObjectSubstitute<UserCommandRepository>;
     query: ObjectSubstitute<UserQueryRepository>;
@@ -32,6 +35,7 @@ test.beforeEach(t => {
     password: 'secret',
     phone: '612345678',
   };
+  t.context.eventPublisher = Substitute.for<EventPublisher>();
   t.context.repository = {
     command: Substitute.for<UserCommandRepository>(),
     query: Substitute.for<UserQueryRepository>(),
@@ -41,10 +45,11 @@ test.beforeEach(t => {
 test('should register an user', async t => {
   // Given
   t.context.repository.query.ofEmail(Arg.any()).returns(Promise.resolve(null));
-  const service = userRegistration(
-    t.context.repository.query,
-    t.context.repository.command,
-  );
+  const service = userRegistration({
+    commandRepository: t.context.repository.command,
+    eventPublisher: t.context.eventPublisher,
+    queryRepository: t.context.repository.query,
+  });
   const commandHandler = userRegistrationCommandHandler(service);
   const command = userRegistrationCommand(t.context.input);
   // When
@@ -64,10 +69,11 @@ test('should throw an error registering an user because email already exists', a
   t.context.repository.query
     .ofEmail(Arg.any())
     .returns(Promise.resolve({} as any));
-  const service = userRegistration(
-    t.context.repository.query,
-    t.context.repository.command,
-  );
+  const service = userRegistration({
+    commandRepository: t.context.repository.command,
+    eventPublisher: t.context.eventPublisher,
+    queryRepository: t.context.repository.query,
+  });
   const commandHandler = userRegistrationCommandHandler(service);
   const command = userRegistrationCommand(t.context.input);
   // When

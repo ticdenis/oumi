@@ -1,3 +1,5 @@
+import { CommandHandler } from '@oumi-package/shared';
+
 import {
   userEmailVO,
   userFirstnameVO,
@@ -12,7 +14,7 @@ import { UserRegistration } from './user-registration.service';
 
 export type UserRegistrationCommandHandler = (
   service: UserRegistration,
-) => (command: UserRegistrationCommand) => Promise<void>;
+) => CommandHandler<UserRegistrationCommand>;
 
 export const userRegistrationCommandHandler: UserRegistrationCommandHandler = service => async command => {
   const input = {

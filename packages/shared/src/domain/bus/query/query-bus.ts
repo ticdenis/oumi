@@ -1,8 +1,9 @@
 import { Query } from './query';
 
 export interface QueryBus {
-  ask<T>(query: Query): T;
+  ask<T, R>(query: Query<T>): Promise<R>;
 }
 
-export const asker = (queryBus: QueryBus) => <T>(query: Query) =>
-  queryBus.ask<T>(query);
+export const asker = (queryBus: QueryBus) => async <T, R>(query: Query<T>) => {
+  await queryBus.ask<T, R>(query);
+};

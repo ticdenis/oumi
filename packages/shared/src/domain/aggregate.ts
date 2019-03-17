@@ -1,6 +1,6 @@
-import { Event } from './bus/event';
+import { Event } from '.';
 
-export abstract class AggregateRoot<DomainEventType = any> {
+export abstract class AggregateRoot<DomainEventType> {
   private _domainEvents: Event<DomainEventType>[] = [];
 
   public pullDomainEvents(): Event<DomainEventType>[] {

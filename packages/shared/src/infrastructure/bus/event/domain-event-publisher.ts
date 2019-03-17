@@ -1,8 +1,4 @@
-import {
-  Event,
-  EventPublisher,
-  EventSubscriber,
-} from '../../../domain/bus/event';
+import { Event, EventPublisher, EventSubscriber } from '../../../domain';
 
 export class DomainEventPublisher implements EventPublisher {
   public static instance(): DomainEventPublisher {
@@ -36,11 +32,12 @@ export class DomainEventPublisher implements EventPublisher {
     this.subscribers.delete(id);
   }
 
-  public publish<T>(...events: Event<T>[]): void {
+  public publish<T>(...events: Event<T>[]): Promise<void> {
     [...this.subscribers.values()]
       .filter(subscriber =>
         events.filter(event => subscriber.isSubscribedTo(event)),
       )
       .forEach(subscriber => events.forEach(event => subscriber.handle(event)));
+    return Promise.resolve();
   }
 }

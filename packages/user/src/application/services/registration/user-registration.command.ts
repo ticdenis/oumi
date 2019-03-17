@@ -9,8 +9,11 @@ export interface UserRegistrationInput {
   phone: string;
 }
 
+// tslint:disable-next-line:variable-name
+export const UserRegistrationCommandName = 'UserRegistrationCommand';
+
 export type UserRegistrationCommand = Command<UserRegistrationInput>;
 
 export const userRegistrationCommand = (
   input: UserRegistrationInput,
-): UserRegistrationCommand => command(input);
+): UserRegistrationCommand => command(input, UserRegistrationCommandName);

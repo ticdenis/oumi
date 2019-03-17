@@ -1,4 +1,7 @@
+import { EventPublisher } from '@oumi-package/shared';
+
 import { Either, left, right } from 'fp-ts/lib/Either';
+import { constVoid } from 'fp-ts/lib/function';
 
 import {
   User,
@@ -26,15 +29,21 @@ export type UserRegistration = (
   input: UserRegistrationPayload,
 ) => Promise<Either<Error, void>>;
 
+export interface UserRegistrationServiceConstructor {
+  commandRepository: UserCommandRepository;
+  eventPublisher: EventPublisher;
+  queryRepository: UserQueryRepository;
+}
+
 export type UserRegistrationService = (
-  queryRepository: UserQueryRepository,
-  commandRepository: UserCommandRepository,
+  args: UserRegistrationServiceConstructor,
 ) => UserRegistration;
 
-export const userRegistration: UserRegistrationService = (
-  queryRepository,
+export const userRegistration: UserRegistrationService = ({
   commandRepository,
-) => async input => {
+  eventPublisher,
+  queryRepository,
+}) => async input => {
   const userExists = await queryRepository.ofEmail(input.email);
 
   if (null !== userExists) {
@@ -45,5 +54,7 @@ export const userRegistration: UserRegistrationService = (
 
   await commandRepository.create(user);
 
-  return right(undefined);
+  await eventPublisher.publish(...user.pullDomainEvents());
+
+  return right(constVoid());
 };
