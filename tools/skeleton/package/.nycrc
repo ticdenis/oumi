@@ -1,7 +1,7 @@
 {
   "all": true,
   "exclude": [
-    "dist",
+    "lib",
     "test",
   ],
   "extension": [

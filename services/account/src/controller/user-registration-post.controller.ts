@@ -1,5 +1,5 @@
-import { CommandBus } from '@oumi-package/shared';
-import { userRegistrationCommand } from '@oumi-package/user';
+import { CommandBus } from '@oumi-package/shared/lib';
+import { userRegistrationCommand } from '@oumi-package/user/lib';
 
 import express from 'express';
 import * as HttpStatus from 'http-status-codes';

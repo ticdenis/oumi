@@ -73,22 +73,6 @@ function updateProjectInfo(path: string, project: Project): void {
   );
 }
 
-function addProjectToWorkspace(project: Project): void {
-  const path = `${shell.pwd()}/package.json`;
-  const workspace = `${project.type}s/${project.name}`;
-
-  const packageJson: { workspaces: { packages: string[] } } = JSON.parse(
-    fs.readFileSync(path, "utf8")
-  );
-
-  packageJson.workspaces.packages.push(workspace);
-  packageJson.workspaces.packages.sort();
-
-  const data = JSON.stringify(packageJson, null, 2);
-
-  fs.writeFileSync(path, data);
-}
-
 export default async function() {
   const project: Project = {
     type: await askProjectType(),
@@ -110,8 +94,6 @@ export default async function() {
   updateProjectInfo(path, project);
 
   shell.echo(chalk.green("Created!"));
-
-  addProjectToWorkspace(project);
 
   shell.exit(0);
 }

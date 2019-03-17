@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "dist",
+    "outDir": "lib",
     "allowJs": false,
     "composite": true,
     "declaration": true,
@@ -29,7 +29,7 @@
     "target": "esnext"
   },
   "exclude": [
-    "dist",
+    "lib",
     "node_modules",
     "test",
     "tools"

@@ -4,11 +4,14 @@
   "version": "0.0.0",
   "private": true,
   "license": "UNLICENSED",
-  "main": "./dist/main.js",
-  "types": "./dist/index.d.ts",
+  "main": "./lib/main.js",
+  "types": "./lib/index.d.ts",
+  "workspaces": {
+    "nohoist": ["**"]
+  },
   "scripts": {
     "preinstall": "node -e 'if(!/yarn\\.js$/.test(process.env.npm_execpath))throw new Error(\"Use yarn\")'",
-    "clean": "rimraf dist",
+    "clean": "rimraf lib",
     "build": "tsc --declaration",
     "build:watch": "tsc --declaration -w",
     "lint": "tslint -c tslint.json -p tsconfig.json --fix",

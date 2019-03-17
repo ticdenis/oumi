@@ -1,5 +1,5 @@
 .cache
 .git
-dist
+lib
 node_modules
 npm-debug

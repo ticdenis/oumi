@@ -4,18 +4,15 @@
   "version": "0.0.0",
   "private": true,
   "license": "UNLICENSED",
-  "workspaces": {
-    "packages": [
-      "packages/shared",
-      "packages/user",
-      "services/account"
-    ],
-    "nohoist": []
-  },
+  "workspaces": [
+    "packages/*",
+    "services/*"
+  ],
   "scripts": {
     "preinstall": "node -e 'if(!/yarn\\.js$/.test(process.env.npm_execpath))throw new Error(\"Use yarn\")'",
     "commit": "git-cz",
     "cli": "./tools/cli.ts",
+    "reset": "rimraf node_modules && rimraf **/node_modules && yarn install && yarn clean && yarn build",
     "build": "yarn workspaces run build",
     "clean": "yarn workspaces run clean",
     "lint": "yarn workspaces run lint",

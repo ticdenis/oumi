@@ -3,7 +3,9 @@ import {
   DomainEventPublisher,
   DomainQueryBus,
   EventPublisher,
-} from '@oumi-package/shared';
+  QueryBus,
+  CommandBus,
+} from '@oumi-package/shared/lib';
 import {
   InMemoryUserCommandRepository,
   InMemoryUserQueryRepository,
@@ -12,53 +14,62 @@ import {
   userRegistration,
   userRegistrationCommandHandler,
   UserRegistrationCommandName,
-} from '@oumi-package/user';
+} from '@oumi-package/user/lib';
 
 import express from 'express';
 import helmet from 'helmet';
+import { Container } from 'inversify';
 import morgan from 'morgan';
 
 import {
   healthzGetController,
   userRegistrationPostController,
 } from '../controller';
-import { ApplicationLoader, Container } from '../dsl';
+import { ApplicationLoader } from '../dsl';
 
 function loadRepositories(container: Container) {
-  container.set('user.command.repository', InMemoryUserCommandRepository);
+  container
+    .bind<UserCommandRepository>('user.command.repository')
+    .to(InMemoryUserCommandRepository);
 
-  container.set('user.query.repository', InMemoryUserQueryRepository);
+  container
+    .bind<UserQueryRepository>('user.query.repository')
+    .to(InMemoryUserQueryRepository);
 }
 
 function loadEventPublisher(container: Container) {
-  // TODO
-  container.set('event-publisher', DomainEventPublisher.instance());
+  container
+    .bind<EventPublisher>('event-publisher')
+    .toConstantValue(DomainEventPublisher.instance());
 }
 
 function loadQueryBus(container: Container) {
-  // TODO
-  container.set('query-bus', DomainQueryBus.instance());
+  container
+    .bind<QueryBus>('query-bus')
+    .toConstantValue(DomainQueryBus.instance());
 }
 
 function loadCommandBus(container: Container) {
-  const commandBus = DomainCommandBus.instance();
+  container.bind<CommandBus>('command-bus').toDynamicValue(() => {
+    const commandBus = DomainCommandBus.instance();
 
-  commandBus.addHandler(
-    UserRegistrationCommandName,
-    userRegistrationCommandHandler(
-      userRegistration({
-        commandRepository: container.get<UserCommandRepository>(
-          'user.command.repository',
-        ),
-        eventPublisher: container.get<EventPublisher>('event-publisher'),
-        queryRepository: container.get<UserQueryRepository>(
-          'user.query.repository',
-        ),
-      }),
-    ),
-  );
+    commandBus.addHandler(
+      UserRegistrationCommandName,
+      userRegistrationCommandHandler(
+        userRegistration({
+          commandRepository: container.get<UserCommandRepository>(
+            'user.command.repository',
+          ),
+          eventPublisher: container.get<EventPublisher>('event-publisher'),
+          queryRepository: container.get<UserQueryRepository>(
+            'user.query.repository',
+          ),
+        }),
+      ),
+    );
 
-  container.set('command-bus', commandBus);
+    return commandBus;
+  });
 }
 
 function loadBeforeMiddlewares(app: express.Application, container: Container) {
@@ -83,13 +94,13 @@ function loadAfterMiddlewares(app: express.Application, container: Container) {
 }
 
 export const appLoader: ApplicationLoader = container => {
+  loadRepositories(container);
+
   loadEventPublisher(container);
 
   loadQueryBus(container);
 
   loadCommandBus(container);
-
-  loadRepositories(container);
 
   const app = express();
 

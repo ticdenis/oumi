@@ -1,7 +1,7 @@
 .cache
 .env
 .git
-dist
+lib
 node_modules
 config
 npm-debug

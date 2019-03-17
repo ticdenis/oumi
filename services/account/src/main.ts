@@ -1,23 +1,19 @@
-import {
-  appLoader,
-  containerLoader,
-  dbLoader,
-  environmentLoader,
-  loggerLoader,
-} from './config';
-import { MainArgs } from './dsl';
+import { Container } from 'inversify';
+
+import { appLoader, dbLoader, environmentLoader, loggerLoader } from './config';
+import { Environment, Logger, MainArgs } from './dsl';
 
 export async function main(args?: Partial<MainArgs>) {
-  const container = (args || {}).container || (await containerLoader());
+  const container = new Container();
 
   const env = (args || {}).env || (await environmentLoader());
-  container.set('env', env);
+  container.bind<Environment>('env').toConstantValue(env);
 
   const db = (args || {}).db || (await dbLoader(env));
-  container.set('db', db);
+  container.bind<any>('db').toConstantValue(db);
 
   const logger = (args || {}).logger || (await loggerLoader(container));
-  container.set('logger', logger);
+  container.bind<Logger>('logger').toConstantValue(logger);
 
   const app = (args || {}).app || (await appLoader(container));
   app.listen<any>(parseInt(env.APP_PORT, 0), '0.0.0.0', () =>

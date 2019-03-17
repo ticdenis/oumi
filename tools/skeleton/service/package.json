@@ -6,15 +6,18 @@
   "license": "UNLICENSED",
   "main": "./dist/main.js",
   "types": "./dist/index.d.ts",
+  "workspaces": {
+    "nohoist": ["**"]
+  },
   "scripts": {
     "preinstall": "node -e 'if(!/yarn\\.js$/.test(process.env.npm_execpath))throw new Error(\"Use yarn\")'",
     "clean": "rimraf dist",
     "start": "pm2 start --name '@oumi-service/{{name}}' ts-node -- -P tsconfig.json ./src/main.ts",
     "serve": "node dist/main.js",
     "build": "tsc --declaration",
-    "watch": "tsc --declaration build -w",
+    "watch": "tsc --declaration -w",
     "debug": "nodemon --delay 3 --watch ./dist --legacy-watch ./dist/main.js",
-    "dev": "concurrently --kill-others \"npm:debug\" \"npm:watch\"",
+    "dev": "concurrently --kill-others \"yarn debug\" \"yarn watch\"",
     "lint": "tslint -c tslint.json -p tsconfig.json --fix",
     "prettier": "prettier --config .prettierrc --write \"./**/*.ts\"",
     "test": "jest --verbose",
