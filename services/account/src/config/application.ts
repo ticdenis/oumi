@@ -1,6 +1,17 @@
 import {
+  DomainCommandBus,
+  DomainEventPublisher,
+  DomainQueryBus,
+  EventPublisher,
+} from '@oumi-package/shared';
+import {
   InMemoryUserCommandRepository,
   InMemoryUserQueryRepository,
+  UserCommandRepository,
+  UserQueryRepository,
+  userRegistration,
+  userRegistrationCommandHandler,
+  UserRegistrationCommandName,
 } from '@oumi-package/user';
 
 import express from 'express';
@@ -17,6 +28,37 @@ function loadRepositories(container: Container) {
   container.set('user.command.repository', InMemoryUserCommandRepository);
 
   container.set('user.query.repository', InMemoryUserQueryRepository);
+}
+
+function loadEventPublisher(container: Container) {
+  // TODO
+  container.set('event-publisher', DomainEventPublisher.instance());
+}
+
+function loadQueryBus(container: Container) {
+  // TODO
+  container.set('query-bus', DomainQueryBus.instance());
+}
+
+function loadCommandBus(container: Container) {
+  const commandBus = DomainCommandBus.instance();
+
+  commandBus.addHandler(
+    UserRegistrationCommandName,
+    userRegistrationCommandHandler(
+      userRegistration({
+        commandRepository: container.get<UserCommandRepository>(
+          'user.command.repository',
+        ),
+        eventPublisher: container.get<EventPublisher>('event-publisher'),
+        queryRepository: container.get<UserQueryRepository>(
+          'user.query.repository',
+        ),
+      }),
+    ),
+  );
+
+  container.set('command-bus', commandBus);
 }
 
 function loadBeforeMiddlewares(app: express.Application, container: Container) {
@@ -41,6 +83,12 @@ function loadAfterMiddlewares(app: express.Application, container: Container) {
 }
 
 export const appLoader: ApplicationLoader = container => {
+  loadEventPublisher(container);
+
+  loadQueryBus(container);
+
+  loadCommandBus(container);
+
   loadRepositories(container);
 
   const app = express();

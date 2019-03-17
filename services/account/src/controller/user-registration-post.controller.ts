@@ -1,15 +1,11 @@
+import { CommandBus } from '@oumi-package/shared';
+import { userRegistrationCommand } from '@oumi-package/user';
+
 import express from 'express';
+import * as HttpStatus from 'http-status-codes';
 import * as t from 'io-ts';
 
 import { Controller } from '../dsl';
-
-import {
-  UserCommandRepository,
-  UserQueryRepository,
-  userRegistration,
-  userRegistrationCommand,
-  userRegistrationCommandHandler,
-} from './../../../../packages/user/src'; // @oumi-package/user
 
 export const userRegistrationPostController: Controller<
   express.Handler
@@ -21,28 +17,26 @@ export const userRegistrationPostController: Controller<
       id: t.string,
       lastname: t.string,
       password: t.string,
+      phone: t.string,
     })
     .decode(req.body); // TODO: Use UserRegistrationInput!
 
   if (validation.isLeft()) {
-    res.status(400).json(validation.value);
+    res.status(HttpStatus.BAD_REQUEST).json(validation.value);
     return;
   }
 
-  const input = validation.value;
-
-  const service = userRegistration(
-    container.get<UserQueryRepository>('user.query.repository'),
-    container.get<UserCommandRepository>('user.command.repository'),
-  );
-  const commandHandler = userRegistrationCommandHandler(service);
-  const command = userRegistrationCommand(input);
-
-  try {
-    await commandHandler(command);
-
-    res.status(201).json();
-  } catch (err) {
-    res.status(400).json(err);
-  }
+  container
+    .get<CommandBus>('command-bus')
+    .dispatch(userRegistrationCommand(validation.value))
+    .then(() => res.status(HttpStatus.CREATED).json())
+    .catch((err: Error) =>
+      res
+        .status(
+          'user_already_exists' === err.name
+            ? HttpStatus.BAD_REQUEST
+            : HttpStatus.INTERNAL_SERVER_ERROR,
+        )
+        .json({ code: err.name, message: err.message }),
+    );
 };
