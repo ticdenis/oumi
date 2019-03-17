@@ -19,3 +19,4 @@ build/Release
 .env
 .cache
 package-lock.json
+var

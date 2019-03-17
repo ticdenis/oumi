@@ -7,6 +7,7 @@ export interface UserRegistered {
   firstname: string;
   id: string;
   lastname: string;
+  nickname: string;
   phone: string;
 }
 

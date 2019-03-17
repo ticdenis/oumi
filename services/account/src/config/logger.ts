@@ -1,8 +1,28 @@
-import { LoggerLoader } from '../dsl';
+import winston from 'winston';
 
-export const loggerLoader: LoggerLoader = () => {
+import { Environment, LoggerLoader, SERVICE_ID } from '../dsl';
+
+export const loggerLoader: LoggerLoader = container => {
+  const isCI = !!container.get<Environment>(SERVICE_ID.ENV).CI;
+
+  const logger = winston.createLogger({
+    defaultMeta: { service: 'account' },
+    format: winston.format.combine(
+      winston.format.timestamp(),
+      winston.format.splat(),
+      winston.format.json(),
+    ),
+    silent: isCI,
+    transports: isCI
+      ? []
+      : [
+          new winston.transports.Console({
+            level: 'info',
+          }),
+        ],
+  });
+
   return Promise.resolve({
-    // tslint:disable-next-line:no-console
-    log: console.log,
+    log: logger.info.bind(logger),
   });
 };

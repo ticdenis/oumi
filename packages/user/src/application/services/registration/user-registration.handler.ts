@@ -5,6 +5,7 @@ import {
   userFirstnameVO,
   userIdVO,
   userLastnameVO,
+  userNicknameVO,
   userPasswordVO,
   userPhoneVO,
 } from '../../../domain';
@@ -22,6 +23,7 @@ export const userRegistrationCommandHandler: UserRegistrationCommandHandler = se
     firstname: userFirstnameVO(command.data.firstname),
     id: userIdVO(command.data.id),
     lastname: userLastnameVO(command.data.lastname),
+    nickname: userNicknameVO(command.data.nickname),
     password: userPasswordVO(command.data.password),
     phone: userPhoneVO(command.data.phone),
   };

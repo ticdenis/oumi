@@ -1,42 +1,46 @@
 import { CommandBus } from '@oumi-package/shared/lib';
-import { userRegistrationCommand } from '@oumi-package/user/lib';
+import {
+  userRegistrationCommand,
+  UserRegistrationInputType,
+} from '@oumi-package/user/lib';
 
 import express from 'express';
 import * as HttpStatus from 'http-status-codes';
-import * as t from 'io-ts';
 
-import { Controller } from '../dsl';
+import { Controller, Logger, SERVICE_ID } from '../dsl';
+
+import { ErrorFormat, koResponse, okResponse, validationReporter } from '.';
 
 export const userRegistrationPostController: Controller<
   express.Handler
 > = container => async (req, res) => {
-  const validation = t
-    .interface({
-      email: t.string,
-      firstname: t.string,
-      id: t.string,
-      lastname: t.string,
-      password: t.string,
-      phone: t.string,
-    })
-    .decode(req.body); // TODO: Use UserRegistrationInput!
-
-  if (validation.isLeft()) {
-    res.status(HttpStatus.BAD_REQUEST).json(validation.value);
-    return;
-  }
-
-  container
-    .get<CommandBus>('command-bus')
-    .dispatch(userRegistrationCommand(validation.value))
-    .then(() => res.status(HttpStatus.CREATED).json())
-    .catch((err: Error) =>
+  UserRegistrationInputType.decode(req.body).fold(
+    errors => {
       res
-        .status(
-          'user_already_exists' === err.name
-            ? HttpStatus.BAD_REQUEST
-            : HttpStatus.INTERNAL_SERVER_ERROR,
-        )
-        .json({ code: err.name, message: err.message }),
-    );
+        .status(HttpStatus.BAD_REQUEST)
+        .json(koResponse<ErrorFormat>(validationReporter(errors)));
+    },
+    input => {
+      container
+        .get<CommandBus>('command-bus')
+        .dispatch(userRegistrationCommand(input))
+        .then(() => {
+          container.get<Logger>(SERVICE_ID.LOGGER).log('User created!');
+          res.status(HttpStatus.CREATED).json(okResponse());
+        })
+        .catch((err: Error) =>
+          res
+            .status(
+              'user_already_exists' === err.name
+                ? HttpStatus.BAD_REQUEST
+                : HttpStatus.INTERNAL_SERVER_ERROR,
+            )
+            .json(
+              koResponse<ErrorFormat>([
+                { code: err.name, message: err.message },
+              ]),
+            ),
+        );
+    },
+  );
 };

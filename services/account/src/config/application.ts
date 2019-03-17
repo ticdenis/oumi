@@ -7,8 +7,6 @@ import {
   QueryBus,
 } from '@oumi-package/shared/lib';
 import {
-  InMemoryUserCommandRepository,
-  InMemoryUserQueryRepository,
   UserCommandRepository,
   UserQueryRepository,
   userRegistration,
@@ -18,23 +16,29 @@ import {
 
 import express from 'express';
 import helmet from 'helmet';
+import * as HttpStatus from 'http-status-codes';
 import morgan from 'morgan';
 
 import {
   healthzGetController,
+  koResponse,
   userRegistrationPostController,
 } from '../controller';
 import { ApplicationLoader, Container } from '../dsl';
+import {
+  TypeORMUserCommandRepository,
+  TypeORMUserQueryRepository,
+} from '../repository';
 
 function loadRepositories(container: Container) {
   container.set<UserCommandRepository>(
     'user.command.repository',
-    new InMemoryUserCommandRepository(),
+    new TypeORMUserCommandRepository(container),
   );
 
   container.set<UserQueryRepository>(
     'user.query.repository',
-    new InMemoryUserQueryRepository(),
+    new TypeORMUserQueryRepository(container),
   );
 }
 
@@ -87,10 +91,16 @@ function loadRoutes(app: express.Application, container: Container) {
 }
 
 function loadAfterMiddlewares(app: express.Application, container: Container) {
-  // TODO: Check!
-  // app.use((err: Error, _: express.Request, res: express.Response) => {
-  //   res.status(500).send(err.message);
-  // });
+  app.use((err: Error, req: any, res: express.Response, next: any) => {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(
+      koResponse([
+        {
+          code: err.name,
+          message: err.message,
+        },
+      ]),
+    );
+  });
 }
 
 export const appLoader: ApplicationLoader = container => {

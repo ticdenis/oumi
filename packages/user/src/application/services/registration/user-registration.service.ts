@@ -11,6 +11,7 @@ import {
   UserFirstname,
   UserId,
   UserLastname,
+  UserNickname,
   UserPassword,
   UserPhone,
   UserQueryRepository,
@@ -21,6 +22,7 @@ export interface UserRegistrationPayload {
   firstname: UserFirstname;
   id: UserId;
   lastname: UserLastname;
+  nickname: UserNickname;
   password: UserPassword;
   phone: UserPhone;
 }

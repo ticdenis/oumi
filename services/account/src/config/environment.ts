@@ -9,7 +9,22 @@ export const environmentLoader: EnvironmentLoader = () => {
     process.env,
   );
 
-  const env = R.pickAll<any, Environment>(['APP_PORT'], raw);
+  const env = R.pickAll<any, Environment>(
+    [
+      'APP_PORT',
+      'CI',
+      'DATABASE_CONNECTION',
+      'DATABASE_DATABASE',
+      'DATABASE_ENTITIES',
+      'DATABASE_HOST',
+      'DATABASE_PASSWORD',
+      'DATABASE_PORT',
+      'DATABASE_SYNCHRONIZE',
+      'DATABASE_USERNAME',
+      'NODE_ENV',
+    ],
+    raw,
+  );
 
   return Promise.resolve(env);
 };

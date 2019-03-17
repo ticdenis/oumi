@@ -1,5 +1,15 @@
 export interface Environment {
   APP_PORT: string;
+  CI: string | undefined;
+  DATABASE_CONNECTION: string;
+  DATABASE_DATABASE: string;
+  DATABASE_ENTITIES: string;
+  DATABASE_HOST: string;
+  DATABASE_PASSWORD: string;
+  DATABASE_PORT: string;
+  DATABASE_SYNCHRONIZE: string;
+  DATABASE_USERNAME: string;
+  NODE_ENV: string;
 }
 
 export type EnvironmentLoader = () => Promise<Environment>;
@@ -31,6 +41,12 @@ export type ApplicationLoader = (container: Container) => Promise<Application>;
 export type Database = any; // TODO
 
 export type DatabaseLoader = (env: Environment) => Promise<Database>;
+
+export const SERVICE_ID: { [key: string]: ServiceId } = {
+  DB: Symbol('DB_SERVICE_ID'),
+  ENV: Symbol('ENV_SERVICE_ID'),
+  LOGGER: Symbol('LOGGER_SERVICE_ID'),
+};
 
 export interface MainArgs {
   app: Application;

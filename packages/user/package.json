@@ -7,7 +7,9 @@
   "main": "./lib/main.js",
   "types": "./lib/index.d.ts",
   "workspaces": {
-    "nohoist": ["**"]
+    "nohoist": [
+      "**"
+    ]
   },
   "scripts": {
     "preinstall": "node -e 'if(!/yarn\\.js$/.test(process.env.npm_execpath))throw new Error(\"Use yarn\")'",
@@ -23,7 +25,8 @@
   },
   "dependencies": {
     "@oumi-package/shared": "0.0.0",
-    "fp-ts": "^1.14.3"
+    "fp-ts": "^1.14.3",
+    "io-ts": "^1.8.3"
   },
   "devDependencies": {
     "@fluffy-spoon/substitute": "^1.76.0",

@@ -1,13 +1,19 @@
 import { Command, command } from '@oumi-package/shared';
 
-export interface UserRegistrationInput {
-  email: string;
-  firstname: string;
-  id: string;
-  lastname: string;
-  password: string;
-  phone: string;
-}
+import * as t from 'io-ts';
+
+// tslint:disable-next-line:variable-name
+export const UserRegistrationInputType = t.type({
+  email: t.string,
+  firstname: t.string,
+  id: t.string,
+  lastname: t.string,
+  nickname: t.string,
+  password: t.string,
+  phone: t.string,
+});
+
+export type UserRegistrationInput = t.TypeOf<typeof UserRegistrationInputType>;
 
 // tslint:disable-next-line:variable-name
 export const UserRegistrationCommandName = 'UserRegistrationCommand';

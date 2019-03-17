@@ -7,6 +7,7 @@ import {
   userFirstnameVO,
   userIdVO,
   userLastnameVO,
+  userNicknameVO,
   userPasswordVO,
   userPhoneVO,
 } from '../../src/domain';
@@ -18,6 +19,7 @@ test.before(t => {
   t.context.firstname = userFirstnameVO('name');
   t.context.id = userIdVO();
   t.context.lastname = userLastnameVO('surname');
+  t.context.nickname = userNicknameVO('nickname');
   t.context.password = userPasswordVO('secret');
   t.context.phone = userPhoneVO('612345678');
 });
@@ -33,6 +35,7 @@ test('should create an user', t => {
   t.truthy(user.firstname);
   t.truthy(user.id);
   t.truthy(user.lastname);
+  t.truthy(user.nickname);
   t.truthy(user.password);
   t.truthy(user.phone);
 });
