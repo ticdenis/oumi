@@ -1,4 +1,4 @@
-import { domainError, Query, QueryBus, QueryHandler } from '../../../domain';
+import { Query, QueryBus, QueryDomainError, QueryHandler } from '../domain';
 
 export class DomainQueryBus implements QueryBus {
   public static instance(): DomainQueryBus {
@@ -22,8 +22,8 @@ export class DomainQueryBus implements QueryBus {
   public async ask<T, R>(query: Query<T>): Promise<R> {
     if ('query' !== query.type) {
       return Promise.reject(
-        domainError(
-          'dispatch_invalid_query',
+        new QueryDomainError(
+          'INVALID_QUERY_TYPE',
           `Argument received not is a query is a <${query.type}>.`,
         ),
       );
@@ -31,8 +31,8 @@ export class DomainQueryBus implements QueryBus {
 
     if (!this._queryHandlers.has(query.name)) {
       return Promise.reject(
-        domainError(
-          'query_not_found',
+        new QueryDomainError(
+          'QUERY_NOT_FOUND',
           `Query Handler for <${query.name}> not found.`,
         ),
       );

@@ -1,9 +1,9 @@
 import {
   Command,
   CommandBus,
+  CommandDomainError,
   CommandHandler,
-  domainError,
-} from '../../../domain';
+} from '../domain';
 
 export class DomainCommandBus implements CommandBus {
   public static instance(): DomainCommandBus {
@@ -27,8 +27,8 @@ export class DomainCommandBus implements CommandBus {
   public async dispatch<T>(command: Command<T>): Promise<void> {
     if ('command' !== command.type) {
       return Promise.reject(
-        domainError(
-          'dispatch_invalid_command',
+        new CommandDomainError(
+          'INVALID_COMMAND_TYPE',
           `Argument received not is a command is a <${command.type}>.`,
         ),
       );
@@ -36,8 +36,8 @@ export class DomainCommandBus implements CommandBus {
 
     if (!this._commandHandlers.has(command.name)) {
       return Promise.reject(
-        domainError(
-          'command_not_found',
+        new CommandDomainError(
+          'COMMAND_NOT_FOUND',
           `Command Handler for <${command.name}> not found.`,
         ),
       );

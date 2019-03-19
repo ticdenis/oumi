@@ -1,4 +1,4 @@
-import { event } from '@oumi-package/shared';
+import { event } from '@oumi-package/core';
 
 export type UserEvents = UserRegistered;
 

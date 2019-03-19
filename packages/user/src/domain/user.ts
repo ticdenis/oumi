@@ -1,4 +1,4 @@
-import { AggregateRoot } from '@oumi-package/shared';
+import { AggregateRoot } from '@oumi-package/core';
 
 import { UserEvents, userRegistered } from './user.events';
 import {

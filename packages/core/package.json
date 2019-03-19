@@ -1,13 +1,15 @@
 {
-  "name": "@oumi-package/shared",
-  "description": "This package share the components between services.",
+  "name": "@oumi-package/core",
+  "description": "This package provides the basic units needed for the Oumi architecture.",
   "version": "0.0.0",
   "private": true,
   "license": "UNLICENSED",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "workspaces": {
-    "nohoist": ["**"]
+    "nohoist": [
+      "**"
+    ]
   },
   "scripts": {
     "preinstall": "node -e 'if(!/yarn\\.js$/.test(process.env.npm_execpath))throw new Error(\"Use yarn\")'",
@@ -45,6 +47,7 @@
     "@types/uuid": "^3.4.4",
     "io-ts": "^1.8.3",
     "io-ts-types": "^0.4.4",
+    "monocle-ts": "^1.7.1",
     "ramda": "^0.26.1",
     "uuid": "^3.3.2"
   }

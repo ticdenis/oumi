@@ -1,4 +1,4 @@
-import { Command, command } from '@oumi-package/shared';
+import { Command, command } from '@oumi-package/core';
 
 import * as t from 'io-ts';
 

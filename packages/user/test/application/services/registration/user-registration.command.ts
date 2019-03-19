@@ -1,4 +1,4 @@
-import { EventPublisher } from '@oumi-package/shared';
+import { EventPublisher } from '@oumi-package/core';
 
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
 import { ObjectSubstitute } from '@fluffy-spoon/substitute/dist/src/Transformations';
@@ -32,6 +32,7 @@ test.beforeEach(t => {
     firstname: 'name',
     id: userIdVO().value,
     lastname: 'surname',
+    nickname: 'nickname',
     password: 'secret',
     phone: '612345678',
   };

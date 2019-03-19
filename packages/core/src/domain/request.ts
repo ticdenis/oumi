@@ -1,10 +1,12 @@
 import * as R from 'ramda';
 
-import { stringVO } from '..';
+import { message, Message, stringVO } from '.';
 
-import { message, Message } from './message';
+// Types
 
 export type Request = Message;
+
+// Helpers
 
 export const request = (): Request =>
   R.merge(message(), {

@@ -1,8 +1,14 @@
-import { DomainError, domainError, ReturnType } from '@oumi-package/shared';
+import { DomainError } from '@oumi-package/core';
 
-export type UserErrors = UserAlreadyExistsError;
+export class UserDomainError extends DomainError {
+  public constructor(readonly code: string, message: string) {
+    super(code, message);
+  }
 
-export type UserAlreadyExistsError = (email: string) => ReturnType<DomainError>;
-
-export const userAlreadyExistsError: UserAlreadyExistsError = email =>
-  domainError('user_already_exists', `The user <${email}> already exists`);
+  public static alreadyExists(email: string): UserDomainError {
+    return new UserDomainError(
+      'USER_ALREADY_EXISTS',
+      `The user <${email}> already exists`,
+    );
+  }
+}

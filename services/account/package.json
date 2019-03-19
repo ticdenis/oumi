@@ -27,7 +27,7 @@
     "report": "jest --coverage"
   },
   "dependencies": {
-    "@oumi-package/shared": "0.0.0",
+    "@oumi-package/core": "0.0.0",
     "@oumi-package/user": "0.0.0",
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",

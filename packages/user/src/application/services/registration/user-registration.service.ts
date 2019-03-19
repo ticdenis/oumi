@@ -1,11 +1,11 @@
-import { EventPublisher } from '@oumi-package/shared';
+import { EventPublisher } from '@oumi-package/core';
 
 import { Either, left, right } from 'fp-ts/lib/Either';
 import { constVoid } from 'fp-ts/lib/function';
 
 import {
   User,
-  userAlreadyExistsError,
+  UserDomainError,
   UserCommandRepository,
   UserEmail,
   UserFirstname,
@@ -29,7 +29,7 @@ export interface UserRegistrationPayload {
 
 export type UserRegistration = (
   input: UserRegistrationPayload,
-) => Promise<Either<Error, void>>;
+) => Promise<Either<UserDomainError, void>>;
 
 export interface UserRegistrationServiceConstructor {
   commandRepository: UserCommandRepository;
@@ -49,7 +49,7 @@ export const userRegistration: UserRegistrationService = ({
   const userExists = await queryRepository.ofEmail(input.email);
 
   if (null !== userExists) {
-    return left(userAlreadyExistsError(input.email.value));
+    return left(UserDomainError.alreadyExists(input.email.value));
   }
 
   const user = User.create(input);

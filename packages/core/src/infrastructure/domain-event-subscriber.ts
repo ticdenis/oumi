@@ -1,4 +1,4 @@
-import { Event, EventSubscriber } from '../../../domain';
+import { Event, EventSubscriber } from '../domain';
 
 export class DomainEventSubscriber implements EventSubscriber {
   public static instance(): DomainEventSubscriber {
@@ -20,7 +20,7 @@ export class DomainEventSubscriber implements EventSubscriber {
     this._events.set(event.id, event);
   }
 
-  public isSubscribedTo<T>(event: Event<T>): boolean {
+  public isSubscribedTo<T>(_: Event<T>): boolean {
     return true;
   }
 }

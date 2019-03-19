@@ -1,4 +1,4 @@
-import { CommandHandler } from '@oumi-package/shared';
+import { CommandHandler } from '@oumi-package/core';
 
 import {
   userEmailVO,

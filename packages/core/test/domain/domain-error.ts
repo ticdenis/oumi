@@ -1,6 +1,6 @@
 import ava, { TestInterface } from 'ava';
 
-import { domainError } from '../../src/domain/domain-error';
+import { DomainError } from '../../src/domain';
 
 const test = ava as TestInterface<{
   code: string;
@@ -15,10 +15,11 @@ test.before(t => {
 test('should create a domain error', t => {
   // Given
   const args = t.context;
+  class TestDomainError extends DomainError {}
   // When
-  const error = domainError(args.code, args.message);
+  const error = new TestDomainError(args.code, args.message);
   // Then
-  t.true(error instanceof Error);
+  t.is(error.name, TestDomainError.name);
   t.is(error.message, args.message);
-  t.is(error.name, args.code);
+  t.is(error.code, args.code);
 });

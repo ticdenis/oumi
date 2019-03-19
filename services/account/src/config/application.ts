@@ -5,7 +5,7 @@ import {
   DomainQueryBus,
   EventPublisher,
   QueryBus,
-} from '@oumi-package/shared/lib';
+} from '@oumi-package/core/lib';
 import {
   UserCommandRepository,
   UserQueryRepository,

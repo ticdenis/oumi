@@ -1,4 +1,4 @@
-import { CommandBus } from '@oumi-package/shared/lib';
+import { CommandBus } from '@oumi-package/core/lib';
 import {
   userRegistrationCommand,
   UserRegistrationInputType,
