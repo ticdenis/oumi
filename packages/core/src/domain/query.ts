@@ -10,7 +10,7 @@ export interface Query<T> extends Request {
   readonly occurredOn: Date;
 }
 
-export type QueryHandler<T extends Query<any>, R> = (query: T) => Promise<R>;
+export type QueryHandler<T extends Query<any>, Q> = (query: T) => Promise<Q>;
 
 export interface QueryBus {
   ask<T, Q>(query: Query<T>): Promise<Q>;

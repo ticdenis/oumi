@@ -5,8 +5,8 @@ import { constVoid } from 'fp-ts/lib/function';
 
 import {
   User,
-  UserDomainError,
   UserCommandRepository,
+  UserDomainError,
   UserEmail,
   UserFirstname,
   UserId,
