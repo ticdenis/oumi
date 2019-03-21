@@ -1,14 +1,6 @@
-import * as R from 'ramda';
-
-import { request, Request, stringVO } from '.';
+import { Request, stringVO, uuidVO } from '.';
 
 // Types
-
-export interface Query<T> extends Request {
-  readonly data: T;
-  readonly name: string;
-  readonly occurredOn: Date;
-}
 
 export type QueryHandler<T extends Query<any>, Q> = (query: T) => Promise<Q>;
 
@@ -18,15 +10,22 @@ export interface QueryBus {
 
 // Helpers
 
-export const query = <T>(data: T, name: string): Query<T> =>
-  R.merge(request(), {
-    data,
-    name,
-    occurredOn: new Date(),
-    type: stringVO('query').value,
-  });
+export abstract class Query<T> implements Request {
+  public readonly data: T;
+  public readonly id: string;
+  public readonly name: string;
+  public readonly occurredOn: Date;
+  public readonly type: string;
 
-// tslint:disable-next-line:no-shadowed-variable
+  public constructor(data: T) {
+    this.data = data;
+    this.id = uuidVO().value;
+    this.name = this.constructor.name;
+    this.occurredOn = new Date();
+    this.type = stringVO('query').value;
+  }
+}
+
 export const asker = (queryBus: QueryBus) => async <T, Q>(query: Query<T>) => {
   await queryBus.ask<T, Q>(query);
 };

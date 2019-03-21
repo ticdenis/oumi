@@ -6,9 +6,9 @@ import ava, { TestInterface } from 'ava';
 
 import {
   userRegistration,
-  userRegistrationCommand,
-  userRegistrationCommandHandler,
-  UserRegistrationInput,
+  UserRegistrationCommand,
+  UserRegistrationData,
+  userRegistrationHandler,
 } from '../../../../src/application/services/registration';
 import {
   User,
@@ -18,7 +18,7 @@ import {
 } from '../../../../src/domain';
 
 const test = ava as TestInterface<{
-  input: UserRegistrationInput;
+  data: UserRegistrationData;
   eventPublisher: ObjectSubstitute<EventPublisher>;
   repository: {
     command: ObjectSubstitute<UserCommandRepository>;
@@ -27,7 +27,7 @@ const test = ava as TestInterface<{
 }>;
 
 test.beforeEach(t => {
-  t.context.input = {
+  t.context.data = {
     email: 'uomi@test.com',
     firstname: 'name',
     id: userIdVO().value,
@@ -51,8 +51,8 @@ test('should register an user', async t => {
     eventPublisher: t.context.eventPublisher,
     queryRepository: t.context.repository.query,
   });
-  const commandHandler = userRegistrationCommandHandler(service);
-  const command = userRegistrationCommand(t.context.input);
+  const commandHandler = userRegistrationHandler(service);
+  const command = new UserRegistrationCommand(t.context.data);
   // When
   await commandHandler(command);
   // Then
@@ -75,8 +75,8 @@ test('should throw an error registering an user because email already exists', a
     eventPublisher: t.context.eventPublisher,
     queryRepository: t.context.repository.query,
   });
-  const commandHandler = userRegistrationCommandHandler(service);
-  const command = userRegistrationCommand(t.context.input);
+  const commandHandler = userRegistrationHandler(service);
+  const command = new UserRegistrationCommand(t.context.data);
   // When
   const fn = commandHandler(command);
   // Then

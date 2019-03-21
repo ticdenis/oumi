@@ -1,9 +1,11 @@
+import { Oumi } from '@oumi-package/core';
+
 import winston from 'winston';
 
-import { Environment, LoggerLoader, SERVICE_ID } from '../dsl';
+import { Environment, SERVICE_ID } from '..';
 
-export const loggerLoader: LoggerLoader = container => {
-  const isCI = !!container.get<Environment>(SERVICE_ID.ENV).CI;
+export const loadLogger = (container: Oumi.Container): Oumi.Logger => {
+  const isCI = !!container.get<Environment>(SERVICE_ID.env).CI;
 
   const logger = winston.createLogger({
     defaultMeta: { service: 'account' },
@@ -22,7 +24,7 @@ export const loggerLoader: LoggerLoader = container => {
         ],
   });
 
-  return Promise.resolve({
+  return {
     log: logger.info.bind(logger),
-  });
+  };
 };

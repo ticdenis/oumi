@@ -17,7 +17,7 @@ import {
   UserQueryRepository,
 } from '../../../domain';
 
-export interface UserRegistrationPayload {
+export type UserRegistrationService = (input: {
   email: UserEmail;
   firstname: UserFirstname;
   id: UserId;
@@ -25,23 +25,15 @@ export interface UserRegistrationPayload {
   nickname: UserNickname;
   password: UserPassword;
   phone: UserPhone;
-}
+}) => Promise<Either<UserDomainError, void>>;
 
-export type UserRegistration = (
-  input: UserRegistrationPayload,
-) => Promise<Either<UserDomainError, void>>;
-
-export interface UserRegistrationServiceConstructor {
+export type UserRegistrationBuilder = (options: {
   commandRepository: UserCommandRepository;
   eventPublisher: EventPublisher;
   queryRepository: UserQueryRepository;
-}
+}) => UserRegistrationService;
 
-export type UserRegistrationService = (
-  args: UserRegistrationServiceConstructor,
-) => UserRegistration;
-
-export const userRegistration: UserRegistrationService = ({
+export const userRegistration: UserRegistrationBuilder = ({
   commandRepository,
   eventPublisher,
   queryRepository,

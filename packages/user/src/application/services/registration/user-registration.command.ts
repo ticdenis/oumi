@@ -1,9 +1,9 @@
-import { Command, command } from '@oumi-package/core';
+import { Command } from '@oumi-package/core';
 
 import * as t from 'io-ts';
 
 // tslint:disable-next-line:variable-name
-export const UserRegistrationInputType = t.type({
+export const IUserRegistrationData = t.type({
   email: t.string,
   firstname: t.string,
   id: t.string,
@@ -13,13 +13,6 @@ export const UserRegistrationInputType = t.type({
   phone: t.string,
 });
 
-export type UserRegistrationInput = t.TypeOf<typeof UserRegistrationInputType>;
+export type UserRegistrationData = t.TypeOf<typeof IUserRegistrationData>;
 
-// tslint:disable-next-line:variable-name
-export const UserRegistrationCommandName = 'UserRegistrationCommand';
-
-export type UserRegistrationCommand = Command<UserRegistrationInput>;
-
-export const userRegistrationCommand = (
-  input: UserRegistrationInput,
-): UserRegistrationCommand => command(input, UserRegistrationCommandName);
+export class UserRegistrationCommand extends Command<UserRegistrationData> {}

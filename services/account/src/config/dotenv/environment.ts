@@ -1,15 +1,15 @@
 import * as dotenv from 'dotenv';
 import * as R from 'ramda';
 
-import { Environment, EnvironmentLoader } from '../dsl';
+import { Environment } from '..';
 
-export const environmentLoader: EnvironmentLoader = () => {
+export const loadEnvironment = (): Environment => {
   const raw = R.mergeDeepRight(
     R.defaultTo(dotenv.load().parsed, {}),
     process.env,
   );
 
-  const env = R.pickAll<any, Environment>(
+  return R.pickAll<any, Environment>(
     [
       'APP_PORT',
       'CI',
@@ -25,6 +25,4 @@ export const environmentLoader: EnvironmentLoader = () => {
     ],
     raw,
   );
-
-  return Promise.resolve(env);
 };

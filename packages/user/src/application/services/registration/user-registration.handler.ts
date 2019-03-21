@@ -11,14 +11,14 @@ import {
 } from '../../../domain';
 
 import { UserRegistrationCommand } from './user-registration.command';
-import { UserRegistration } from './user-registration.service';
+import { UserRegistrationService } from './user-registration.service';
 
 export type UserRegistrationCommandHandler = (
-  service: UserRegistration,
+  service: UserRegistrationService,
 ) => CommandHandler<UserRegistrationCommand>;
 
-export const userRegistrationCommandHandler: UserRegistrationCommandHandler = service => async command => {
-  const input = {
+export const userRegistrationHandler: UserRegistrationCommandHandler = service => async command => {
+  const result = await service({
     email: userEmailVO(command.data.email),
     firstname: userFirstnameVO(command.data.firstname),
     id: userIdVO(command.data.id),
@@ -26,9 +26,7 @@ export const userRegistrationCommandHandler: UserRegistrationCommandHandler = se
     nickname: userNicknameVO(command.data.nickname),
     password: userPasswordVO(command.data.password),
     phone: userPhoneVO(command.data.phone),
-  };
+  });
 
-  const response = await service(input);
-
-  return response.isLeft() ? Promise.reject(response.value) : Promise.resolve();
+  return result.isLeft() ? Promise.reject(result.value) : Promise.resolve();
 };
