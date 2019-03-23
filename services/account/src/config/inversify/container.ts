@@ -7,13 +7,13 @@ export const loadContainer = (): Oumi.Container => {
 
   return {
     get: container.get.bind(container),
-    getAsync: <T>(id: Oumi.ServiceId<T>) =>
+    getAsync: <T>(id: Oumi.ServiceId) =>
       Promise.resolve(container.get(id) as T | null),
-    set: <T>(id: Oumi.ServiceId<T>, value: T) => {
+    set: <T>(id: Oumi.ServiceId, value: T) => {
       container.bind<T>(id).toConstantValue(value);
     },
     setAsync: <T>(
-      id: Oumi.ServiceId<T>,
+      id: Oumi.ServiceId,
       fn: (context?: any) => T | Promise<T>,
     ) => {
       container.bind<T>(id).toDynamicValue(fn.bind(container));

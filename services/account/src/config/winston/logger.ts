@@ -5,7 +5,7 @@ import winston from 'winston';
 import { Environment, SERVICE_ID } from '..';
 
 export const loadLogger = (container: Oumi.Container): Oumi.Logger => {
-  const isCI = !!container.get<Environment>(SERVICE_ID.env).CI;
+  const isCI = !!container.get<Environment>(SERVICE_ID.ENV).CI;
 
   const logger = winston.createLogger({
     defaultMeta: { service: 'account' },

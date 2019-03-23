@@ -8,7 +8,7 @@ import {
   userNicknameVO,
   userPasswordVO,
   userPhoneVO,
-} from '../../../domain';
+} from '../../domain';
 
 import { UserRegistrationCommand } from './user-registration.command';
 import { UserRegistrationService } from './user-registration.service';

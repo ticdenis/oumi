@@ -1,5 +1,4 @@
 import chalk from "chalk";
-import * as fs from "fs";
 import * as inquirer from "inquirer";
 import * as shell from "shelljs";
 

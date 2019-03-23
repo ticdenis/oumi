@@ -15,7 +15,7 @@ import {
   UserPassword,
   UserPhone,
   UserQueryRepository,
-} from '../../../domain';
+} from '../../domain';
 
 export type UserRegistrationService = (input: {
   email: UserEmail;

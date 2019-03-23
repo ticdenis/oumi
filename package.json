@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@types/inquirer": "^0.0.44",
-    "@types/node": "^11.11.0",
+    "@types/node": "^11.11.5",
     "@types/shelljs": "^0.8.3",
     "chalk": "^2.4.2",
     "commitizen": "^3.0.7",
@@ -32,7 +32,7 @@
     "inquirer": "^6.2.2",
     "shelljs": "^0.8.3",
     "ts-node": "^8.0.3",
-    "typescript": "^3.3.3333"
+    "typescript": "^3.3.4000"
   },
   "config": {
     "commitizen": {

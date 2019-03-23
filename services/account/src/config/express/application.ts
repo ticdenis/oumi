@@ -1,4 +1,4 @@
-import { Oumi } from '@oumi-package/core/lib';
+import { Oumi } from '@oumi-package/core';
 
 import express from 'express';
 
@@ -7,7 +7,9 @@ import { loadAfterMiddlewares, loadBeforeMiddlewares } from './middlewares';
 import { loadRepositories } from './repositories';
 import { loadRoutes } from './routes';
 
-export const loadApplication = (container: Oumi.Container) => {
+export const loadApplication = (
+  container: Oumi.Container,
+): Oumi.Application => {
   loadRepositories(container);
 
   loadBuses(container);

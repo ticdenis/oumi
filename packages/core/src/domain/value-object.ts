@@ -71,7 +71,7 @@ export const uuidVO = (value?: string): ValueObject<Uuid> => {
     throw new ValueObjectDomainError('INVALID_UUID', value);
   }
 
-  return simpleValueObject<Uuid>(value);
+  return simpleValueObject<Uuid>(_value);
 };
 
 export const numberVO = (value: number): NumberVO => {

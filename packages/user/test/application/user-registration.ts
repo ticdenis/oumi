@@ -9,13 +9,13 @@ import {
   UserRegistrationCommand,
   UserRegistrationData,
   userRegistrationHandler,
-} from '../../../../src/application/services/registration';
+} from '../../src/application/user-registration';
 import {
   User,
   UserCommandRepository,
   userIdVO,
   UserQueryRepository,
-} from '../../../../src/domain';
+} from '../../src/domain';
 
 const test = ava as TestInterface<{
   data: UserRegistrationData;

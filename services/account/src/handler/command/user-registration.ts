@@ -5,7 +5,7 @@ import {
   userRegistration,
   UserRegistrationCommand,
   userRegistrationHandler,
-} from '@oumi-package/user/lib';
+} from '@oumi-package/user/';
 
 import { SERVICE_ID } from '../../config';
 
@@ -17,11 +17,11 @@ const handler: MakeCommandHandler = container => {
     userRegistrationHandler(
       userRegistration({
         commandRepository: container.get<UserCommandRepository>(
-          SERVICE_ID.userCommandRepository,
+          SERVICE_ID.COMMAND_REPOSITORY.USER,
         ),
         eventPublisher: container.get<EventPublisher>('event-publisher'),
         queryRepository: container.get<UserQueryRepository>(
-          SERVICE_ID.userQueryRepository,
+          SERVICE_ID.QUERY_REPOSITORY.USER,
         ),
       }),
     ),

@@ -4,7 +4,7 @@ import {
   okResponse,
   Oumi,
   validationReporter,
-} from '@oumi-package/core/lib';
+} from '@oumi-package/core';
 import {
   IUserRegistrationData,
   UserDomainError,
@@ -19,30 +19,27 @@ import { SERVICE_ID } from '../../config';
 export const userRegistrationPostController: Oumi.Controller<
   express.Handler
 > = container => async (req, res, next) => {
-  IUserRegistrationData.decode(req.body).fold(
-    errors => {
-      res
-        .status(HttpStatus.BAD_REQUEST)
-        .json(koResponse(validationReporter(errors)));
-    },
-    input => {
-      container
-        .get<CommandBus>('command-bus')
-        .dispatch(new UserRegistrationCommand(input))
-        .then(() => {
-          container.get<Oumi.Logger>(SERVICE_ID.LOGGER).log('User created!');
-          res.status(HttpStatus.CREATED).json(okResponse());
-        })
-        .catch((err: Error | UserDomainError) => {
-          if (!(err instanceof UserDomainError)) {
-            next(err);
-            return;
-          }
+  const validation = IUserRegistrationData.decode(req.body);
 
-          res
-            .status(HttpStatus.BAD_REQUEST)
-            .json(koResponse([{ code: err.code, message: err.message }]));
-        });
-    },
-  );
+  if (validation.isLeft()) {
+    res
+      .status(HttpStatus.BAD_REQUEST)
+      .json(koResponse(validationReporter(validation.value)));
+    return;
+  }
+
+  try {
+    await container
+      .get<CommandBus>(SERVICE_ID.BUS.COMMAND)
+      .dispatch(new UserRegistrationCommand(validation.value));
+
+    res.status(HttpStatus.CREATED).json(okResponse());
+  } catch (err) {
+    if (!(err instanceof UserDomainError)) {
+      next(err);
+      return;
+    }
+
+    res.status(HttpStatus.CONFLICT).json(koResponse([err]));
+  }
 };

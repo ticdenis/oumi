@@ -1,27 +1,20 @@
 import { Errors } from 'io-ts';
 
+import { DomainError } from '../domain';
+
 // tslint:disable-next-line: no-namespace
 export declare namespace Oumi {
   export interface Environment {
     NODE_ENV: string;
   }
 
-  export type ServiceId<T> =
-    | string
-    | symbol
-    | (new (...args: any[]) => T)
-    | {
-        prototype: T;
-      };
+  export type ServiceId = string | symbol;
 
   export interface Container {
-    getAsync: <T>(id: Oumi.ServiceId<T>) => Promise<T | null>;
-    get<T>(id: Oumi.ServiceId<T>): T | null;
-    set<T>(id: Oumi.ServiceId<T>, value: T): void;
-    setAsync<T>(
-      id: Oumi.ServiceId<T>,
-      fn: (context: any) => T | Promise<T>,
-    ): void;
+    getAsync: <T>(id: Oumi.ServiceId) => Promise<T | null>;
+    get<T>(id: Oumi.ServiceId): T | null;
+    set<T>(id: Oumi.ServiceId, value: T): void;
+    setAsync<T>(id: Oumi.ServiceId, fn: (context: any) => T | Promise<T>): void;
   }
 
   export type Controller<T> = (container: Container) => T;
@@ -40,6 +33,20 @@ export declare namespace Oumi {
     disconnect: () => Promise<void>;
   }
 
+  export interface Migration<T> {
+    down: (queryRunner: T) => Promise<void>;
+    up: (queryRunner: T) => Promise<void>;
+  }
+
+  export interface Migrator<Connection, QueryRunner> {
+    migrate: (
+      connection: Connection,
+    ) => (migrations: Migration<QueryRunner>[]) => Promise<void>;
+    rollback: (
+      connection: Connection,
+    ) => (migrations: Migration<QueryRunner>[]) => Promise<void>;
+  }
+
   export interface ErrorFormat {
     code: string;
     message: string;
@@ -56,11 +63,17 @@ export const okResponse = <D>(data: D = null): Oumi.JSONResponse<D, null> => ({
   errors: null,
 });
 
-export const koResponse = <E = Oumi.ErrorFormat>(
-  errors: E[] = null,
-): Oumi.JSONResponse<null, E> => ({
+export const koResponse = (
+  errors: Oumi.ErrorFormat[] | DomainError[] = null,
+): Oumi.JSONResponse<null, Oumi.ErrorFormat> => ({
   data: null,
-  errors,
+  errors: !errors
+    ? null
+    : (errors as any[]).map(err =>
+        err instanceof DomainError
+          ? { code: err.code, message: err.message }
+          : err,
+      ),
 });
 
 export const validationReporter = (errors: Errors): Oumi.ErrorFormat[] =>

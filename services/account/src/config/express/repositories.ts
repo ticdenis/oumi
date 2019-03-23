@@ -1,23 +1,20 @@
 import { Oumi } from '@oumi-package/core';
-import {
-  UserCommandRepository,
-  UserQueryRepository,
-} from '@oumi-package/user/lib';
+import { UserCommandRepository, UserQueryRepository } from '@oumi-package/user';
 
 import { SERVICE_ID } from '..';
 import {
   TypeORMUserCommandRepository,
   TypeORMUserQueryRepository,
-} from '../../repository';
+} from '../../repository/typeorm';
 
 export function loadRepositories(container: Oumi.Container) {
   container.set<UserCommandRepository>(
-    SERVICE_ID.userCommandRepository,
+    SERVICE_ID.COMMAND_REPOSITORY.USER,
     new TypeORMUserCommandRepository(container),
   );
 
   container.set<UserQueryRepository>(
-    SERVICE_ID.userQueryRepository,
+    SERVICE_ID.QUERY_REPOSITORY.USER,
     new TypeORMUserQueryRepository(container),
   );
 }
