@@ -1,4 +1,4 @@
-import { CommandBus, DomainCommandBus, Oumi } from '@oumi-package/core';
+import { CommandBus, DomainCommandBus, Oumi } from '@oumi-package/core/lib';
 import {
   UserDomainError,
   userEmailVO,

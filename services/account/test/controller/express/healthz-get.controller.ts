@@ -1,4 +1,4 @@
-import { koResponse, okResponse, Oumi } from '@oumi-package/core';
+import { koResponse, okResponse, Oumi } from '@oumi-package/core/lib';
 
 import { Substitute } from '@fluffy-spoon/substitute';
 import express from 'express';
@@ -43,6 +43,7 @@ describe('healthz GET controller', () => {
     // Given
     const fakeDB: Oumi.Database = {
       connect: () => Promise.resolve(undefined),
+      connection: () => Promise.resolve() as any,
       disconnect: () => Promise.resolve(),
       isConnected: () => Promise.resolve(false),
     };
@@ -72,6 +73,7 @@ describe('healthz GET controller', () => {
     // Given
     const fakeDB: Oumi.Database = {
       connect: () => Promise.resolve(undefined),
+      connection: () => Promise.resolve() as any,
       disconnect: () => Promise.resolve(),
       isConnected: () => Promise.resolve(true),
     };

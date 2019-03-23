@@ -19,11 +19,13 @@
   },
   "dependencies": {
     "@oumi-package/core": "0.0.0",
+    "bcrypt": "^3.0.4",
     "fp-ts": "^1.14.3",
     "io-ts": "^1.8.3"
   },
   "devDependencies": {
     "@fluffy-spoon/substitute": "^1.76.0",
+    "@types/bcrypt": "^3.0.0",
     "@types/cors": "^2.8.4",
     "@types/dotenv": "^6.1.0",
     "@types/express": "^4.16.1",

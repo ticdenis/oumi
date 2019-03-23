@@ -2,7 +2,7 @@ import { Event, EventSubscriber } from '../domain';
 
 export class DomainEventSubscriber implements EventSubscriber {
   public static instance(): DomainEventSubscriber {
-    if (DomainEventSubscriber._instance === null) {
+    if (null === DomainEventSubscriber._instance) {
       DomainEventSubscriber._instance = new this();
     }
 

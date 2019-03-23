@@ -1,5 +1,5 @@
-import { Oumi } from '@oumi-package/core';
-import { User, UserEmail, UserQueryRepository } from '@oumi-package/user';
+import { Oumi } from '@oumi-package/core/lib';
+import { User, UserEmail, UserQueryRepository } from '@oumi-package/user/lib';
 
 import { Connection, Repository } from 'typeorm';
 
@@ -11,7 +11,8 @@ export class TypeORMUserQueryRepository implements UserQueryRepository {
 
   public constructor(container: Oumi.Container) {
     this._repository = container
-      .get<Connection>(SERVICE_ID.DB.WRITE)
+      .get<Oumi.Database>(SERVICE_ID.DB.WRITE)
+      .connection<Connection>()
       .getRepository(UserEntity);
   }
 

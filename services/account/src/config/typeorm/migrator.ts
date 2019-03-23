@@ -1,4 +1,4 @@
-import { Oumi } from '@oumi-package/core';
+import { Oumi } from '@oumi-package/core/lib';
 
 import { Connection, QueryRunner } from 'typeorm';
 
