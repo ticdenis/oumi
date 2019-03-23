@@ -1,5 +1,8 @@
-import { Oumi } from '@oumi-package/core';
-import { UserCommandRepository, UserQueryRepository } from '@oumi-package/user';
+import { Oumi } from '@oumi-package/core/lib';
+import {
+  UserCommandRepository,
+  UserQueryRepository,
+} from '@oumi-package/user/lib';
 
 import { SERVICE_ID } from '..';
 import {

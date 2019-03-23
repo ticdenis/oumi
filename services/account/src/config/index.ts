@@ -1,4 +1,4 @@
-import { Oumi } from '@oumi-package/core';
+import { Oumi } from '@oumi-package/core/lib';
 
 export interface Environment extends Oumi.Environment {
   APP_PORT: string;
@@ -23,21 +23,22 @@ export interface Environment extends Oumi.Environment {
 
 export const SERVICE_ID = {
   BUS: {
-    COMMAND: Symbol.for('COMMAND_BUS_SERVICE_ID'),
-    QUERY: Symbol.for('QUERY_BUS_SERVICE_ID'),
+    COMMAND: Symbol('COMMAND_BUS_SERVICE_ID'),
+    QUERY: Symbol('QUERY_BUS_SERVICE_ID'),
   },
   COMMAND_REPOSITORY: {
-    USER: Symbol.for('USER_COMMAND_REPOSITORY_SERVICE_ID'),
+    USER: Symbol('USER_COMMAND_REPOSITORY_SERVICE_ID'),
   },
   DB: {
-    READ: Symbol.for('DB_READ_SERVICE_ID'),
-    WRITE: Symbol.for('DB_WRITE_SERVICE_ID'),
+    READ: Symbol('DB_READ_SERVICE_ID'),
+    WRITE: Symbol('DB_WRITE_SERVICE_ID'),
   },
-  ENV: Symbol.for('ENV_SERVICE_ID'),
-  EVENT_PUBLISHER: Symbol.for('EVENT_PUBLISHER_SERVICE_ID'),
-  LOGGER: Symbol.for('LOGGER_SERVICE_ID'),
+  ENV: Symbol('ENV_SERVICE_ID'),
+  EVENT_PUBLISHER: Symbol('EVENT_PUBLISHER_SERVICE_ID'),
+  EVENT_SUBSCRIBER: Symbol('EVENT_SUBSCRIBER_SERVICE_ID'),
+  LOGGER: Symbol('LOGGER_SERVICE_ID'),
   QUERY_REPOSITORY: {
-    USER: Symbol.for('USER_QUERY_REPOSITORY_SERVICE_ID'),
+    USER: Symbol('USER_QUERY_REPOSITORY_SERVICE_ID'),
   },
 };
 

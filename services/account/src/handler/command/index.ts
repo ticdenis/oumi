@@ -1,4 +1,6 @@
-import { CommandHandler, Oumi } from '@oumi-package/core';
+import { CommandHandler, Oumi } from '@oumi-package/core/lib';
+
+import userRegistrationHandler from './user-registration.handler';
 
 export type MakeCommandHandler = (
   container: Oumi.Container,
@@ -9,5 +11,5 @@ export type CommandHandlers = (
 ) => [string, CommandHandler<any>][];
 
 export const COMMAND_HANDLERS: CommandHandlers = container => [
-  require('./user-registration')(container),
+  userRegistrationHandler(container),
 ];

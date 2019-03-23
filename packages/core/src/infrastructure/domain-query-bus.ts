@@ -2,7 +2,7 @@ import { Query, QueryBus, QueryDomainError, QueryHandler } from '../domain';
 
 export class DomainQueryBus implements QueryBus {
   public static instance(): DomainQueryBus {
-    if (DomainQueryBus._instance === null) {
+    if (null === DomainQueryBus._instance) {
       DomainQueryBus._instance = new this();
     }
 

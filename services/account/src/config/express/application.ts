@@ -1,4 +1,4 @@
-import { Oumi } from '@oumi-package/core';
+import { Oumi } from '@oumi-package/core/lib';
 
 import express from 'express';
 
@@ -16,11 +16,11 @@ export const loadApplication = (
 
   const app = express();
 
-  loadBeforeMiddlewares(app);
+  loadBeforeMiddlewares(app, container);
 
   loadRoutes(app, container);
 
-  loadAfterMiddlewares(app);
+  loadAfterMiddlewares(app, container);
 
   return {
     listen: app.listen.bind(app),

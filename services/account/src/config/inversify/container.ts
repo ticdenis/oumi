@@ -1,4 +1,4 @@
-import { Oumi } from '@oumi-package/core';
+import { Oumi } from '@oumi-package/core/lib';
 
 import { Container } from 'inversify';
 
@@ -14,7 +14,7 @@ export const loadContainer = (): Oumi.Container => {
     },
     setAsync: <T>(
       id: Oumi.ServiceId,
-      fn: (context?: any) => T | Promise<T>,
+      fn: <C = any>(context?: C) => T | Promise<T>,
     ) => {
       container.bind<T>(id).toDynamicValue(fn.bind(container));
     },

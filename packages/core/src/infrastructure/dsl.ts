@@ -14,10 +14,15 @@ export declare namespace Oumi {
     getAsync: <T>(id: Oumi.ServiceId) => Promise<T | null>;
     get<T>(id: Oumi.ServiceId): T | null;
     set<T>(id: Oumi.ServiceId, value: T): void;
-    setAsync<T>(id: Oumi.ServiceId, fn: (context: any) => T | Promise<T>): void;
+    setAsync<T>(
+      id: Oumi.ServiceId,
+      fn: <C = any>(context: C) => T | Promise<T>,
+    ): void;
   }
 
   export type Controller<T> = (container: Container) => T;
+
+  export type Handler<T> = (container: Container) => T;
 
   export interface Logger {
     log(message: string): void;
@@ -29,6 +34,7 @@ export declare namespace Oumi {
 
   export interface Database {
     connect: <T>() => Promise<T>;
+    connection: <T>() => T | null;
     isConnected: () => Promise<boolean>;
     disconnect: () => Promise<void>;
   }
@@ -64,7 +70,7 @@ export const okResponse = <D>(data: D = null): Oumi.JSONResponse<D, null> => ({
 });
 
 export const koResponse = (
-  errors: Oumi.ErrorFormat[] | DomainError[] = null,
+  errors: Oumi.ErrorFormat[] | DomainError[] | Error[] = null,
 ): Oumi.JSONResponse<null, Oumi.ErrorFormat> => ({
   data: null,
   errors: !errors
@@ -72,6 +78,8 @@ export const koResponse = (
     : (errors as any[]).map(err =>
         err instanceof DomainError
           ? { code: err.code, message: err.message }
+          : err instanceof Error
+          ? { code: err.message, message: err.message }
           : err,
       ),
 });

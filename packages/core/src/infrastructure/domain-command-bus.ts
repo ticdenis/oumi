@@ -7,7 +7,7 @@ import {
 
 export class DomainCommandBus implements CommandBus {
   public static instance(): DomainCommandBus {
-    if (DomainCommandBus._instance === null) {
+    if (null === DomainCommandBus._instance) {
       DomainCommandBus._instance = new this();
     }
 

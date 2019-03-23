@@ -1,5 +1,5 @@
-import { Oumi } from '@oumi-package/core';
-import { User, UserCommandRepository } from '@oumi-package/user';
+import { Oumi } from '@oumi-package/core/lib';
+import { User, UserCommandRepository } from '@oumi-package/user/lib';
 
 import { Connection, EntityManager } from 'typeorm';
 
@@ -11,7 +11,8 @@ export class TypeORMUserCommandRepository implements UserCommandRepository {
 
   public constructor(container: Oumi.Container) {
     this._entityManager = container
-      .get<Connection>(SERVICE_ID.DB.WRITE)
+      .get<Oumi.Database>(SERVICE_ID.DB.WRITE)
+      .connection<Connection>()
       .createEntityManager();
   }
 

@@ -1,5 +1,7 @@
 import { stringVO, StringVO, UuidVO, uuidVO } from '@oumi-package/core';
 
+import bcrypt from 'bcrypt';
+
 // Types
 
 export type UserEmail = StringVO;
@@ -28,6 +30,13 @@ export const userLastnameVO = stringVO;
 
 export const userNicknameVO = stringVO;
 
-export const userPasswordVO = stringVO;
+export const userPasswordVO = (value: string): StringVO => {
+  const _value = bcrypt.hashSync(stringVO(value).value, 10);
+
+  return {
+    equalsTo: other => bcrypt.compareSync(other.value, _value),
+    value: _value,
+  };
+};
 
 export const userPhoneVO = stringVO;

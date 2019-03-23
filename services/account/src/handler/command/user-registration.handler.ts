@@ -1,11 +1,11 @@
-import { EventPublisher } from '@oumi-package/core';
+import { EventPublisher } from '@oumi-package/core/lib';
 import {
   UserCommandRepository,
   UserQueryRepository,
   userRegistration,
   UserRegistrationCommand,
   userRegistrationHandler,
-} from '@oumi-package/user/';
+} from '@oumi-package/user/lib';
 
 import { SERVICE_ID } from '../../config';
 
@@ -19,7 +19,9 @@ const handler: MakeCommandHandler = container => {
         commandRepository: container.get<UserCommandRepository>(
           SERVICE_ID.COMMAND_REPOSITORY.USER,
         ),
-        eventPublisher: container.get<EventPublisher>('event-publisher'),
+        eventPublisher: container.get<EventPublisher>(
+          SERVICE_ID.EVENT_PUBLISHER,
+        ),
         queryRepository: container.get<UserQueryRepository>(
           SERVICE_ID.QUERY_REPOSITORY.USER,
         ),

@@ -1,27 +1,31 @@
-import { koResponse } from '@oumi-package/core';
+import { Oumi } from '@oumi-package/core/lib';
 
 import express from 'express';
 import helmet from 'helmet';
-import * as HttpStatus from 'http-status-codes';
 import morgan from 'morgan';
 
-export function loadBeforeMiddlewares(app: express.Application) {
+import { errorHandler, persistDomainEventsHandler } from '../../controller';
+
+import { loadApolloServer } from './apolloserver/server';
+
+export function loadBeforeMiddlewares(
+  app: express.Application,
+  container: Oumi.Container,
+) {
   app.use(helmet());
 
   app.use(morgan('combined'));
 
   app.use(express.json());
+
+  loadApolloServer(container).applyMiddleware({ app });
 }
 
-export function loadAfterMiddlewares(app: express.Application) {
-  app.use((err: Error, req: any, res: express.Response) => {
-    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(
-      koResponse([
-        {
-          code: err.name,
-          message: err.message,
-        },
-      ]),
-    );
-  });
+export function loadAfterMiddlewares(
+  app: express.Application,
+  container: Oumi.Container,
+) {
+  app.use(persistDomainEventsHandler(container));
+
+  app.use(errorHandler(container));
 }

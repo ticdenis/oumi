@@ -1,13 +1,14 @@
 import {
   CommandBus,
+  DomainError,
   koResponse,
   okResponse,
   Oumi,
   validationReporter,
-} from '@oumi-package/core';
+  ValueObjectDomainError,
+} from '@oumi-package/core/lib';
 import {
   IUserRegistrationData,
-  UserDomainError,
   UserRegistrationCommand,
 } from '@oumi-package/user/lib';
 
@@ -32,14 +33,15 @@ export const userRegistrationPostController: Oumi.Controller<
     await container
       .get<CommandBus>(SERVICE_ID.BUS.COMMAND)
       .dispatch(new UserRegistrationCommand(validation.value));
-
     res.status(HttpStatus.CREATED).json(okResponse());
+    next();
   } catch (err) {
-    if (!(err instanceof UserDomainError)) {
+    if (!(err instanceof DomainError)) {
       next(err);
-      return;
+    } else if (err instanceof ValueObjectDomainError) {
+      res.status(HttpStatus.BAD_REQUEST).json(koResponse([err]));
+    } else {
+      res.status(HttpStatus.CONFLICT).json(koResponse([err]));
     }
-
-    res.status(HttpStatus.CONFLICT).json(koResponse([err]));
   }
 };
