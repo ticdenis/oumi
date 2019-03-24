@@ -4,7 +4,10 @@ import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 
-import { errorHandler, persistDomainEventsHandler } from '../../controller';
+import {
+  errorHandler,
+  persistDomainEventsHandler,
+} from '../../handler/express';
 
 import { loadApolloServer } from './apolloserver/server';
 

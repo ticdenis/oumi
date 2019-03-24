@@ -11,8 +11,8 @@ import {
 } from '@oumi-package/core/lib';
 
 import { SERVICE_ID } from '..';
-import { COMMAND_HANDLERS } from '../../handler/command';
-import { QUERY_HANDLERS } from '../../handler/query';
+import { COMMAND_HANDLERS } from '../command-handler';
+import { QUERY_HANDLERS } from '../query-handler';
 
 export function loadBuses(container: Oumi.Container) {
   container.setAsync<EventSubscriber>(SERVICE_ID.EVENT_SUBSCRIBER, () => {

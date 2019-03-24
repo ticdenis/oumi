@@ -20,6 +20,8 @@ export declare namespace Oumi {
     ): void;
   }
 
+  export type Validator<T> = (data?: any) => T;
+
   export type Controller<T> = (container: Container) => T;
 
   export type Handler<T> = (container: Container) => T;

@@ -6,7 +6,8 @@ import {
   healthzGetController,
   rootGetController,
   userRegistrationPostController,
-} from '../../controller';
+} from '../../controller/express';
+import { userRegistrationValidatorHandler } from '../../handler/io-express';
 
 export function loadRoutes(
   app: express.Application,
@@ -16,5 +17,9 @@ export function loadRoutes(
 
   app.get('/healthz', healthzGetController(container));
 
-  app.post('/users', userRegistrationPostController(container));
+  app.post(
+    '/users',
+    userRegistrationValidatorHandler(container),
+    userRegistrationPostController(container),
+  );
 }

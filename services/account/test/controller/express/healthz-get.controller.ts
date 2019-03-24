@@ -1,94 +1,58 @@
-import { koResponse, okResponse, Oumi } from '@oumi-package/core/lib';
+import { Oumi } from '@oumi-package/core/lib';
 
 import { Substitute } from '@fluffy-spoon/substitute';
 import express from 'express';
 import * as HttpStatus from 'http-status-codes';
+import supertest from 'supertest';
 
-import { SERVICE_ID } from '../../../src/config';
-import { healthzGetController } from '../../../src/controller';
+import { loadContainer, SERVICE_ID } from '../../../src/config';
+import { healthzGetController } from '../../../src/controller/express';
 
 describe('healthz GET controller', () => {
   let context: {
+    app: () => express.Application;
     container: Oumi.Container;
-    next: express.NextFunction;
-    req: express.Request;
-    res: express.Response;
+    request: () => supertest.Test;
   };
 
   beforeEach(done => {
     context = {
-      container: (() => {
-        const obj: any = {};
-        return {
-          get: (key: string) => obj[key],
-          set: (key: string, value: any) => {
-            obj[key] = value;
-          },
-        } as any;
-      })(),
-      next: Substitute.for<express.NextFunction>(),
-      req: Substitute.for<express.Request>(),
-      res: (() => {
-        const res: any = {};
-        res.status = jest.fn().mockReturnValue(res);
-        res.json = jest.fn().mockReturnValue(res);
-        return res;
-      })(),
+      app: () =>
+        express().get('/test', healthzGetController(context.container)),
+      container: loadContainer(),
+      request: () => supertest(context.app()).get('/test'),
     };
 
     done();
   });
 
-  test('read or write database not available', async () => {
+  test('read or write database not available', async done => {
     // Given
-    const fakeDB: Oumi.Database = {
-      connect: () => Promise.resolve(undefined),
-      connection: () => Promise.resolve() as any,
-      disconnect: () => Promise.resolve(),
-      isConnected: () => Promise.resolve(false),
-    };
+    const fakeDB = Substitute.for<Oumi.Database>();
+    fakeDB.isConnected().returns(Promise.resolve(false));
     context.container.set<Oumi.Database>(SERVICE_ID.DB.READ, fakeDB);
     context.container.set<Oumi.Database>(SERVICE_ID.DB.WRITE, fakeDB);
     // When
-    await healthzGetController(context.container)(
-      context.req,
-      context.res,
-      context.next,
-    );
+    const res = await context.request();
     // Then
-    expect(context.res.status).toHaveBeenCalledWith(
-      HttpStatus.SERVICE_UNAVAILABLE,
-    );
-    expect(context.res.json).toHaveBeenCalledWith(
-      koResponse([
-        {
-          code: 'DATABASE_NOT_AVAILABLE',
-          message: 'Database not available',
-        },
-      ]),
-    );
+    expect(res.status).toBe(HttpStatus.SERVICE_UNAVAILABLE);
+    expect(res.body.data).toBeNull();
+    expect(res.body.errors).not.toBeNull();
+    done();
   });
 
-  test('ready', async () => {
+  test('ready', async done => {
     // Given
-    const fakeDB: Oumi.Database = {
-      connect: () => Promise.resolve(undefined),
-      connection: () => Promise.resolve() as any,
-      disconnect: () => Promise.resolve(),
-      isConnected: () => Promise.resolve(true),
-    };
+    const fakeDB = Substitute.for<Oumi.Database>();
+    fakeDB.isConnected().returns(Promise.resolve(true));
     context.container.set<Oumi.Database>(SERVICE_ID.DB.READ, fakeDB);
     context.container.set<Oumi.Database>(SERVICE_ID.DB.WRITE, fakeDB);
     // When
-    await healthzGetController(context.container)(
-      context.req,
-      context.res,
-      context.next,
-    );
+    const res = await context.request();
     // Then
-    expect(context.res.status).toHaveBeenCalledWith(HttpStatus.OK);
-    expect(context.res.json).toHaveBeenCalledWith(
-      okResponse(HttpStatus.getStatusText(HttpStatus.OK)),
-    );
+    expect(res.status).toBe(HttpStatus.OK);
+    expect(res.body.data).toBe(HttpStatus.getStatusText(HttpStatus.OK));
+    expect(res.body.errors).toBeNull();
+    done();
   });
 });
