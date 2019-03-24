@@ -21,6 +21,7 @@ export const userRegistrationPostController: Oumi.Controller<
     .dispatch(new UserRegistrationCommand(req.body))
     .then(() => {
       res.status(HttpStatus.CREATED).json(okResponse());
+      next();
     })
     .catch(err => {
       if (!(err instanceof DomainError)) {
