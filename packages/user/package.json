@@ -21,7 +21,8 @@
     "@oumi-package/core": "0.0.0",
     "bcrypt": "^3.0.4",
     "fp-ts": "^1.14.3",
-    "io-ts": "^1.8.3"
+    "io-ts": "^1.8.3",
+    "jwt-simple": "^0.5.5"
   },
   "devDependencies": {
     "@fluffy-spoon/substitute": "^1.76.0",

@@ -2,7 +2,6 @@ export abstract class DomainError extends Error {
   constructor(public readonly code: string, message: any) {
     super(`${message}`);
     this.name = this.constructor.name;
-    this.code = code;
   }
 }
 

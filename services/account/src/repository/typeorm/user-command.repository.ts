@@ -24,6 +24,7 @@ export class TypeORMUserCommandRepository implements UserCommandRepository {
       lastname: user.lastname.value,
       nickname: user.nickname.value,
       password: user.password.value,
+      phone: user.phone.value,
     });
   }
 }

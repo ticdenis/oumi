@@ -9,7 +9,7 @@ import { ValueObjectDomainError } from '.';
 // Types
 
 export interface ValueObject<T> {
-  equalsTo: (other: ValueObject<T>) => boolean;
+  readonly equalsTo: (other: ValueObject<T>) => boolean;
   value: T;
 }
 

@@ -1,16 +1,33 @@
 import { Oumi } from '@oumi-package/core/lib';
 import {
+  simpleJWTFactory,
+  TokenFactory,
   UserCommandRepository,
   UserQueryRepository,
 } from '@oumi-package/user/lib';
 
-import { SERVICE_ID } from '..';
+import moment from 'moment';
+
+import { Environment, SERVICE_ID } from '..';
 import {
   TypeORMUserCommandRepository,
   TypeORMUserQueryRepository,
 } from '../../repository/typeorm';
 
 export function loadRepositories(container: Oumi.Container) {
+  const env = container.get<Environment>(SERVICE_ID.ENV);
+
+  container.set<TokenFactory>(
+    SERVICE_ID.TOKEN_FACTORY,
+    simpleJWTFactory({
+      expiration: moment()
+        .add(parseInt(env.TOKEN_EXPIRATION_DAYS, 10), 'days')
+        .unix(),
+      issuer: env.TOKEN_ISSUER,
+      secret: env.TOKEN_SECRET,
+    }),
+  );
+
   container.set<UserCommandRepository>(
     SERVICE_ID.COMMAND_REPOSITORY.USER,
     new TypeORMUserCommandRepository(container),

@@ -1,5 +1,16 @@
 import { Oumi } from '@oumi-package/core/lib';
-import { User, UserEmail, UserQueryRepository } from '@oumi-package/user/lib';
+import {
+  User,
+  UserEmail,
+  userEmailVO,
+  userFirstnameVO,
+  userIdVO,
+  userLastnameVO,
+  userNicknameVO,
+  userPasswordVO,
+  userPhoneVO,
+  UserQueryRepository,
+} from '@oumi-package/user/lib';
 
 import { Connection, Repository } from 'typeorm';
 
@@ -21,6 +32,18 @@ export class TypeORMUserQueryRepository implements UserQueryRepository {
       where: { email: email.value },
     });
 
-    return undefined === user ? null : user;
+    if (undefined === user) {
+      return null;
+    }
+
+    return new User({
+      email: userEmailVO(user.email),
+      firstname: userFirstnameVO(user.firstname),
+      id: userIdVO(user.id),
+      lastname: userLastnameVO(user.lastname),
+      nickname: userNicknameVO(user.nickname),
+      password: userPasswordVO(user.password, false),
+      phone: userPhoneVO(user.phone),
+    });
   }
 }
