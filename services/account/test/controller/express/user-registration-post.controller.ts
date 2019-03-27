@@ -1,7 +1,7 @@
 import {
   CommandBus,
   DomainCommandBus,
-  DomainEventPublisher,
+  EventPublisher,
   Oumi,
 } from '@oumi-package/core/lib';
 import {
@@ -74,7 +74,7 @@ describe('user registration POST controller', () => {
     );
     context.container.set(
       SERVICE_ID.EVENT_PUBLISHER,
-      DomainEventPublisher.instance(),
+      Substitute.for<EventPublisher>(),
     );
     bus.addHandler(...userRegistrationHandler(context.container));
     context.container.set<CommandBus>(SERVICE_ID.BUS.COMMAND, bus);
@@ -98,7 +98,7 @@ describe('user registration POST controller', () => {
     context.container.set(SERVICE_ID.COMMAND_REPOSITORY.USER, fakeCommandRepo);
     context.container.set(
       SERVICE_ID.EVENT_PUBLISHER,
-      DomainEventPublisher.instance(),
+      Substitute.for<EventPublisher>(),
     );
     bus.addHandler(...userRegistrationHandler(context.container));
     context.container.set<CommandBus>(SERVICE_ID.BUS.COMMAND, bus);

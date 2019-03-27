@@ -1,21 +1,12 @@
-import { Oumi } from '@oumi-package/core/lib';
-import {
-  userEmailVO,
-  userFirstnameVO,
-  userIdVO,
-  userLastnameVO,
-  userNicknameVO,
-  userPasswordVO,
-  userPhoneVO,
-} from '@oumi-package/user/lib';
+import { Oumi, stringVO } from '@oumi-package/core/lib';
 
 import { Substitute } from '@fluffy-spoon/substitute';
 import express from 'express';
 import * as HttpStatus from 'http-status-codes';
 
-import { userRegistrationValidatorHandler } from '../../../src/handler/io-express';
+import { userTokenValidatorHandler } from '../../../src/handler/io-express';
 
-describe('user registration POST validator handler', () => {
+describe('user token POST validator handler', () => {
   let context: {
     container: Oumi.Container;
     next: express.NextFunction;
@@ -40,11 +31,7 @@ describe('user registration POST validator handler', () => {
       return _res;
     })();
     // When
-    await userRegistrationValidatorHandler(context.container)(
-      req,
-      res,
-      context.next,
-    );
+    await userTokenValidatorHandler(context.container)(req, res, context.next);
     // Then
     expect(res.status).toHaveBeenCalledWith(HttpStatus.BAD_REQUEST);
     expect(context.next).not.toHaveBeenCalled();
@@ -55,22 +42,13 @@ describe('user registration POST validator handler', () => {
     // Given
     const req: express.Request = {
       body: {
-        email: userEmailVO('test@oumi.com').value,
-        firstname: userFirstnameVO('firstname').value,
-        id: userIdVO().value,
-        lastname: userLastnameVO('lastname').value,
-        nickname: userNicknameVO('nickname').value,
-        password: userPasswordVO('secret').value,
-        phone: userPhoneVO('612345678').value,
+        email: stringVO('test@oumi.com').value,
+        password: stringVO('secret').value,
       },
     } as any;
     const res = Substitute.for<express.Response>();
     // When
-    await userRegistrationValidatorHandler(context.container)(
-      req,
-      res,
-      context.next,
-    );
+    await userTokenValidatorHandler(context.container)(req, res, context.next);
     // Then
     expect(context.next).toHaveBeenCalled();
     done();

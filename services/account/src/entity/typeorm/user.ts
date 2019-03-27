@@ -29,6 +29,9 @@ export const UserEntity = new EntitySchema({
     password: {
       type: String,
     },
+    phone: {
+      type: String,
+    },
     updated_at: {
       type: Date,
       updateDate: true,

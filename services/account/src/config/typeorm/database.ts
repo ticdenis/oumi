@@ -6,7 +6,7 @@ import { Environment } from '..';
 import { DomainEventEntity, UserEntity } from '../../entity/typeorm';
 
 export const loadReadDatabase = (env: Environment): Oumi.Database => {
-  let db: Connection;
+  let db: Connection = null;
 
   return {
     connect: async <T = Connection>() => {
@@ -34,7 +34,7 @@ export const loadReadDatabase = (env: Environment): Oumi.Database => {
 };
 
 export const loadWriteDatabase = (env: Environment): Oumi.Database => {
-  let db: Connection;
+  let db: Connection = null;
 
   return {
     connect: async <T = Connection>() => {

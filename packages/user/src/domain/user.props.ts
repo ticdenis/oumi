@@ -30,8 +30,15 @@ export const userLastnameVO = stringVO;
 
 export const userNicknameVO = stringVO;
 
-export const userPasswordVO = (value: string): StringVO => {
-  const _value = bcrypt.hashSync(stringVO(value).value, 10);
+const HASH_SALTS = 10;
+
+export const userPasswordVO = (
+  value: string,
+  encrypt: boolean = true,
+): UserPassword => {
+  const _value = encrypt
+    ? bcrypt.hashSync(stringVO(value).value, HASH_SALTS)
+    : value;
 
   return {
     equalsTo: other => bcrypt.compareSync(other.value, _value),

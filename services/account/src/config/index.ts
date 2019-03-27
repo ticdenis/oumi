@@ -11,6 +11,9 @@ export interface Environment extends Oumi.Environment {
   READ_DATABASE_PORT: string;
   READ_DATABASE_SYNCHRONIZE: string;
   READ_DATABASE_USERNAME: string;
+  TOKEN_SECRET: string;
+  TOKEN_ISSUER: string;
+  TOKEN_EXPIRATION_DAYS: string;
   WRITE_DATABASE_CONNECTION: string;
   WRITE_DATABASE_DATABASE: string;
   WRITE_DATABASE_ENTITIES: string;
@@ -40,6 +43,7 @@ export const SERVICE_ID = {
   QUERY_REPOSITORY: {
     USER: Symbol('USER_QUERY_REPOSITORY_SERVICE_ID'),
   },
+  TOKEN_FACTORY: Symbol('TOKEN_FACTORY_SERVICE_ID'),
 };
 
 export * from './express/application';

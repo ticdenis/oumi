@@ -1,4 +1,4 @@
-import { CommandHandler } from '@oumi-package/core';
+import { CommandHandler, eitherToPromise } from '@oumi-package/core';
 
 import {
   userEmailVO,
@@ -17,16 +17,15 @@ export type UserRegistrationCommandHandler = (
   service: UserRegistrationService,
 ) => CommandHandler<UserRegistrationCommand>;
 
-export const userRegistrationHandler: UserRegistrationCommandHandler = service => async command => {
-  const result = await service({
-    email: userEmailVO(command.data.email),
-    firstname: userFirstnameVO(command.data.firstname),
-    id: userIdVO(command.data.id),
-    lastname: userLastnameVO(command.data.lastname),
-    nickname: userNicknameVO(command.data.nickname),
-    password: userPasswordVO(command.data.password),
-    phone: userPhoneVO(command.data.phone),
-  });
-
-  return result.isLeft() ? Promise.reject(result.value) : Promise.resolve();
-};
+export const userRegistrationHandler: UserRegistrationCommandHandler = service => async command =>
+  eitherToPromise(
+    await service({
+      email: userEmailVO(command.data.email),
+      firstname: userFirstnameVO(command.data.firstname),
+      id: userIdVO(command.data.id),
+      lastname: userLastnameVO(command.data.lastname),
+      nickname: userNicknameVO(command.data.nickname),
+      password: userPasswordVO(command.data.password),
+      phone: userPhoneVO(command.data.phone),
+    }),
+  );
