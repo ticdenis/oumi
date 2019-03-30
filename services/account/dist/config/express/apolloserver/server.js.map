@@ -1,1 +1,0 @@
-{"version":3,"file":"server.js","sourceRoot":"","sources":["../../../../src/config/express/apolloserver/server.ts"],"names":[],"mappings":";;AAEA,iEAAqD;AAErD,uEAAoE;AACpE,iEAAgE;AAEnD,QAAA,gBAAgB,GAAG,CAAC,SAAyB,EAAE,EAAE,CAC5D,IAAI,oCAAY,CAAC;IACf,OAAO,EAAE,GAAG,EAAE;QACZ,OAAO,EAAE,SAAS,EAAE,CAAC;IACvB,CAAC;IACD,SAAS,EAAT,qBAAS;IACT,QAAQ,EAAR,iBAAQ;CACT,CAAC,CAAC"}

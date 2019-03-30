@@ -1,1 +1,0 @@
-{"version":3,"file":"persist-domain-events.handler.d.ts","sourceRoot":"","sources":["../../../src/handler/express/persist-domain-events.handler.ts"],"names":[],"mappings":"AAAA,OAAO,EAAmB,IAAI,EAAE,MAAM,wBAAwB,CAAC;AAE/D,OAAO,OAAO,MAAM,SAAS,CAAC;AAM9B,eAAO,MAAM,0BAA0B,EAAE,IAAI,CAAC,OAAO,CACnD,OAAO,CAAC,cAAc,CAuBvB,CAAC"}

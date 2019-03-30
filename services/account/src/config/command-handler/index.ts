@@ -1,5 +1,6 @@
 import { CommandHandler, Oumi } from '@oumi-package/core/lib';
 
+import updateProfileHandler from './update-profile.handler';
 import userRegistrationHandler from './user-registration.handler';
 
 export type MakeCommandHandler = (
@@ -12,4 +13,5 @@ export type CommandHandlers = (
 
 export const COMMAND_HANDLERS: CommandHandlers = container => [
   userRegistrationHandler(container),
+  updateProfileHandler(container),
 ];

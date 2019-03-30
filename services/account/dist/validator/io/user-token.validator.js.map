@@ -1,1 +1,0 @@
-{"version":3,"file":"user-token.validator.js","sourceRoot":"","sources":["../../../src/validator/io/user-token.validator.ts"],"names":[],"mappings":";;;AAGA,iDAA2B;AAE3B,MAAM,IAAI,GAAG,CAAC,CAAC,IAAI,CAAC;IAClB,KAAK,EAAE,CAAC,CAAC,MAAM;IACf,QAAQ,EAAE,CAAC,CAAC,MAAM;CACnB,CAAC,CAAC;AAIU,QAAA,kBAAkB,GAA+B,IAAI,CAAC,EAAE,CACnE,IAAI,CAAC,MAAM,CAAC,IAAI,CAAC,CAAC"}
