@@ -4,6 +4,7 @@ import {
   UserEmail,
   userEmailVO,
   userFirstnameVO,
+  UserId,
   userIdVO,
   userLastnameVO,
   userNicknameVO,
@@ -12,13 +13,14 @@ import {
   UserQueryRepository,
 } from '@oumi-package/user/lib';
 
+import { TaskEither, tryCatch } from 'fp-ts/lib/TaskEither';
 import { Connection, Repository } from 'typeorm';
 
 import { SERVICE_ID } from '../../config';
-import { UserEntity } from '../../entity/typeorm';
+import { UserEntity, UserEntityType } from '../../entity/typeorm';
 
 export class TypeORMUserQueryRepository implements UserQueryRepository {
-  private readonly _repository: Repository<any>;
+  private readonly _repository: Repository<UserEntityType>;
 
   public constructor(container: Oumi.Container) {
     this._repository = container
@@ -27,23 +29,37 @@ export class TypeORMUserQueryRepository implements UserQueryRepository {
       .getRepository(UserEntity);
   }
 
-  public async ofEmail(email: UserEmail): Promise<User> {
-    const user = await this._repository.findOne({
-      where: { email: email.value },
-    });
+  public ofEmail(email: UserEmail): TaskEither<null, User> {
+    return tryCatch(
+      () =>
+        this._repository
+          .findOneOrFail({
+            where: { email: email.value },
+          })
+          .then(rawUser => this._map(rawUser)),
+      () => null,
+    );
+  }
 
-    if (undefined === user) {
-      return null;
-    }
+  public ofId(id: UserId): TaskEither<null, User> {
+    return tryCatch(
+      () =>
+        this._repository
+          .findOneOrFail(id.value)
+          .then(rawUser => this._map(rawUser)),
+      () => null,
+    );
+  }
 
+  private _map(data: UserEntityType): User {
     return new User({
-      email: userEmailVO(user.email),
-      firstname: userFirstnameVO(user.firstname),
-      id: userIdVO(user.id),
-      lastname: userLastnameVO(user.lastname),
-      nickname: userNicknameVO(user.nickname),
-      password: userPasswordVO(user.password, false),
-      phone: userPhoneVO(user.phone),
+      email: userEmailVO(data.email),
+      firstname: userFirstnameVO(data.firstname),
+      id: userIdVO(data.id),
+      lastname: userLastnameVO(data.lastname),
+      nickname: userNicknameVO(data.nickname),
+      password: userPasswordVO(data.password, false),
+      phone: userPhoneVO(data.phone),
     });
   }
 }

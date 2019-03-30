@@ -3,9 +3,11 @@ import { EventPublisher } from '@oumi-package/core';
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
 import { ObjectSubstitute } from '@fluffy-spoon/substitute/dist/src/Transformations';
 import ava, { TestInterface } from 'ava';
+import { right } from 'fp-ts/lib/Either';
+import { fromEither, fromLeft } from 'fp-ts/lib/TaskEither';
 
 import {
-  userRegistration,
+  userRegistrationBuilderService,
   UserRegistrationCommand,
   UserRegistrationData,
   userRegistrationHandler,
@@ -45,8 +47,8 @@ test.beforeEach(t => {
 
 test('should register an user', async t => {
   // Given
-  t.context.repository.query.ofEmail(Arg.any()).returns(Promise.resolve(null));
-  const service = userRegistration({
+  t.context.repository.query.ofEmail(Arg.any()).returns(fromLeft(null));
+  const service = userRegistrationBuilderService({
     commandRepository: t.context.repository.command,
     eventPublisher: t.context.eventPublisher,
     queryRepository: t.context.repository.query,
@@ -69,8 +71,8 @@ test('should throw an error registering an user because email already exists', a
   // Given
   t.context.repository.query
     .ofEmail(Arg.any())
-    .returns(Promise.resolve({} as any));
-  const service = userRegistration({
+    .returns(fromEither(right({} as any)));
+  const service = userRegistrationBuilderService({
     commandRepository: t.context.repository.command,
     eventPublisher: t.context.eventPublisher,
     queryRepository: t.context.repository.query,

@@ -81,7 +81,11 @@ export const koResponse = (
         err instanceof DomainError
           ? { code: err.code, message: err.message }
           : err instanceof Error
-          ? { code: err.message, message: err.message }
+          ? {
+              code: err.hasOwnProperty('code') ? (err as any).code : err.name,
+              message: err.message,
+              meta: err,
+            }
           : err,
       ),
 });

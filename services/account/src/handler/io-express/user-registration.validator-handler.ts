@@ -1,7 +1,7 @@
 import { userRegistrationValidator } from '../../validator/io';
 
-import { simpleValidatorHandler } from './util';
+import { simpleBodyValidatorHandler } from './util';
 
-export const userRegistrationValidatorHandler = simpleValidatorHandler(
+export const userRegistrationValidatorHandler = simpleBodyValidatorHandler(
   userRegistrationValidator,
 );

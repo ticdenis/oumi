@@ -9,12 +9,10 @@ export type ValidatorHandler = <T>(
   validator: Oumi.Validator<Either<Errors, T>>,
 ) => Oumi.Handler<express.Handler>;
 
-export const simpleValidatorHandler: ValidatorHandler = validator => () => (
-  req,
-  res,
-  next,
-) => {
-  const validation = validator(req.body);
+const validatorHandler: (
+  requestProp: keyof express.Request,
+) => ValidatorHandler = requestProp => validator => () => (req, res, next) => {
+  const validation = validator(req[requestProp]);
 
   if (validation.isLeft()) {
     res
@@ -26,3 +24,7 @@ export const simpleValidatorHandler: ValidatorHandler = validator => () => (
 
   next();
 };
+
+export const simpleBodyValidatorHandler = validatorHandler('body');
+
+export const simpleParamsValidatorHandler = validatorHandler('params');

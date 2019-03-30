@@ -16,6 +16,7 @@ import {
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
 import express from 'express';
 import { right } from 'fp-ts/lib/Either';
+import { fromEither, fromLeft } from 'fp-ts/lib/TaskEither';
 import * as HttpStatus from 'http-status-codes';
 import supertest from 'supertest';
 
@@ -54,7 +55,7 @@ describe('user token POST controller', () => {
   test('user email not exists', async done => {
     // Given
     const fakeQueryRepo = Substitute.for<UserQueryRepository>();
-    fakeQueryRepo.ofEmail(Arg.any()).returns(Promise.resolve(null));
+    fakeQueryRepo.ofEmail(Arg.any()).returns(fromLeft(null));
     const bus = DomainQueryBus.instance();
     context.container.set(SERVICE_ID.QUERY_REPOSITORY.USER, fakeQueryRepo);
     context.container.set(
@@ -75,11 +76,13 @@ describe('user token POST controller', () => {
   test('user password not match', async done => {
     // Given
     const fakeQueryRepo = Substitute.for<UserQueryRepository>();
-    fakeQueryRepo
-      .ofEmail(Arg.any())
-      .returns(
-        Promise.resolve({ password: stringVO('another-password') } as any),
-      );
+    fakeQueryRepo.ofEmail(Arg.any()).returns(
+      fromEither(
+        right({
+          password: userPasswordVO('another-password'),
+        } as any),
+      ),
+    );
     const bus = DomainQueryBus.instance();
     context.container.set(SERVICE_ID.QUERY_REPOSITORY.USER, fakeQueryRepo);
     context.container.set(
@@ -104,11 +107,11 @@ describe('user token POST controller', () => {
       password: userPasswordVO('secret'),
     } as any;
     const fakeQueryRepo = Substitute.for<UserQueryRepository>();
-    fakeQueryRepo.ofEmail(Arg.any()).returns(Promise.resolve(user));
+    fakeQueryRepo.ofEmail(Arg.any()).returns(fromEither(right(user)));
     const bus = DomainQueryBus.instance();
     context.container.set(SERVICE_ID.QUERY_REPOSITORY.USER, fakeQueryRepo);
     const fakeTokenFactory: TokenFactory = {
-      build: _ => Promise.resolve(right(stringVO('token').value)),
+      build: _ => fromEither(right('token')),
     };
     context.container.set(SERVICE_ID.TOKEN_FACTORY, fakeTokenFactory);
     bus.addHandler(...userTokenHandler(context.container));

@@ -1,30 +1,34 @@
 import { Oumi } from '@oumi-package/core/lib';
 import { User, UserCommandRepository } from '@oumi-package/user/lib';
 
-import { Connection, EntityManager } from 'typeorm';
+import { Connection } from 'typeorm';
 
 import { SERVICE_ID } from '../../config';
 import { UserEntity } from '../../entity/typeorm';
 
 export class TypeORMUserCommandRepository implements UserCommandRepository {
-  private readonly _entityManager: EntityManager;
+  private readonly _connection: Connection;
 
   public constructor(container: Oumi.Container) {
-    this._entityManager = container
+    this._connection = container
       .get<Oumi.Database>(SERVICE_ID.DB.WRITE)
-      .connection<Connection>()
-      .createEntityManager();
+      .connection<Connection>();
   }
 
   public async create(user: User): Promise<void> {
-    await this._entityManager.insert(UserEntity, {
-      email: user.email.value,
-      firstname: user.firstname.value,
-      id: user.id.value,
-      lastname: user.lastname.value,
-      nickname: user.nickname.value,
-      password: user.password.value,
-      phone: user.phone.value,
-    });
+    await this._connection
+      .createQueryBuilder()
+      .insert()
+      .into(UserEntity)
+      .values({
+        email: user.email.value,
+        firstname: user.firstname.value,
+        id: user.id.value,
+        lastname: user.lastname.value,
+        nickname: user.nickname.value,
+        password: user.password.value,
+        phone: user.phone.value,
+      })
+      .execute();
   }
 }

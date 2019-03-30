@@ -1,7 +1,7 @@
 import { userTokenValidator } from '../../validator/io';
 
-import { simpleValidatorHandler } from './util';
+import { simpleBodyValidatorHandler } from './util';
 
-export const userTokenValidatorHandler = simpleValidatorHandler(
+export const userTokenValidatorHandler = simpleBodyValidatorHandler(
   userTokenValidator,
 );

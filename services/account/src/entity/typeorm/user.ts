@@ -1,7 +1,19 @@
 import { EntitySchema } from 'typeorm';
 
+export interface UserEntityType {
+  created_at: Date;
+  email: string;
+  firstname: string;
+  id: string;
+  lastname: string;
+  nickname: string;
+  password: string;
+  phone: string;
+  updated_at: Date;
+}
+
 // tslint:disable-next-line:variable-name
-export const UserEntity = new EntitySchema({
+export const UserEntity = new EntitySchema<UserEntityType>({
   columns: {
     created_at: {
       createDate: true,

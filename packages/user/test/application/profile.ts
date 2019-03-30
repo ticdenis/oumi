@@ -1,17 +1,20 @@
+import { uuidVO } from '@oumi-package/core';
+
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
 import { ObjectSubstitute } from '@fluffy-spoon/substitute/dist/src/Transformations';
 import ava, { TestInterface } from 'ava';
 import { right } from 'fp-ts/lib/Either';
 import { fromEither, fromLeft } from 'fp-ts/lib/TaskEither';
+import * as R from 'ramda';
 
 import {
-  userTokenBuilderService,
-  UserTokenData,
-  userTokenHandler,
-  UserTokenQuery,
+  profileBuilderService,
+  ProfileData,
+  profileDataTransformer,
+  profileHandler,
+  ProfileQuery,
 } from '../../src/application';
 import {
-  TokenFactory,
   User,
   userEmailVO,
   userFirstnameVO,
@@ -24,8 +27,7 @@ import {
 } from '../../src/domain';
 
 const test = ava as TestInterface<{
-  data: UserTokenData;
-  factory: ObjectSubstitute<TokenFactory>;
+  data: ProfileData;
   repository: {
     query: ObjectSubstitute<UserQueryRepository>;
   };
@@ -34,51 +36,46 @@ const test = ava as TestInterface<{
 
 test.beforeEach(t => {
   t.context.data = {
-    email: 'uomi@test.com',
-    password: 'secret',
+    id: uuidVO().value,
   };
-  t.context.factory = Substitute.for<TokenFactory>();
   t.context.repository = {
     query: Substitute.for<UserQueryRepository>(),
   };
   t.context.user = new User({
-    email: userEmailVO(t.context.data.email),
+    email: userEmailVO('oumi@test.com'),
     firstname: userFirstnameVO('name'),
-    id: userIdVO(),
+    id: userIdVO(t.context.data.id),
     lastname: userLastnameVO('surname'),
     nickname: userNicknameVO('nickname'),
-    password: userPasswordVO(t.context.data.password),
+    password: userPasswordVO('secret'),
     phone: userPhoneVO('612345678'),
   });
 });
 
-test('should return a valid token', async t => {
+test('should return a profile', async t => {
   // Given
   t.context.repository.query
-    .ofEmail(Arg.any())
+    .ofId(Arg.any())
     .returns(fromEither(right(t.context.user)));
-  t.context.factory.build(Arg.any()).returns(fromEither(right('token')));
-  const service = userTokenBuilderService({
+  const service = profileBuilderService({
     queryRepository: t.context.repository.query,
-    tokenFactory: t.context.factory,
   });
-  const queryHandler = userTokenHandler(service);
-  const query = new UserTokenQuery(t.context.data);
+  const queryHandler = profileHandler(service);
+  const query = new ProfileQuery(t.context.data);
   // When
   const response = await queryHandler(query);
   // Then
-  t.is(typeof response, 'string');
+  t.true(R.includes(response, [profileDataTransformer(t.context.user)]));
 });
 
-test('should throw an error finding user because email or password not exists', async t => {
+test('should throw not found error', async t => {
   // Given
-  t.context.repository.query.ofEmail(Arg.any()).returns(fromLeft(null));
-  const service = userTokenBuilderService({
+  t.context.repository.query.ofId(Arg.any()).returns(fromLeft(null));
+  const service = profileBuilderService({
     queryRepository: t.context.repository.query,
-    tokenFactory: t.context.factory,
   });
-  const queryHandler = userTokenHandler(service);
-  const query = new UserTokenQuery(t.context.data);
+  const queryHandler = profileHandler(service);
+  const query = new ProfileQuery(t.context.data);
   // When
   const fn = queryHandler(query);
   // Then

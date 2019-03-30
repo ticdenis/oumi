@@ -5,7 +5,6 @@ import {
   Oumi,
 } from '@oumi-package/core/lib';
 import {
-  User,
   UserCommandRepository,
   userEmailVO,
   userFirstnameVO,
@@ -20,6 +19,8 @@ import {
 
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
 import express from 'express';
+import { right } from 'fp-ts/lib/Either';
+import { fromEither, fromLeft } from 'fp-ts/lib/TaskEither';
 import * as HttpStatus from 'http-status-codes';
 import supertest from 'supertest';
 
@@ -63,9 +64,7 @@ describe('user registration POST controller', () => {
   test('user email already exists', async done => {
     // Given
     const fakeQueryRepo = Substitute.for<UserQueryRepository>();
-    fakeQueryRepo
-      .ofEmail(Arg.any())
-      .returns(Promise.resolve(Substitute.for<User>()));
+    fakeQueryRepo.ofEmail(Arg.any()).returns(fromEither(right({} as any)));
     const bus = DomainCommandBus.instance();
     context.container.set(SERVICE_ID.QUERY_REPOSITORY.USER, fakeQueryRepo);
     context.container.set(
@@ -90,7 +89,7 @@ describe('user registration POST controller', () => {
   test('register an user', async done => {
     // Given
     const fakeQueryRepo = Substitute.for<UserQueryRepository>();
-    fakeQueryRepo.ofEmail(Arg.any()).returns(Promise.resolve(null));
+    fakeQueryRepo.ofEmail(Arg.any()).returns(fromLeft(null));
     const fakeCommandRepo = Substitute.for<UserCommandRepository>();
     fakeCommandRepo.create(Arg.any()).returns(Promise.resolve());
     const bus = DomainCommandBus.instance();

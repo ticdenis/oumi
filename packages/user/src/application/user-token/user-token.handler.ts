@@ -1,13 +1,13 @@
 import { eitherToPromise, QueryHandler, stringVO } from '@oumi-package/core';
 
-import { Token, userEmailVO } from '../../domain';
+import { userEmailVO } from '../../domain';
 
 import { UserTokenQuery } from './user-token.query';
-import { UserTokenService } from './user-token.service';
+import { UserTokenResponse, UserTokenService } from './user-token.service';
 
 export type UserQueryHandler = (
   service: UserTokenService,
-) => QueryHandler<UserTokenQuery, Token>;
+) => QueryHandler<UserTokenQuery, UserTokenResponse>;
 
 export const userTokenHandler: UserQueryHandler = service => async query =>
   eitherToPromise(
