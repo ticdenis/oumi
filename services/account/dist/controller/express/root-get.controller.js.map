@@ -1,1 +1,0 @@
-{"version":3,"file":"root-get.controller.js","sourceRoot":"","sources":["../../../src/controller/express/root-get.controller.ts"],"names":[],"mappings":";;;AAAA,gDAA0D;AAG1D,sEAAgD;AAEnC,QAAA,iBAAiB,GAE1B,SAAS,CAAC,EAAE,CAAC,KAAK,EAAE,CAAC,EAAE,GAAG,EAAE,EAAE;IAChC,GAAG,CAAC,MAAM,CAAC,UAAU,CAAC,EAAE,CAAC,CAAC,IAAI,CAAC,gBAAU,CAAC,iBAAiB,CAAC,CAAC,CAAC;AAChE,CAAC,CAAC"}

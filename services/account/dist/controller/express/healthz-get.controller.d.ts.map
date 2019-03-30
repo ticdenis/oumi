@@ -1,1 +1,0 @@
-{"version":3,"file":"healthz-get.controller.d.ts","sourceRoot":"","sources":["../../../src/controller/express/healthz-get.controller.ts"],"names":[],"mappings":"AAAA,OAAO,EAA0B,IAAI,EAAE,MAAM,wBAAwB,CAAC;AAEtE,OAAO,OAAO,MAAM,SAAS,CAAC;AAK9B,eAAO,MAAM,oBAAoB,EAAE,IAAI,CAAC,UAAU,CAChD,OAAO,CAAC,OAAO,CAqBhB,CAAC"}

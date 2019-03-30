@@ -20,3 +20,4 @@ build/Release
 .cache
 package-lock.json
 var
+dist
