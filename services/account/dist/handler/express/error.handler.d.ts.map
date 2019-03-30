@@ -1,0 +1,1 @@
+{"version":3,"file":"error.handler.d.ts","sourceRoot":"","sources":["../../../src/handler/express/error.handler.ts"],"names":[],"mappings":"AAAA,OAAO,EAAc,IAAI,EAAE,MAAM,wBAAwB,CAAC;AAE1D,OAAO,OAAO,MAAM,SAAS,CAAC;AAK9B,eAAO,MAAM,YAAY,EAAE,IAAI,CAAC,OAAO,CACrC,OAAO,CAAC,mBAAmB,CAK5B,CAAC"}

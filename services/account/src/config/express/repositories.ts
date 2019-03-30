@@ -1,7 +1,9 @@
 import { Oumi } from '@oumi-package/core/lib';
 import {
   simpleJWTFactory,
+  simpleJWTReader,
   TokenFactory,
+  TokenReader,
   UserCommandRepository,
   UserQueryRepository,
 } from '@oumi-package/user/lib';
@@ -26,6 +28,11 @@ export function loadRepositories(container: Oumi.Container) {
       issuer: env.TOKEN_ISSUER,
       secret: env.TOKEN_SECRET,
     }),
+  );
+
+  container.set<TokenReader>(
+    SERVICE_ID.TOKEN_READER,
+    simpleJWTReader(env.TOKEN_SECRET),
   );
 
   container.set<UserCommandRepository>(

@@ -10,12 +10,13 @@ import {
   userPasswordVO,
   userPhoneVO,
   UserQueryRepository,
+  UserId,
 } from '@oumi-package/user/lib';
 
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
 import express from 'express';
 import { right } from 'fp-ts/lib/Either';
-import { fromEither, fromLeft } from 'fp-ts/lib/TaskEither';
+import { fromEither } from 'fp-ts/lib/TaskEither';
 import * as HttpStatus from 'http-status-codes';
 import supertest from 'supertest';
 
@@ -50,23 +51,6 @@ describe('profile GET controller', () => {
     done();
   });
 
-  test('profile not found', async done => {
-    // Given
-    const fakeQueryRepo = Substitute.for<UserQueryRepository>();
-    fakeQueryRepo.ofId(Arg.any()).returns(fromLeft(null));
-    const bus = DomainQueryBus.instance();
-    context.container.set(SERVICE_ID.QUERY_REPOSITORY.USER, fakeQueryRepo);
-    bus.addHandler(...profileHandler(context.container));
-    context.container.set<QueryBus>(SERVICE_ID.BUS.QUERY, bus);
-    // When
-    const res = await context.request();
-    // Then
-    expect(res.status).toBe(HttpStatus.CONFLICT);
-    expect(res.body.data).toBeNull();
-    expect(res.body.errors).not.toBeNull();
-    done();
-  });
-
   test('profile', async done => {
     // Given
     const user = new User({
@@ -78,6 +62,7 @@ describe('profile GET controller', () => {
       password: userPasswordVO('secret'),
       phone: userPhoneVO('612345678'),
     });
+    context.container.set<UserId>(SERVICE_ID.USER_ID, user.id);
     const fakeQueryRepo = Substitute.for<UserQueryRepository>();
     fakeQueryRepo.ofId(Arg.any()).returns(fromEither(right(user)));
     const bus = DomainQueryBus.instance();

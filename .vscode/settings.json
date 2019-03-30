@@ -1,0 +1,20 @@
+{
+  "sqltools.connections": [{
+      "database": "/Users/yasti/Documents/Developer/Personal/oumi/services/account/var/database/write-oumi-accounts.sqlite",
+      "dialect": "SQLite",
+      "name": "write"
+    },
+    {
+      "database": "/Users/yasti/Documents/Developer/Personal/oumi/services/account/var/database/read-oumi-accounts.sqlite",
+      "dialect": "SQLite",
+      "name": "read"
+    }
+  ],
+  "search.exclude": {
+    "**/.git": true,
+    "**/node_modules": true,
+    "**/lib": true,
+    "**/dist": true,
+    "**/var": true,
+  },
+}

@@ -9,8 +9,8 @@ import {
   userRegistrationPostController,
   userTokenPostController,
 } from '../../controller/express';
+import { jwtMiddleware } from '../../handler/express';
 import {
-  profileValidatorHandler,
   userRegistrationValidatorHandler,
   userTokenValidatorHandler,
 } from '../../handler/io-express';
@@ -36,8 +36,8 @@ export function loadRoutes(
   );
 
   app.get(
-    '/profile/:id',
-    profileValidatorHandler(container),
+    '/profile',
+    jwtMiddleware(container),
     profileGetController(container),
   );
 }

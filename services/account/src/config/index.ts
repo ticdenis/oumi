@@ -44,6 +44,8 @@ export const SERVICE_ID = {
     USER: Symbol('USER_QUERY_REPOSITORY_SERVICE_ID'),
   },
   TOKEN_FACTORY: Symbol('TOKEN_FACTORY_SERVICE_ID'),
+  TOKEN_READER: Symbol('TOKEN_READER_SERVICE_ID'),
+  USER_ID: Symbol('USER_ID_SERVICE_ID'),
 };
 
 export * from './express/application';

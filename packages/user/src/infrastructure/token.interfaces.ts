@@ -45,11 +45,10 @@ export const simpleJWTReader: SimpleJWTReader = secret => ({
   read: token => {
     try {
       const payload: { exp: number; sub: string } = decode(token, secret);
-
       return fromEither(
         payload.exp <= Date.now()
-          ? left(TokenDomainError.notValid(token))
-          : right(userIdVO(payload.sub)),
+          ? right(userIdVO(payload.sub))
+          : left(TokenDomainError.notValid(token)),
       );
     } catch (error) {
       return fromEither(left(TokenDomainError.notValid(token)));
