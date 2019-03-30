@@ -8,6 +8,13 @@ export class UserDomainError extends DomainError {
     );
   }
 
+  public static notFound(id: string): UserDomainError {
+    return new UserDomainError(
+      'USER_NOT_FOUND',
+      `The <${id}> user id not found`,
+    );
+  }
+
   public static notExists(email: string): UserDomainError {
     return new UserDomainError(
       'USER_NOT_EXISTS',

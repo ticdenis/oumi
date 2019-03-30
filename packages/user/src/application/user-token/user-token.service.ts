@@ -1,6 +1,7 @@
-import { StringVO } from '@oumi-package/core';
+import { StringVO, then } from '@oumi-package/core';
 
 import { Either, left } from 'fp-ts/lib/Either';
+import * as R from 'ramda';
 
 import {
   Token,
@@ -11,25 +12,29 @@ import {
   UserQueryRepository,
 } from '../../domain';
 
+export type UserTokenResponse = Token;
+
 export type UserTokenService = (input: {
   email: UserEmail;
   password: StringVO;
-}) => Promise<Either<UserDomainError | TokenDomainError, Token>>;
+}) => Promise<Either<UserDomainError | TokenDomainError, UserTokenResponse>>;
 
 export type UserTokenBuilder = (options: {
   queryRepository: UserQueryRepository;
   tokenFactory: TokenFactory;
 }) => UserTokenService;
 
-export const userToken: UserTokenBuilder = ({
+export const userTokenBuilderService: UserTokenBuilder = ({
   queryRepository,
   tokenFactory,
-}) => async input => {
-  const user = await queryRepository.ofEmail(input.email);
-
-  if (null === user || !user.password.equalsTo(input.password)) {
-    return left(UserDomainError.notExists(input.email.value));
-  }
-
-  return tokenFactory.build(user);
-};
+}) => input =>
+  R.pipe(
+    () => queryRepository.ofEmail(input.email).run(),
+    then(
+      R.ifElse(
+        user => user.isRight() && user.value.password.equalsTo(input.password),
+        user => tokenFactory.build(user.value).run(),
+        () => left(UserDomainError.notExists(input.email.value)),
+      ),
+    ),
+  )();

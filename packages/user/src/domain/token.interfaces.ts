@@ -1,4 +1,4 @@
-import { Either } from 'fp-ts/lib/Either';
+import { TaskEither } from 'fp-ts/lib/TaskEither';
 
 import { User, UserId } from '.';
 import { TokenDomainError } from './token.errors';
@@ -6,9 +6,9 @@ import { TokenDomainError } from './token.errors';
 export type Token = string;
 
 export interface TokenFactory {
-  build(user: User): Promise<Either<TokenDomainError, Token>>;
+  build(user: User): TaskEither<TokenDomainError, Token>;
 }
 
 export interface TokenReader {
-  read(token: Token): Promise<Either<TokenDomainError, UserId>>;
+  read(token: Token): TaskEither<TokenDomainError, UserId>;
 }

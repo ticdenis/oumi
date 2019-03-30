@@ -1,5 +1,6 @@
 import { Oumi, QueryHandler } from '@oumi-package/core';
 
+import profileHandler from './profile.handler';
 import userTokenHandler from './user-token.handler';
 
 export type MakeQueryHandler = (
@@ -11,5 +12,6 @@ export type QueryHandlers = (
 ) => [string, QueryHandler<any, any>][];
 
 export const QUERY_HANDLERS: QueryHandlers = container => [
+  profileHandler(container),
   userTokenHandler(container),
 ];

@@ -33,14 +33,14 @@ export type UserRegistrationBuilder = (options: {
   queryRepository: UserQueryRepository;
 }) => UserRegistrationService;
 
-export const userRegistration: UserRegistrationBuilder = ({
+export const userRegistrationBuilderService: UserRegistrationBuilder = ({
   commandRepository,
   eventPublisher,
   queryRepository,
 }) => async input => {
-  const userExists = await queryRepository.ofEmail(input.email);
+  const userExists = (await queryRepository.ofEmail(input.email).run()).swap();
 
-  if (null !== userExists) {
+  if (userExists.isLeft()) {
     return left(UserDomainError.alreadyExists(input.email.value));
   }
 
