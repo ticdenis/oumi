@@ -9,6 +9,7 @@ function loadRoutes(app, container) {
     app.post('/users', io_express_1.userRegistrationValidatorHandler(container), express_1.userRegistrationPostController(container));
     app.post('/auth', io_express_1.userTokenValidatorHandler(container), express_1.userTokenPostController(container));
     app.get('/profile', express_2.jwtMiddleware(container), express_1.profileGetController(container));
+    app.put('/profile', express_2.jwtMiddleware(container), io_express_1.updateProfileValidatorHandler(container), express_1.updateProfilePutController(container));
 }
 exports.loadRoutes = loadRoutes;
 //# sourceMappingURL=routes.js.map

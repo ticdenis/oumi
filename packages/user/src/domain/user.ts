@@ -1,6 +1,6 @@
 import { AggregateRoot } from '@oumi-package/core';
 
-import { UserEvents, userRegistered } from './user.events';
+import { profileUpdated, UserEvents, userRegistered } from './user.events';
 import {
   UserEmail,
   UserFirstname,
@@ -18,6 +18,13 @@ export interface UserConstructor {
   lastname: UserLastname;
   nickname: UserNickname;
   password: UserPassword;
+  phone: UserPhone;
+}
+
+export interface UpdateProfileInput {
+  firstname: UserFirstname;
+  lastname: UserLastname;
+  nickname: UserNickname;
   phone: UserPhone;
 }
 
@@ -57,6 +64,28 @@ export class User extends AggregateRoot<UserEvents> {
     this._nickname = args.nickname;
     this._password = args.password;
     this._phone = args.phone;
+  }
+
+  public updateProfile({
+    firstname,
+    lastname,
+    nickname,
+    phone,
+  }: UpdateProfileInput) {
+    this._firstname = firstname;
+    this._lastname = lastname;
+    this._nickname = nickname;
+    this._phone = phone;
+
+    this.recordDomainEvent(
+      profileUpdated({
+        firstname: this._firstname.value,
+        id: this._id.value,
+        lastname: this._lastname.value,
+        nickname: this._nickname.value,
+        phone: this._phone.value,
+      }),
+    );
   }
 
   get email(): UserEmail {

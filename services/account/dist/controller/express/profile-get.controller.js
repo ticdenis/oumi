@@ -8,7 +8,7 @@ const config_1 = require("../../config");
 exports.profileGetController = container => (req, res, next) => container
     .get(config_1.SERVICE_ID.BUS.QUERY)
     .ask(new lib_2.ProfileQuery({
-    id: container.get(config_1.SERVICE_ID.USER_ID).value
+    id: container.get(config_1.SERVICE_ID.USER_ID).value,
 }))
     .then(profile => {
     res.status(HttpStatus.OK).json(lib_1.okResponse(profile));

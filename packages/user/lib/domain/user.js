@@ -25,6 +25,19 @@ class User extends core_1.AggregateRoot {
         this._password = args.password;
         this._phone = args.phone;
     }
+    updateProfile({ firstname, lastname, nickname, phone }) {
+        this._firstname = firstname;
+        this._lastname = lastname;
+        this._nickname = nickname;
+        this._phone = phone;
+        this.recordDomainEvent(user_events_1.profileUpdated({
+            firstname: this._firstname.value,
+            id: this._id.value,
+            lastname: this._lastname.value,
+            nickname: this._nickname.value,
+            phone: this._phone.value
+        }));
+    }
     get email() {
         return this._email;
     }

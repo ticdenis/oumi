@@ -24,6 +24,21 @@ class TypeORMUserCommandRepository {
         })
             .execute();
     }
+    async updateProfile(user) {
+        await this._connection
+            .createQueryBuilder()
+            .update(typeorm_1.UserEntity)
+            .set({
+            firstname: user.firstname.value,
+            lastname: user.lastname.value,
+            nickname: user.nickname.value,
+            phone: user.phone.value,
+        })
+            .where('id = :id', {
+            id: user.id.value
+        })
+            .execute();
+    }
 }
 exports.TypeORMUserCommandRepository = TypeORMUserCommandRepository;
 //# sourceMappingURL=user-command.repository.js.map

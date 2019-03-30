@@ -18,6 +18,12 @@ export interface UserConstructor {
   password: UserPassword;
   phone: UserPhone;
 }
+export interface UpdateProfileInput {
+  firstname: UserFirstname;
+  lastname: UserLastname;
+  nickname: UserNickname;
+  phone: UserPhone;
+}
 export declare class User extends AggregateRoot<UserEvents> {
   static create(args: UserConstructor): User;
   private _email;
@@ -28,6 +34,12 @@ export declare class User extends AggregateRoot<UserEvents> {
   private _password;
   private _phone;
   constructor(args: UserConstructor);
+  updateProfile({
+    firstname,
+    lastname,
+    nickname,
+    phone,
+  }: UpdateProfileInput): void;
   readonly email: UserEmail;
   readonly id: UserId;
   readonly firstname: UserFirstname;

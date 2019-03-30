@@ -6,11 +6,13 @@ import {
   healthzGetController,
   profileGetController,
   rootGetController,
+  updateProfilePutController,
   userRegistrationPostController,
   userTokenPostController,
 } from '../../controller/express';
 import { jwtMiddleware } from '../../handler/express';
 import {
+  updateProfileValidatorHandler,
   userRegistrationValidatorHandler,
   userTokenValidatorHandler,
 } from '../../handler/io-express';
@@ -39,5 +41,12 @@ export function loadRoutes(
     '/profile',
     jwtMiddleware(container),
     profileGetController(container),
+  );
+
+  app.put(
+    '/profile',
+    jwtMiddleware(container),
+    updateProfileValidatorHandler(container),
+    updateProfilePutController(container),
   );
 }
