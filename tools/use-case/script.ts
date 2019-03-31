@@ -93,47 +93,22 @@ function addUseCaseToPackage(path: string, useCase: UseCase): void {
   const makePath = (extension: string) =>
     `${path}/_${useCase.type}/_template.${extension}.ts`;
 
-  const repeat = (times: number) => (cb: () => void) =>
-    Array(times)
-      .fill(null)
-      .forEach(() => cb());
-
   const opt = "-i";
+  const upperRegex = /_Template/g;
+  const lowerRegex = /_template/g;
 
   if (useCase.type === "command") {
-    repeat(3)(() =>
-      shell.sed(opt, "_Template", useCase.name.pascalCase, makePath("command"))
-    );
-    repeat(6)(() =>
-      shell.sed(opt, "_Template", useCase.name.pascalCase, makePath("handler"))
-    );
-    repeat(5)(() =>
-      shell.sed(opt, "_Template", useCase.name.pascalCase, makePath("service"))
-    );
+    shell.sed(opt, upperRegex, useCase.name.pascalCase, makePath("command"));
   } else {
-    repeat(3)(() =>
-      shell.sed(opt, "_Template", useCase.name.pascalCase, makePath("query"))
-    );
-    repeat(4)(() =>
-      shell.sed(opt, "_Template", useCase.name.pascalCase, makePath("response"))
-    );
-    repeat(1)(() =>
-      shell.sed(opt, "_template", useCase.name.camelCase, makePath("response"))
-    );
-    repeat(8)(() =>
-      shell.sed(opt, "_Template", useCase.name.pascalCase, makePath("handler"))
-    );
-    repeat(6)(() =>
-      shell.sed(opt, "_Template", useCase.name.pascalCase, makePath("service"))
-    );
+    shell.sed(opt, upperRegex, useCase.name.pascalCase, makePath("query"));
+    shell.sed(opt, upperRegex, useCase.name.pascalCase, makePath("response"));
+    shell.sed(opt, lowerRegex, useCase.name.camelCase, makePath("response"));
   }
 
-  repeat(1)(() =>
-    shell.sed(opt, "_template", useCase.name.camelCase, makePath("handler"))
-  );
-  repeat(1)(() =>
-    shell.sed(opt, "_template", useCase.name.camelCase, makePath("service"))
-  );
+  shell.sed(opt, upperRegex, useCase.name.pascalCase, makePath("handler"));
+  shell.sed(opt, upperRegex, useCase.name.pascalCase, makePath("service"));
+  shell.sed(opt, lowerRegex, useCase.name.camelCase, makePath("handler"));
+  shell.sed(opt, lowerRegex, useCase.name.camelCase, makePath("service"));
 }
 
 function renameUseCaseDirectory(path: string, useCase: UseCase): void {
