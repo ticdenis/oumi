@@ -1,6 +1,6 @@
 import { event } from '@oumi-package/core';
 
-export type UserEvents = UserRegistered | ProfileUpdated;
+export type UserEvents = UserRegistered | ProfileUpdated | PasswordChanged;
 
 export interface UserRegistered {
   email: string;
@@ -19,6 +19,14 @@ export interface ProfileUpdated {
   phone: string;
 }
 
+export interface PasswordChanged {
+  id: string;
+}
+
 export const userRegistered = (data: UserRegistered) => event(data);
 
 export const profileUpdated = (data: ProfileUpdated) => event(data);
+
+export const passwordChanged = (data: PasswordChanged) => event(data);
+
+

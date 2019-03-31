@@ -10,6 +10,10 @@ export const loadContainer = (): Oumi.Container => {
     getAsync: <T>(id: Oumi.ServiceId) =>
       Promise.resolve(container.get(id) as T | null),
     set: <T>(id: Oumi.ServiceId, value: T) => {
+      if (container.isBound(id)) {
+        container.unbind(id);
+      }
+
       container.bind<T>(id).toConstantValue(value);
     },
     setAsync: <T>(

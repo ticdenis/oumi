@@ -17,4 +17,5 @@
     "**/dist": true,
     "**/var": true,
   },
+  "editor.formatOnSave": true
 }

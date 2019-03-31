@@ -5,6 +5,7 @@ import { UserEmail, UserId } from './user.props';
 
 export interface UserCommandRepository {
   create(user: User): Promise<void>;
+  updatePassword(user: User): Promise<void>;
   updateProfile(user: User): Promise<void>;
 }
 

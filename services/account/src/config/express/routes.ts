@@ -3,15 +3,17 @@ import { Oumi } from '@oumi-package/core/lib';
 import express from 'express';
 
 import {
+  changePasswordPutController,
   healthzGetController,
   profileGetController,
   rootGetController,
   updateProfilePutController,
   userRegistrationPostController,
-  userTokenPostController,
+  userTokenPostController
 } from '../../controller/express';
 import { jwtMiddleware } from '../../handler/express';
 import {
+  changePasswordValidatorHandler,
   updateProfileValidatorHandler,
   userRegistrationValidatorHandler,
   userTokenValidatorHandler,
@@ -48,5 +50,12 @@ export function loadRoutes(
     jwtMiddleware(container),
     updateProfileValidatorHandler(container),
     updateProfilePutController(container),
+  );
+
+  app.put(
+    '/password',
+    jwtMiddleware(container),
+    changePasswordValidatorHandler(container),
+    changePasswordPutController(container),
   );
 }

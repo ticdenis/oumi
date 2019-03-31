@@ -4,19 +4,19 @@ import {
   User,
   userEmailVO,
   userFirstnameVO,
+  UserId,
   userIdVO,
   userLastnameVO,
   userNicknameVO,
   userPasswordVO,
   userPhoneVO,
   UserQueryRepository,
-  UserId,
 } from '@oumi-package/user/lib';
 
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
 import express from 'express';
 import { right } from 'fp-ts/lib/Either';
-import { fromEither } from 'fp-ts/lib/TaskEither';
+import { fromEither, fromLeft } from 'fp-ts/lib/TaskEither';
 import * as HttpStatus from 'http-status-codes';
 import supertest from 'supertest';
 
@@ -48,6 +48,25 @@ describe('profile GET controller', () => {
           .send(context.data),
     };
 
+    done();
+  });
+
+  test('should throw not found', async done => {
+    // Given
+
+    context.container.set<UserId>(SERVICE_ID.USER_ID, userIdVO());
+    const fakeQueryRepo = Substitute.for<UserQueryRepository>();
+    fakeQueryRepo.ofId(Arg.any()).returns(fromLeft(null));
+    const bus = DomainQueryBus.instance();
+    context.container.set(SERVICE_ID.QUERY_REPOSITORY.USER, fakeQueryRepo);
+    bus.addHandler(...profileHandler(context.container));
+    context.container.set<QueryBus>(SERVICE_ID.BUS.QUERY, bus);
+    // When
+    const res = await context.request();
+    // Then
+    expect(res.status).toBe(HttpStatus.NOT_FOUND);
+    expect(res.body.data).toBeNull();
+    expect(res.body.errors).not.toBeNull();
     done();
   });
 
