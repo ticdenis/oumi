@@ -7,7 +7,6 @@ import { SERVICE_ID } from '../../config';
 import { UserEntity } from '../../entity/typeorm';
 
 export class TypeORMUserCommandRepository implements UserCommandRepository {
-
   private readonly _connection: Connection;
 
   public constructor(container: Oumi.Container) {
@@ -33,6 +32,19 @@ export class TypeORMUserCommandRepository implements UserCommandRepository {
       .execute();
   }
 
+  public async updatePassword(user: User): Promise<void> {
+    await this._connection
+      .createQueryBuilder()
+      .update(UserEntity)
+      .set({
+        password: user.password.value,
+      })
+      .where('id = :id', {
+        id: user.id.value,
+      })
+      .execute();
+  }
+
   public async updateProfile(user: User): Promise<void> {
     await this._connection
       .createQueryBuilder()
@@ -44,7 +56,7 @@ export class TypeORMUserCommandRepository implements UserCommandRepository {
         phone: user.phone.value,
       })
       .where('id = :id', {
-        id: user.id.value
+        id: user.id.value,
       })
       .execute();
   }

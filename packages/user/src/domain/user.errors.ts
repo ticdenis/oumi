@@ -22,6 +22,13 @@ export class UserDomainError extends DomainError {
     );
   }
 
+  public static passwordNotMatch(password: string): UserDomainError {
+    return new UserDomainError(
+      'PASSWORD_NOT_MATCH',
+      `The <${password}> password not match`,
+    );
+  }
+
   public constructor(readonly code: string, message: string) {
     super(code, message);
   }

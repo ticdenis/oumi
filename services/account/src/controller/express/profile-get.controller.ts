@@ -33,6 +33,6 @@ export const profileGetController: Oumi.Controller<
       } else if (err instanceof ValueObjectDomainError) {
         res.status(HttpStatus.BAD_REQUEST).json(koResponse([err]));
       } else {
-        res.status(HttpStatus.CONFLICT).json(koResponse([err]));
+        res.status(HttpStatus.NOT_FOUND).json(koResponse([err]));
       }
     });

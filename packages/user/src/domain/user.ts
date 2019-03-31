@@ -1,6 +1,12 @@
 import { AggregateRoot } from '@oumi-package/core';
 
-import { profileUpdated, UserEvents, userRegistered } from './user.events';
+import { UserDomainError } from './user.errors';
+import {
+  passwordChanged,
+  profileUpdated,
+  UserEvents,
+  userRegistered,
+} from './user.events';
 import {
   UserEmail,
   UserFirstname,
@@ -26,6 +32,11 @@ export interface UpdateProfileInput {
   lastname: UserLastname;
   nickname: UserNickname;
   phone: UserPhone;
+}
+
+export interface ChangePasswordInput {
+  newPassword: UserPassword;
+  oldPassword: UserPassword;
 }
 
 export class User extends AggregateRoot<UserEvents> {
@@ -71,7 +82,7 @@ export class User extends AggregateRoot<UserEvents> {
     lastname,
     nickname,
     phone,
-  }: UpdateProfileInput) {
+  }: UpdateProfileInput): void {
     this._firstname = firstname;
     this._lastname = lastname;
     this._nickname = nickname;
@@ -84,6 +95,23 @@ export class User extends AggregateRoot<UserEvents> {
         lastname: this._lastname.value,
         nickname: this._nickname.value,
         phone: this._phone.value,
+      }),
+    );
+  }
+
+  public changePassword({
+    newPassword,
+    oldPassword,
+  }: ChangePasswordInput): void {
+    if (!this._password.equalsTo(oldPassword)) {
+      throw UserDomainError.passwordNotMatch(oldPassword.value);
+    }
+
+    this._password = newPassword;
+
+    this.recordDomainEvent(
+      passwordChanged({
+        id: this._id.value,
       }),
     );
   }
