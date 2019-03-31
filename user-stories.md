@@ -63,7 +63,7 @@
 
   The contact requester will receive a notification and could to interactive with his new contact.
 
-  This contact request will disappear of list of pending contact request of both contacts.
+  This contact request will disappear off list of pending contact request of both contacts.
 
 - **DenyContactRequest**
 
