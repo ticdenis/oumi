@@ -14,7 +14,9 @@ export type ProfileBuilder = (options: {
 
 export const profileBuilderService: ProfileBuilder = ({
   queryRepository,
-}) => async input =>
-  (await queryRepository.ofId(input.id).run())
+}) => input =>
+  queryRepository
+    .ofId(input.id)
     .mapLeft(() => UserDomainError.notFound(input.id.value))
-    .map(profileDataTransformer);
+    .map(profileDataTransformer)
+    .run();

@@ -18,6 +18,9 @@
     "coverage": "nyc ava --verbose",
     "report": "nyc report -r=text-lcov > coverage.lcov"
   },
+  "dependencies": {
+    "fp-ts": "^1.14.3"
+  },
   "devDependencies": {
     "@fluffy-spoon/substitute": "^1.76.0",
     "@types/node": "^11.11.6",

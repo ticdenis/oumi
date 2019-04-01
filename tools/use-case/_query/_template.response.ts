@@ -4,6 +4,6 @@ export interface _TemplateResponse {
 
 export type _TemplateTransformer = (value: any) => _TemplateResponse;
 
-export const _templateTransformer: _TemplateTransformer = user => ({
+export const _templateTransformer: _TemplateTransformer = value => ({
   // TODO: To implement
 });

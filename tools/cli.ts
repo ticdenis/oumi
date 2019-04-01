@@ -6,7 +6,15 @@ import createProjectScript from "./skeleton/script";
 import createUseCaseScript from "./use-case/script";
 import chalk from "chalk";
 
-const options = ["Create a Project", "Create a Use Case", "exit"];
+const options = [
+  "New Project",
+  "New Use Case",
+  // "New Aggregate (Entity)",
+  // "New Value Object",
+  // "New Domain Error",
+  // "New Domain Event",
+  "exit"
+];
 
 inquirer
   .prompt({
@@ -31,6 +39,34 @@ inquirer
           return;
         });
         break;
+      // case options[2]:
+      //   newAggregateScript().catch(() => {
+      //     shell.echo(chalk.red("Ups, an occurred an error!"));
+      //     shell.exit(1);
+      //     return;
+      //   });
+      //   break;
+      // case options[3]:
+      //   newValueObjectScript().catch(() => {
+      //     shell.echo(chalk.red("Ups, an occurred an error!"));
+      //     shell.exit(1);
+      //     return;
+      //   });
+      //   break;
+      // case options[4]:
+      //   newDomainErrorScript().catch(() => {
+      //     shell.echo(chalk.red("Ups, an occurred an error!"));
+      //     shell.exit(1);
+      //     return;
+      //   });
+      //   break;
+      // case options[5]:
+      //   newDomainEventScript().catch(() => {
+      //     shell.echo(chalk.red("Ups, an occurred an error!"));
+      //     shell.exit(1);
+      //     return;
+      //   });
+      //   break;
       default:
         shell.echo(chalk.blue("Bye!"));
         shell.exit(0);
