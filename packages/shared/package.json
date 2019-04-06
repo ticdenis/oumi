@@ -19,7 +19,8 @@
     "report": "nyc report -r=text-lcov > coverage.lcov"
   },
   "dependencies": {
-    "@oumi-package/core": "0.0.0"
+    "@oumi-package/core": "0.0.0",
+    "io-ts": "^1.8.3"
   },
   "devDependencies": {
     "@fluffy-spoon/substitute": "^1.76.0",

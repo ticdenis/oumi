@@ -10,18 +10,13 @@ import {
   userTokenHandler,
   UserTokenQuery,
 } from '../../src/application';
+import { TokenFactory, User, UserQueryRepository } from '../../src/domain';
+import { TokenStub } from '../../src/infrastructure/test/token.stubs';
 import {
-  TokenFactory,
-  User,
-  userEmailVO,
-  userFirstnameVO,
-  userIdVO,
-  userLastnameVO,
-  userNicknameVO,
-  userPasswordVO,
-  userPhoneVO,
-  UserQueryRepository,
-} from '../../src/domain';
+  UserEmailStub,
+  UserPasswordNotEncryptedStub,
+  UserStub,
+} from '../../src/infrastructure/test/user.stubs';
 
 const test = ava as TestInterface<{
   data: UserTokenData;
@@ -34,22 +29,14 @@ const test = ava as TestInterface<{
 
 test.beforeEach(t => {
   t.context.data = {
-    email: 'uomi@test.com',
-    password: 'secret',
+    email: UserEmailStub.value,
+    password: UserPasswordNotEncryptedStub.value,
   };
   t.context.factory = Substitute.for<TokenFactory>();
   t.context.repository = {
     query: Substitute.for<UserQueryRepository>(),
   };
-  t.context.user = new User({
-    email: userEmailVO(t.context.data.email),
-    firstname: userFirstnameVO('name'),
-    id: userIdVO(),
-    lastname: userLastnameVO('surname'),
-    nickname: userNicknameVO('nickname'),
-    password: userPasswordVO(t.context.data.password),
-    phone: userPhoneVO('612345678'),
-  });
+  t.context.user = UserStub;
 });
 
 test('should return a valid token', async t => {
@@ -57,7 +44,7 @@ test('should return a valid token', async t => {
   t.context.repository.query
     .ofEmail(Arg.any())
     .returns(fromEither(right(t.context.user)));
-  t.context.factory.build(Arg.any()).returns(fromEither(right('token')));
+  t.context.factory.build(Arg.any()).returns(fromEither(right(TokenStub)));
   const service = userTokenBuilderService({
     queryRepository: t.context.repository.query,
     tokenFactory: t.context.factory,

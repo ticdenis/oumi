@@ -6,6 +6,7 @@ import ava, { TestInterface } from 'ava';
 import { right } from 'fp-ts/lib/Either';
 import { fromEither, fromLeft } from 'fp-ts/lib/TaskEither';
 
+import { UserIdStub } from '../../../shared/lib/infrastructure/test/user.stubs';
 import {
   changePasswordBuilderService,
   ChangePasswordCommand,
@@ -15,15 +16,9 @@ import {
 import {
   User,
   UserCommandRepository,
-  userEmailVO,
-  userFirstnameVO,
-  userIdVO,
-  userLastnameVO,
-  userNicknameVO,
-  userPasswordVO,
-  userPhoneVO,
   UserQueryRepository,
 } from '../../src/domain';
+import { generateUserStub } from '../../src/infrastructure/test/user.stubs';
 
 const test = ava as TestInterface<{
   data: ChangePasswordData;
@@ -37,7 +32,7 @@ const test = ava as TestInterface<{
 
 test.beforeEach(t => {
   t.context.data = {
-    id: userIdVO().value,
+    id: UserIdStub.value,
     newPassword: 'newSecret',
     oldPassword: 'secret',
   };
@@ -46,14 +41,8 @@ test.beforeEach(t => {
     command: Substitute.for<UserCommandRepository>(),
     query: Substitute.for<UserQueryRepository>(),
   };
-  t.context.user = new User({
-    email: userEmailVO('oumi@test.com'),
-    firstname: userFirstnameVO('name'),
-    id: userIdVO(t.context.data.id),
-    lastname: userLastnameVO('surname'),
-    nickname: userNicknameVO('nickname'),
-    password: userPasswordVO('secret'),
-    phone: userPhoneVO('612345678'),
+  t.context.user = generateUserStub({
+    id: UserIdStub,
   });
 });
 

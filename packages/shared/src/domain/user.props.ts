@@ -1,4 +1,4 @@
-import { stringVO, StringVO, UuidVO, uuidVO } from '@oumi-package/core';
+import { stringVO, StringVO, UuidVO, uuidVO } from '@oumi-package/core/lib';
 
 // Types
 

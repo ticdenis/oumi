@@ -7,6 +7,12 @@ import { right } from 'fp-ts/lib/Either';
 import { fromEither, fromLeft } from 'fp-ts/lib/TaskEither';
 
 import {
+  UserFirstnameStub,
+  UserIdStub,
+  UserLastnameStub,
+  UserNicknameStub,
+} from '../../../shared/src/infrastructure/test/user.stubs';
+import {
   userRegistrationBuilderService,
   UserRegistrationCommand,
   UserRegistrationData,
@@ -15,9 +21,14 @@ import {
 import {
   User,
   UserCommandRepository,
-  userIdVO,
   UserQueryRepository,
 } from '../../src/domain';
+import {
+  UserEmailStub,
+  UserPasswordStub,
+  UserPhoneStub,
+  UserStub,
+} from '../../src/infrastructure/test/user.stubs';
 
 const test = ava as TestInterface<{
   data: UserRegistrationData;
@@ -30,13 +41,13 @@ const test = ava as TestInterface<{
 
 test.beforeEach(t => {
   t.context.data = {
-    email: 'uomi@test.com',
-    firstname: 'name',
-    id: userIdVO().value,
-    lastname: 'surname',
-    nickname: 'nickname',
-    password: 'secret',
-    phone: '612345678',
+    email: UserEmailStub.value,
+    firstname: UserFirstnameStub.value,
+    id: UserIdStub.value,
+    lastname: UserLastnameStub.value,
+    nickname: UserNicknameStub.value,
+    password: UserPasswordStub.value,
+    phone: UserPhoneStub.value,
   };
   t.context.eventPublisher = Substitute.for<EventPublisher>();
   t.context.repository = {
@@ -71,7 +82,7 @@ test('should throw an error registering an user because email already exists', a
   // Given
   t.context.repository.query
     .ofEmail(Arg.any())
-    .returns(fromEither(right({} as any)));
+    .returns(fromEither(right(UserStub)));
   const service = userRegistrationBuilderService({
     commandRepository: t.context.repository.command,
     eventPublisher: t.context.eventPublisher,

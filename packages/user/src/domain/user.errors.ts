@@ -29,6 +29,13 @@ export class UserDomainError extends DomainError {
     );
   }
 
+  public static invalidSource(source: any): UserDomainError {
+    return new UserDomainError(
+      'USER_INVALID_SOURCE',
+      `The <${source}> source for user is not valid`,
+    );
+  }
+
   public constructor(readonly code: string, message: string) {
     super(code, message);
   }

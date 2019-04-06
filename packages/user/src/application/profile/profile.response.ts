@@ -1,3 +1,5 @@
+import { DataTransformer } from '@oumi-package/core';
+
 import { User } from '../../domain';
 
 export interface ProfileResponse {
@@ -9,9 +11,10 @@ export interface ProfileResponse {
   phone: string;
 }
 
-export type ProfileDataTransformer = (user: User) => ProfileResponse;
-
-export const profileDataTransformer: ProfileDataTransformer = user => ({
+export const profileDataTransformer: DataTransformer<
+  User,
+  ProfileResponse
+> = user => ({
   email: user.email.value,
   firstname: user.firstname.value,
   id: user.id.value,

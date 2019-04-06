@@ -8,16 +8,17 @@ import {
   profileGetController,
   rootGetController,
   updateProfilePutController,
+  userContactsGetController,
   userRegistrationPostController,
-  userTokenPostController
-} from '../../controller/express';
-import { jwtMiddleware } from '../../handler/express';
+  userTokenPostController,
+} from '../../controller';
 import {
   changePasswordValidatorHandler,
+  jwtMiddleware,
   updateProfileValidatorHandler,
   userRegistrationValidatorHandler,
   userTokenValidatorHandler,
-} from '../../handler/io-express';
+} from '../../middleware';
 
 export function loadRoutes(
   app: express.Application,
@@ -57,5 +58,11 @@ export function loadRoutes(
     jwtMiddleware(container),
     changePasswordValidatorHandler(container),
     changePasswordPutController(container),
+  );
+
+  app.get(
+    '/users/contacts',
+    jwtMiddleware(container),
+    userContactsGetController(container),
   );
 }

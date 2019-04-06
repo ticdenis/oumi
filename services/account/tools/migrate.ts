@@ -2,31 +2,19 @@
 
 import * as shell from 'shelljs';
 
-import {
-  loadEnvironment,
-  loadReadDatabase,
-  loadWriteDatabase,
-} from './../src/config';
-import { READ_MIGRATIONS } from './../src/config/typeorm/migration/read';
-import { WRITE_MIGRATIONS } from './../src/config/typeorm/migration/write';
+import { CreateUsersTable } from '../src/config/typeorm/migration/0001-create-users-table';
+
+import { loadDatabase, loadEnvironment } from './../src/config';
 import { migrator } from './../src/config/typeorm/migrator';
 
 async function run() {
   const env = loadEnvironment();
 
-  shell.echo('Migrating READ-DATABASE…');
+  shell.echo('Migrating DATABASE…');
 
-  await migrator.migrate(await loadReadDatabase(env).connect())(
-    READ_MIGRATIONS,
-  );
-
-  shell.echo('Finishing migrating…');
-
-  shell.echo('Migrating WRITE-DATABASE…');
-
-  await migrator.migrate(await loadWriteDatabase(env).connect())(
-    WRITE_MIGRATIONS,
-  );
+  await migrator.migrate(await loadDatabase(env).connect())([
+    new CreateUsersTable(),
+  ]);
 
   shell.echo('Finishing migrating…');
 }
