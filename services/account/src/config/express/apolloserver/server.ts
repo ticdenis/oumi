@@ -2,8 +2,7 @@ import { Oumi } from '@oumi-package/core';
 
 import { ApolloServer } from 'apollo-server-express';
 
-import { resolvers } from '../../../graphql/resolvers';
-import { typeDefs } from '../../../graphql/schema';
+import { resolvers, typeDefs } from '../../../graphql/schema';
 
 export const loadApolloServer = (container: Oumi.Container) =>
   new ApolloServer({

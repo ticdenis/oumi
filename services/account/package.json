@@ -6,7 +6,7 @@
   "license": "UNLICENSED",
   "main": "./dist/main.js",
   "scripts": {
-    "clean": "rimraf dist",
+    "clean": "rimraf dist && rimraf tsconfig.tsbuildinfo",
     "start": "pm2 start --name '@oumi-service/account' ts-node -- -P tsconfig.json ./src/main.ts",
     "serve": "node dist/main.js",
     "build": "tsc --declaration",

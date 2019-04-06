@@ -1,9 +1,8 @@
 import { EntitySchema } from 'typeorm';
 
-import { UserEntityType } from './user';
-
-export interface ContactEntityType extends UserEntityType {
+export interface ContactEntityType {
   contactId: string;
+  id: string;
   userId: string;
 }
 

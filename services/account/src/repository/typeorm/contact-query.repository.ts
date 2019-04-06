@@ -9,27 +9,6 @@ import { Connection } from 'typeorm';
 
 import { SERVICE_ID } from '../../config';
 
-// tslint:disable-next-line: class-name
-interface _Debt {
-  amount: {
-    amount: number;
-    currency: {
-      code: string;
-      currency: string;
-    };
-  };
-  id: string;
-}
-
-// tslint:disable-next-line: class-name
-interface _Contact {
-  debts: _Debt[];
-  firstname: string;
-  id: string;
-  lastname: string;
-  nickname: string;
-}
-
 export class TypeORMContactQueryRepository implements ContactQueryRepository {
   private readonly _connection: Connection;
 
@@ -41,20 +20,20 @@ export class TypeORMContactQueryRepository implements ContactQueryRepository {
 
   public allOfId(id: UserId): TaskEither<null, Contact[]> {
     return tryCatch(
-      async () =>
-        R.pipe(
-          this._getUserContacts,
-          R.then(
-            R.map(async contact => {
-              contact.debts = await this._getUserContactDebts(
-                id.value,
-                contact.id,
-              );
-              return contact;
-            }),
-          ),
-          R.then(jsonContactMapper.items),
-        )(id.value),
+      R.pipe(
+        () => this._getUserContacts(id.value),
+        R.then(
+          R.map(async contact => {
+            contact.debts = await this._getUserContactDebts(
+              id.value,
+              contact.id,
+            );
+            return contact;
+          }),
+        ),
+        R.then(promises => Promise.all(promises)),
+        R.then(jsonContactMapper.items),
+      ),
       () => null,
     );
   }
@@ -62,10 +41,15 @@ export class TypeORMContactQueryRepository implements ContactQueryRepository {
   private _getUserContacts(id: string): Promise<_Contact[]> {
     return this._connection
       .createQueryBuilder()
-      .select(['u.firstname', 'u.id', 'u.lastname', 'u.nickname'])
+      .select([
+        'u.firstname as firstname',
+        'u.id as id',
+        'u.lastname as lastname',
+        'u.nickname as nickname',
+      ])
       .from('contacts', 'c')
       .innerJoin('users', 'u', 'u.id = c.contact_id')
-      .where('c.user_id = :id', [id])
+      .where('c.user_id = :id', { id })
       .execute();
   }
 
@@ -75,7 +59,11 @@ export class TypeORMContactQueryRepository implements ContactQueryRepository {
   ): Promise<_Debt[]> {
     const debts: any[] = await this._connection
       .createQueryBuilder()
-      .select(['d.amount', 'd.code', 'd.currency'])
+      .select([
+        'd.amount as amount',
+        'd.code as code',
+        'd.currency as currency',
+      ])
       .from('debts', 'd')
       .where('d.user_id = :userId', {
         userId,
@@ -96,4 +84,25 @@ export class TypeORMContactQueryRepository implements ContactQueryRepository {
       id: userId,
     }));
   }
+}
+
+// tslint:disable-next-line: class-name
+interface _Debt {
+  amount: {
+    amount: number;
+    currency: {
+      code: string;
+      currency: string;
+    };
+  };
+  id: string;
+}
+
+// tslint:disable-next-line: class-name
+interface _Contact {
+  debts: _Debt[];
+  firstname: string;
+  id: string;
+  lastname: string;
+  nickname: string;
 }

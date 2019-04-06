@@ -14,6 +14,6 @@ export type UserContactsQueryHandler = (
 export const userContactsHandler: UserContactsQueryHandler = service => async query =>
   eitherToPromise(
     await service({
-      id: userIdVO(query.id),
+      id: userIdVO(query.data.id),
     }),
   );

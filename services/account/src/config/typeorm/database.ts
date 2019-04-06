@@ -20,7 +20,7 @@ export const loadDatabase = (env: Environment): Oumi.Database => {
           database: env.DATABASE_DATABASE,
           entities: [ContactEntity, DebtEntity, DomainEventEntity, UserEntity],
           host: env.DATABASE_HOST,
-          logging: false,
+          logging: true,
           password: env.DATABASE_PASSWORD,
           port: env.DATABASE_PORT,
           synchronize: env.DATABASE_SYNCHRONIZE === 'true',
