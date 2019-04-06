@@ -2,8 +2,7 @@ import { eitherToPromise, QueryHandler, stringVO } from '@oumi-package/core';
 
 import { userEmailVO } from '../../domain';
 
-import { UserTokenQuery } from './user-token.query';
-import { UserTokenResponse, UserTokenService } from './user-token.service';
+import { UserTokenQuery, UserTokenResponse, UserTokenService } from './';
 
 export type UserQueryHandler = (
   service: UserTokenService,

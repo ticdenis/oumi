@@ -8,8 +8,9 @@ import {
   profileGetController,
   rootGetController,
   updateProfilePutController,
+  userContactsGetController,
   userRegistrationPostController,
-  userTokenPostController
+  userTokenPostController,
 } from '../../controller/express';
 import { jwtMiddleware } from '../../handler/express';
 import {
@@ -57,5 +58,11 @@ export function loadRoutes(
     jwtMiddleware(container),
     changePasswordValidatorHandler(container),
     changePasswordPutController(container),
+  );
+
+  app.get(
+    '/users/contacts',
+    jwtMiddleware(container),
+    userContactsGetController(container),
   );
 }

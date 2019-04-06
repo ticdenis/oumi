@@ -1,3 +1,5 @@
+import { DataTransformer } from '@oumi-package/core';
+
 import * as R from 'ramda';
 
 import { Contact } from '../../domain';
@@ -10,19 +12,16 @@ export type UserContactsResponse = {
   nickname: string;
 }[];
 
-export type UserContactsTransformer = (
-  contacts: Contact[],
-) => UserContactsResponse;
-
-export const userContactsTransformer: UserContactsTransformer = R.map(
-  contact => ({
-    debts: contact.debts.map(debt => ({
-      amount: debt.amount.value.amount.value,
-      currency: debt.amount.value.currency.value.code.value,
-    })),
-    firstname: contact.firstname.value,
-    id: contact.id.value,
-    lastname: contact.lastname.value,
-    nickname: contact.nickname.value,
-  }),
-);
+export const userContactsTransformer: DataTransformer<
+  Contact[],
+  UserContactsResponse
+> = R.map(contact => ({
+  debts: contact.debts.map(debt => ({
+    amount: debt.amount.value.amount,
+    currency: debt.amount.value.currency.code,
+  })),
+  firstname: contact.firstname.value,
+  id: contact.id.value,
+  lastname: contact.lastname.value,
+  nickname: contact.nickname.value,
+}));

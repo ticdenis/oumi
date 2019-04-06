@@ -11,7 +11,7 @@ export class TypeORMUserCommandRepository implements UserCommandRepository {
 
   public constructor(container: Oumi.Container) {
     this._connection = container
-      .get<Oumi.Database>(SERVICE_ID.DB.WRITE)
+      .get<Oumi.Database>(SERVICE_ID.DB)
       .connection<Connection>();
   }
 

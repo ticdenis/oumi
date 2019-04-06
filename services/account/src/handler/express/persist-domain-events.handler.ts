@@ -14,7 +14,7 @@ export const persistDomainEventsHandler: Oumi.Handler<
     .events();
 
   const entityManager = container
-    .get<Oumi.Database>(SERVICE_ID.DB.READ)
+    .get<Oumi.Database>(SERVICE_ID.DB)
     .connection<Connection>()
     .createEntityManager();
 

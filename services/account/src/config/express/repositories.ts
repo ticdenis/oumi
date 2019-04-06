@@ -1,3 +1,4 @@
+import { ContactQueryRepository } from '@oumi-package/contact';
 import { Oumi } from '@oumi-package/core/lib';
 import {
   simpleJWTFactory,
@@ -15,6 +16,7 @@ import {
   TypeORMUserCommandRepository,
   TypeORMUserQueryRepository,
 } from '../../repository/typeorm';
+import { TypeORMContactQueryRepository } from '../../repository/typeorm/contact-query.repository';
 
 export function loadRepositories(container: Oumi.Container) {
   const env = container.get<Environment>(SERVICE_ID.ENV);
@@ -43,5 +45,10 @@ export function loadRepositories(container: Oumi.Container) {
   container.set<UserQueryRepository>(
     SERVICE_ID.QUERY_REPOSITORY.USER,
     new TypeORMUserQueryRepository(container),
+  );
+
+  container.set<ContactQueryRepository>(
+    SERVICE_ID.QUERY_REPOSITORY.CONTACT,
+    new TypeORMContactQueryRepository(container),
   );
 }

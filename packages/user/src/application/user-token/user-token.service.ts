@@ -4,7 +4,6 @@ import { Either, left } from 'fp-ts/lib/Either';
 import * as R from 'ramda';
 
 import {
-  Token,
   TokenDomainError,
   TokenFactory,
   UserDomainError,
@@ -12,7 +11,7 @@ import {
   UserQueryRepository,
 } from '../../domain';
 
-export type UserTokenResponse = Token;
+import { UserTokenResponse } from '.';
 
 export type UserTokenService = (input: {
   email: UserEmail;

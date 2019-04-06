@@ -1,9 +1,12 @@
+import { DataTransformer } from "@oumi-package/core";
+
 export interface _TemplateResponse {
   // TODO: [key: string]: any;
 }
 
-export type _TemplateTransformer = (value: any) => _TemplateResponse;
-
-export const _templateTransformer: _TemplateTransformer = value => ({
+export const _templateTransformer: DataTransformer<
+  any, // TODO: To implement
+  _TemplateResponse
+> = value => ({
   // TODO: To implement
 });

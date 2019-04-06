@@ -5,14 +5,17 @@
   "private": true,
   "license": "UNLICENSED",
   "workspaces": [
-    "packages/*",
-    "services/*"
+    "packages/core",
+    "packages/shared",
+    "packages/user",
+    "packages/contact",
+    "services/account"
   ],
   "scripts": {
     "preinstall": "node -e 'if(!/yarn\\.js$/.test(process.env.npm_execpath))throw new Error(\"Use yarn\")'",
     "commit": "git-cz",
     "cli": "./tools/cli.ts",
-    "reset": "rimraf node_modules && rimraf **/node_modules && yarn install && yarn clean && yarn build",
+    "reset": "rimraf **/tsconfig.tsbuildinfo && rimraf node_modules && rimraf **/node_modules && yarn install && yarn clean && yarn build",
     "build": "yarn workspaces run build",
     "clean": "yarn workspaces run clean",
     "lint": "yarn workspaces run lint",

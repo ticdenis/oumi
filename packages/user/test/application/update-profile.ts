@@ -1,4 +1,10 @@
 import { EventPublisher } from '@oumi-package/core';
+import {
+  UserFirstnameStub,
+  UserIdStub,
+  UserLastnameStub,
+  UserNicknameStub,
+} from '@oumi-package/shared/lib/infrastructure/test/user.stubs';
 
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
 import { ObjectSubstitute } from '@fluffy-spoon/substitute/dist/src/Transformations';
@@ -13,17 +19,15 @@ import {
   updateProfileHandler,
 } from '../../src/application';
 import {
-  User,
   UserCommandRepository,
-  userEmailVO,
   userFirstnameVO,
   userIdVO,
   userLastnameVO,
   userNicknameVO,
-  userPasswordVO,
   userPhoneVO,
   UserQueryRepository,
 } from '../../src/domain';
+import { generateUserStub, UserPhoneStub } from '../infrastructure/user.stubs';
 
 const test = ava as TestInterface<{
   data: UpdateProfileData;
@@ -36,11 +40,11 @@ const test = ava as TestInterface<{
 
 test.beforeEach(t => {
   t.context.data = {
-    firstname: 'name',
-    id: userIdVO().value,
-    lastname: 'surname',
-    nickname: 'nickname',
-    phone: '612345678',
+    firstname: UserFirstnameStub.value,
+    id: UserIdStub.value,
+    lastname: UserLastnameStub.value,
+    nickname: UserNicknameStub.value,
+    phone: UserPhoneStub.value,
   };
   t.context.eventPublisher = Substitute.for<EventPublisher>();
   t.context.repository = {
@@ -67,14 +71,12 @@ test('should throw user not found', async t => {
 
 test('should update profile', async t => {
   // Given
-  const user = new User({
-    email: userEmailVO('oumi@test.com'),
-    firstname: userFirstnameVO('name'),
+  const user = generateUserStub({
+    firstname: userFirstnameVO('new-firstname'),
     id: userIdVO(t.context.data.id),
-    lastname: userLastnameVO('surname'),
-    nickname: userNicknameVO('nickname'),
-    password: userPasswordVO('secret'),
-    phone: userPhoneVO('612345678'),
+    lastname: userLastnameVO('new-lastname'),
+    nickname: userNicknameVO('new-nickname'),
+    phone: userPhoneVO('new-phone'),
   });
   t.context.repository.query.ofId(Arg.any()).returns(fromEither(right(user)));
   t.context.repository.command

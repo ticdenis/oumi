@@ -7,7 +7,8 @@ export default {
   ],
   "failFast": true,
   "files": [
-    "test/**/*.ts"
+    "test/**/*.ts",
+    "!test/**/*.stubs.ts"
   ],
   "require": [
     "ts-node/register"

@@ -1,20 +1,14 @@
-import {
-  simpleValueObject,
-  StringVO,
-  stringVO,
-  ValueObject,
-} from '@oumi-package/core';
+import { simpleValueObject, stringVO, ValueObject } from '@oumi-package/core';
 
 export type CurrencyVO = ValueObject<
-  Readonly<{ code: StringVO; symbol: StringVO }>
+  Readonly<{ code: string; symbol: string }>
 >;
 
 export const currencyVO = (value: {
   code: string;
   symbol: string;
-}): CurrencyVO => {
-  const code = stringVO(value.code);
-  const symbol = stringVO(value.symbol);
-
-  return simpleValueObject({ code, symbol });
-};
+}): CurrencyVO =>
+  simpleValueObject({
+    code: stringVO(value.code).value,
+    symbol: stringVO(value.symbol).value,
+  });

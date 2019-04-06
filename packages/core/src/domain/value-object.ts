@@ -41,7 +41,7 @@ export const simpleValueObject: <T>(value: T) => ValueObject<T> = value => ({
 });
 
 function isFloat(n: any) {
-  return n === 0 || (Number(n) === n && n % 1 !== 0);
+  return Number.isInteger(n) || (n === 0 || (Number(n) === n && n % 1 !== 0));
 }
 
 export const stringVO = (value: string): StringVO => {

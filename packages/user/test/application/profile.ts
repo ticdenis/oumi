@@ -1,5 +1,3 @@
-import { uuidVO } from '@oumi-package/core';
-
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
 import { ObjectSubstitute } from '@fluffy-spoon/substitute/dist/src/Transformations';
 import ava, { TestInterface } from 'ava';
@@ -7,6 +5,7 @@ import { right } from 'fp-ts/lib/Either';
 import { fromEither, fromLeft } from 'fp-ts/lib/TaskEither';
 import * as R from 'ramda';
 
+import { UserIdStub } from '../../../shared/lib/infrastructure/test/user.stubs';
 import {
   profileBuilderService,
   ProfileData,
@@ -14,17 +13,8 @@ import {
   profileHandler,
   ProfileQuery,
 } from '../../src/application';
-import {
-  User,
-  userEmailVO,
-  userFirstnameVO,
-  userIdVO,
-  userLastnameVO,
-  userNicknameVO,
-  userPasswordVO,
-  userPhoneVO,
-  UserQueryRepository,
-} from '../../src/domain';
+import { User, UserQueryRepository } from '../../src/domain';
+import { generateUserStub } from '../infrastructure/user.stubs';
 
 const test = ava as TestInterface<{
   data: ProfileData;
@@ -36,19 +26,13 @@ const test = ava as TestInterface<{
 
 test.beforeEach(t => {
   t.context.data = {
-    id: uuidVO().value,
+    id: UserIdStub.value,
   };
   t.context.repository = {
     query: Substitute.for<UserQueryRepository>(),
   };
-  t.context.user = new User({
-    email: userEmailVO('oumi@test.com'),
-    firstname: userFirstnameVO('name'),
-    id: userIdVO(t.context.data.id),
-    lastname: userLastnameVO('surname'),
-    nickname: userNicknameVO('nickname'),
-    password: userPasswordVO('secret'),
-    phone: userPhoneVO('612345678'),
+  t.context.user = generateUserStub({
+    id: UserIdStub,
   });
 });
 

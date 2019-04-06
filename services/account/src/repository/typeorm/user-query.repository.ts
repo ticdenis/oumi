@@ -2,16 +2,10 @@ import { Oumi } from '@oumi-package/core/lib';
 import {
   User,
   UserEmail,
-  userEmailVO,
-  userFirstnameVO,
   UserId,
-  userIdVO,
-  userLastnameVO,
-  userNicknameVO,
-  userPasswordVO,
-  userPhoneVO,
   UserQueryRepository,
 } from '@oumi-package/user/lib';
+import { jsonUserMapper } from '@oumi-package/user/lib/infrastructure/user.mapper';
 
 import { TaskEither, tryCatch } from 'fp-ts/lib/TaskEither';
 import { Connection, Repository } from 'typeorm';
@@ -24,7 +18,7 @@ export class TypeORMUserQueryRepository implements UserQueryRepository {
 
   public constructor(container: Oumi.Container) {
     this._repository = container
-      .get<Oumi.Database>(SERVICE_ID.DB.WRITE)
+      .get<Oumi.Database>(SERVICE_ID.DB)
       .connection<Connection>()
       .getRepository(UserEntity);
   }
@@ -36,30 +30,15 @@ export class TypeORMUserQueryRepository implements UserQueryRepository {
           .findOneOrFail({
             where: { email: email.value },
           })
-          .then(rawUser => this._map(rawUser)),
+          .then(jsonUserMapper.item),
       () => null,
     );
   }
 
   public ofId(id: UserId): TaskEither<null, User> {
     return tryCatch(
-      () =>
-        this._repository
-          .findOneOrFail(id.value)
-          .then(rawUser => this._map(rawUser)),
+      () => this._repository.findOneOrFail(id.value).then(jsonUserMapper.item),
       () => null,
     );
-  }
-
-  private _map(data: UserEntityType): User {
-    return new User({
-      email: userEmailVO(data.email),
-      firstname: userFirstnameVO(data.firstname),
-      id: userIdVO(data.id),
-      lastname: userLastnameVO(data.lastname),
-      nickname: userNicknameVO(data.nickname),
-      password: userPasswordVO(data.password, false),
-      phone: userPhoneVO(data.phone),
-    });
   }
 }

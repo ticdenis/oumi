@@ -1,21 +1,16 @@
-import {
-  FloatVO,
-  floatVO,
-  simpleValueObject,
-  ValueObject,
-} from '@oumi-package/core';
+import { floatVO, simpleValueObject, ValueObject } from '@oumi-package/core';
 
 import { CurrencyVO } from './currency.props';
 
 export type AmountVO = ValueObject<
-  Readonly<{ amount: FloatVO; currency: CurrencyVO }>
+  Readonly<{ amount: number; currency: { code: string; symbol: string } }>
 >;
 
 export const amountVO = (value: {
   amount: number;
   currency: CurrencyVO;
-}): AmountVO => {
-  const amount = floatVO(value.amount);
-
-  return simpleValueObject({ amount, currency: value.currency });
-};
+}): AmountVO =>
+  simpleValueObject({
+    amount: floatVO(value.amount).value,
+    currency: value.currency.value,
+  });

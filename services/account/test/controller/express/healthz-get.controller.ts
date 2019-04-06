@@ -30,8 +30,7 @@ describe('healthz GET controller', () => {
     // Given
     const fakeDB = Substitute.for<Oumi.Database>();
     fakeDB.isConnected().returns(Promise.resolve(false));
-    context.container.set<Oumi.Database>(SERVICE_ID.DB.READ, fakeDB);
-    context.container.set<Oumi.Database>(SERVICE_ID.DB.WRITE, fakeDB);
+    context.container.set<Oumi.Database>(SERVICE_ID.DB, fakeDB);
     // When
     const res = await context.request();
     // Then
@@ -45,8 +44,7 @@ describe('healthz GET controller', () => {
     // Given
     const fakeDB = Substitute.for<Oumi.Database>();
     fakeDB.isConnected().returns(Promise.resolve(true));
-    context.container.set<Oumi.Database>(SERVICE_ID.DB.READ, fakeDB);
-    context.container.set<Oumi.Database>(SERVICE_ID.DB.WRITE, fakeDB);
+    context.container.set<Oumi.Database>(SERVICE_ID.DB, fakeDB);
     // When
     const res = await context.request();
     // Then

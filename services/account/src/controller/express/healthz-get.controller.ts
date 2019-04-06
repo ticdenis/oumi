@@ -8,10 +8,9 @@ import { SERVICE_ID } from '../../config';
 export const healthzGetController: Oumi.Controller<
   express.Handler
 > = container => async (_, res) => {
-  const readDB = container.get<Oumi.Database>(SERVICE_ID.DB.READ);
-  const writeDB = container.get<Oumi.Database>(SERVICE_ID.DB.WRITE);
+  const db = container.get<Oumi.Database>(SERVICE_ID.DB);
 
-  if (!(await readDB.isConnected()) || !(await writeDB.isConnected())) {
+  if (!(await db.isConnected())) {
     res.status(HttpStatus.SERVICE_UNAVAILABLE).json(
       koResponse([
         {
