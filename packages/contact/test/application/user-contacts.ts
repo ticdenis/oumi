@@ -1,5 +1,5 @@
 import { UserId } from '@oumi-package/shared/lib/domain/user.props';
-import { UserIdStub } from '@oumi-package/shared/src/infrastructure/test/user.stubs';
+import { UserIdStub } from '@oumi-package/shared/lib/infrastructure/test/user.stubs';
 
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
 import { ObjectSubstitute } from '@fluffy-spoon/substitute/dist/src/Transformations';
@@ -16,7 +16,7 @@ import {
   userContactsTransformer,
 } from '../../src/application';
 import { Contact, ContactQueryRepository } from '../../src/domain';
-import { ContactStub } from '../infrastructure/contact.stubs';
+import { ContactStub } from '../../src/infrastructure/test/contact.stubs';
 
 const test = ava as TestInterface<{
   contact: Contact;

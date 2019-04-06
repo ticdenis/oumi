@@ -11,12 +11,12 @@ import {
   UserTokenQuery,
 } from '../../src/application';
 import { TokenFactory, User, UserQueryRepository } from '../../src/domain';
-import { TokenStub } from '../infrastructure/token.stubs';
+import { TokenStub } from '../../src/infrastructure/test/token.stubs';
 import {
   UserEmailStub,
   UserPasswordNotEncryptedStub,
   UserStub,
-} from '../infrastructure/user.stubs';
+} from '../../src/infrastructure/test/user.stubs';
 
 const test = ava as TestInterface<{
   data: UserTokenData;

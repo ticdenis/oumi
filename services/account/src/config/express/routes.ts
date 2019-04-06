@@ -11,14 +11,14 @@ import {
   userContactsGetController,
   userRegistrationPostController,
   userTokenPostController,
-} from '../../controller/express';
-import { jwtMiddleware } from '../../handler/express';
+} from '../../controller';
 import {
   changePasswordValidatorHandler,
+  jwtMiddleware,
   updateProfileValidatorHandler,
   userRegistrationValidatorHandler,
   userTokenValidatorHandler,
-} from '../../handler/io-express';
+} from '../../middleware';
 
 export function loadRoutes(
   app: express.Application,

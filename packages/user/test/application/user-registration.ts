@@ -28,7 +28,7 @@ import {
   UserPasswordStub,
   UserPhoneStub,
   UserStub,
-} from '../infrastructure/user.stubs';
+} from '../../src/infrastructure/test/user.stubs';
 
 const test = ava as TestInterface<{
   data: UserRegistrationData;

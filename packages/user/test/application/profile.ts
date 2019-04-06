@@ -14,7 +14,7 @@ import {
   ProfileQuery,
 } from '../../src/application';
 import { User, UserQueryRepository } from '../../src/domain';
-import { generateUserStub } from '../infrastructure/user.stubs';
+import { generateUserStub } from '../../src/infrastructure/test/user.stubs';
 
 const test = ava as TestInterface<{
   data: ProfileData;

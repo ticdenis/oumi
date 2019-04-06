@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@oumi-package/core": "0.0.0",
+    "@oumi-package/shared": "0.0.0",
     "@oumi-package/user": "0.0.0",
     "@oumi-package/contact": "0.0.0",
     "apollo-server": "^2.4.8",

@@ -13,10 +13,10 @@ import moment from 'moment';
 
 import { Environment, SERVICE_ID } from '..';
 import {
+  TypeORMContactQueryRepository,
   TypeORMUserCommandRepository,
   TypeORMUserQueryRepository,
 } from '../../repository/typeorm';
-import { TypeORMContactQueryRepository } from '../../repository/typeorm/contact-query.repository';
 
 export function loadRepositories(container: Oumi.Container) {
   const env = container.get<Environment>(SERVICE_ID.ENV);

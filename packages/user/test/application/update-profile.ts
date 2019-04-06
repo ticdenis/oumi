@@ -27,7 +27,10 @@ import {
   userPhoneVO,
   UserQueryRepository,
 } from '../../src/domain';
-import { generateUserStub, UserPhoneStub } from '../infrastructure/user.stubs';
+import {
+  generateUserStub,
+  UserPhoneStub,
+} from '../../src/infrastructure/test/user.stubs';
 
 const test = ava as TestInterface<{
   data: UpdateProfileData;

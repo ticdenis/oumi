@@ -6,12 +6,5 @@
     "**/dist": true,
     "**/var": true,
   },
-  "editor.formatOnSave": true,
-  "sqltools.connections": [
-    {
-      "database": "/Users/dna/Developer/personal/oumi/services/account/var/db-accounts.sqlite",
-      "dialect": "SQLite",
-      "name": "accounts"
-    }
-  ]
+  "editor.formatOnSave": true
 }
