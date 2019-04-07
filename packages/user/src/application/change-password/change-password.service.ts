@@ -1,4 +1,4 @@
-import { EventPublisher, StringVO } from '@oumi-package/core';
+import { EventPublisher, StringVO } from '@oumi-package/core/lib';
 
 import { Either, left, right } from 'fp-ts/lib/Either';
 import { constVoid } from 'fp-ts/lib/function';
@@ -14,8 +14,8 @@ import {
 
 export type ChangePasswordService = (input: {
   id: UserId;
-  newPassword: UserPassword
-  oldPassword: StringVO,
+  newPassword: UserPassword;
+  oldPassword: StringVO;
 }) => Promise<Either<UserDomainError, void>>;
 
 export type ChangePasswordBuilder = (options: {

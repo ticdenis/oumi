@@ -14,7 +14,8 @@
     "watch": "tsc --declaration -w",
     "debug": "nodemon --delay 3 --watch ./dist --legacy-watch ./dist/main.js",
     "dev": "concurrently --kill-others \"yarn debug\" \"yarn watch\"",
-    "lint": "tslint -c tslint.json -p tsconfig.json --fix",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "lint:fix": "tslint -c tslint.json -p tsconfig.json --fix",
     "prettier": "prettier --config .prettierrc --write \"./**/*.ts\"",
     "test": "jest --verbose",
     "test:watch": "jest --verbose --watch",
@@ -25,24 +26,22 @@
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
-    "@fluffy-spoon/substitute": "^1.76.0",
+    "@fluffy-spoon/substitute": "^1.87.0",
     "@types/jest": "^24.0.11",
-    "@types/node": "^11.11.0",
-    "@types/shelljs": "^0.8.3",
+    "@types/node": "^11.13.0",
     "@types/supertest": "^2.0.7",
     "concurrently": "^4.1.0",
-    "jest": "^24.5.0",
+    "jest": "^24.7.1",
     "nodemon": "^1.18.10",
-    "pm2": "^3.4.0",
+    "pm2": "^3.4.1",
     "prettier": "^1.16.4",
     "rimraf": "^2.6.3",
-    "shelljs": "^0.8.3",
     "supertest": "^4.0.2",
-    "ts-jest": "^24.0.0",
+    "ts-jest": "^24.0.2",
     "ts-node": "^8.0.3",
-    "tslint": "^5.14.0",
+    "tslint": "^5.15.0",
     "tslint-config-airbnb": "^5.11.1",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.3.4000"
+    "typescript": "^3.4.2"
   }
 }

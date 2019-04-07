@@ -1,4 +1,4 @@
-import { DomainError } from '@oumi-package/core';
+import { DomainError } from '@oumi-package/core/lib';
 
 import { Token } from '.';
 

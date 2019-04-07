@@ -1,4 +1,4 @@
-import { DomainError } from '@oumi-package/core';
+import { DomainError } from '@oumi-package/core/lib';
 
 export class ContactDomainError extends DomainError {
   public static notFound(key: string, value: any): ContactDomainError {

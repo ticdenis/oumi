@@ -1,4 +1,4 @@
-import { AggregateRoot, NullableStringVO } from '@oumi-package/core';
+import { AggregateRoot, NullableStringVO } from '@oumi-package/core/lib';
 import {
   UserFirstname,
   UserId,

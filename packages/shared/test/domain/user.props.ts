@@ -1,4 +1,4 @@
-import { ValueObjectDomainError } from '@oumi-package/core';
+import { ValueObjectDomainError } from '@oumi-package/core/lib';
 
 import ava, { TestInterface } from 'ava';
 
