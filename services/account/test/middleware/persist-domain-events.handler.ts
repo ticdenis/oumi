@@ -31,14 +31,19 @@ describe('persist domain events handler', () => {
 
   test('call domain event repository publish method with events from global subscriber', async done => {
     // Given
-    const fakeDomainEventRepository = Substitute.for<EventPublisher>();
-    fakeDomainEventRepository.publish().returns(Promise.resolve(undefined));
+    const fakeDomainEventRepository: EventPublisher = {
+      publish: jest.fn(),
+    };
     context.container.set<EventPublisher>(
       SERVICE_ID.DOMAIN_EVENT_REPOSITORY,
       fakeDomainEventRepository,
     );
-    const fakeEventSubscriber = Substitute.for<EventSubscriber>();
-    fakeEventSubscriber.events().returns([event({})]);
+    const fakeEvents = [event({})];
+    const fakeEventSubscriber: EventSubscriber = {
+      events: jest.fn().mockReturnValue(fakeEvents),
+      handle: jest.fn(),
+      isSubscribedTo: jest.fn(),
+    };
     context.container.set<EventSubscriber>(
       SERVICE_ID.EVENT_SUBSCRIBER,
       fakeEventSubscriber,
@@ -50,6 +55,10 @@ describe('persist domain events handler', () => {
       context.next,
     );
     // Then
+    expect(fakeDomainEventRepository.publish).toHaveBeenCalledWith(
+      ...fakeEvents,
+    );
+    expect(fakeEventSubscriber.events).toHaveBeenCalled();
     expect(context.next).toHaveBeenCalled();
     done();
   });

@@ -1,4 +1,4 @@
-import { EventPublisher } from '@oumi-package/core';
+import { EventPublisher } from '@oumi-package/core/lib';
 
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
 import { ObjectSubstitute } from '@fluffy-spoon/substitute/dist/src/Transformations';

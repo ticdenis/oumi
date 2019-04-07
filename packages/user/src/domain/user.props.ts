@@ -1,4 +1,4 @@
-import { stringVO, StringVO } from '@oumi-package/core';
+import { stringVO, StringVO } from '@oumi-package/core/lib';
 export {
   UserFirstname,
   UserId,

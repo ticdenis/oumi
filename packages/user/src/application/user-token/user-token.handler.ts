@@ -1,4 +1,8 @@
-import { eitherToPromise, QueryHandler, stringVO } from '@oumi-package/core';
+import {
+  eitherToPromise,
+  QueryHandler,
+  stringVO,
+} from '@oumi-package/core/lib';
 
 import { userEmailVO } from '../../domain';
 

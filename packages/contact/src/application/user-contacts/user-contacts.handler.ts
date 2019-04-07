@@ -1,4 +1,4 @@
-import { eitherToPromise, QueryHandler } from '@oumi-package/core';
+import { eitherToPromise, QueryHandler } from '@oumi-package/core/lib';
 import { userIdVO } from '@oumi-package/shared/lib/domain/user.props';
 
 import {

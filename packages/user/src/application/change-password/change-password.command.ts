@@ -1,4 +1,4 @@
-import { Command } from '@oumi-package/core';
+import { Command } from '@oumi-package/core/lib';
 
 export interface ChangePasswordData {
   id: string;

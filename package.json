@@ -36,7 +36,7 @@
     "inquirer": "^6.2.2",
     "shelljs": "^0.8.3",
     "ts-node": "^8.0.3",
-    "typescript": "^3.3.4000"
+    "typescript": "^3.4.2"
   },
   "config": {
     "commitizen": {
