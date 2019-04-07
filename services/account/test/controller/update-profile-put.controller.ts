@@ -84,7 +84,7 @@ describe('user registration POST controller', () => {
     // When
     const res = await context.request();
     // Then
-    expect(res.status).toBe(HttpStatus.CONFLICT);
+    expect(res.status).toBe(HttpStatus.NOT_FOUND);
     expect(res.body.data).toBeNull();
     expect(res.body.errors).not.toBeNull();
     done();

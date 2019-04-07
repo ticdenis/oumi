@@ -8,9 +8,9 @@ import { SERVICE_ID } from '../config';
 
 export const jwtMiddleware: Oumi.Handler<
   express.RequestHandler
-> = container => async (req, res, next) => {
-  const tokenReader = container.get<TokenReader>(SERVICE_ID.TOKEN_READER);
-  await tokenReader
+> = container => (req, res, next) =>
+  container
+    .get<TokenReader>(SERVICE_ID.TOKEN_READER)
     .read(req.headers.authorization)
     .fold(
       err => {
@@ -22,4 +22,3 @@ export const jwtMiddleware: Oumi.Handler<
       },
     )
     .run();
-};

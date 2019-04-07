@@ -1,23 +1,13 @@
 import { Oumi } from '@oumi-package/core/lib';
-import {
-  UserFirstnameStub,
-  UserIdStub,
-  UserLastnameStub,
-  UserNicknameStub,
-} from '@oumi-package/shared/lib/infrastructure/test/user.stubs';
-import {
-  UserEmailStub,
-  UserPasswordNotEncryptedStub,
-  UserPhoneStub,
-} from '@oumi-package/user/lib/infrastructure/test/user.stubs';
+import { UserPasswordNotEncryptedStub } from '@oumi-package/user/lib/infrastructure/test/user.stubs';
 
 import { Substitute } from '@fluffy-spoon/substitute';
 import express from 'express';
 import * as HttpStatus from 'http-status-codes';
 
-import { userRegistrationValidatorHandler } from '../../src/middleware';
+import { changePasswordValidatorHandler } from '../../src/middleware';
 
-describe('user registration POST validator handler', () => {
+describe('change password PUT validator handler', () => {
   let context: {
     container: Oumi.Container;
     next: express.NextFunction;
@@ -42,7 +32,7 @@ describe('user registration POST validator handler', () => {
       return _res;
     })();
     // When
-    await userRegistrationValidatorHandler(context.container)(
+    await changePasswordValidatorHandler(context.container)(
       req,
       res,
       context.next,
@@ -57,18 +47,13 @@ describe('user registration POST validator handler', () => {
     // Given
     const req: express.Request = {
       body: {
-        email: UserEmailStub.value,
-        firstname: UserFirstnameStub.value,
-        id: UserIdStub.value,
-        lastname: UserLastnameStub.value,
-        nickname: UserNicknameStub.value,
-        password: UserPasswordNotEncryptedStub.value,
-        phone: UserPhoneStub.value,
+        newPassword: UserPasswordNotEncryptedStub.value,
+        oldPassword: UserPasswordNotEncryptedStub.value,
       },
     } as any;
     const res = Substitute.for<express.Response>();
     // When
-    await userRegistrationValidatorHandler(context.container)(
+    await changePasswordValidatorHandler(context.container)(
       req,
       res,
       context.next,
