@@ -1,6 +1,6 @@
 import * as t from 'io-ts';
 import { fromNullable } from 'io-ts-types';
-// tslint:disable-next-line:no-implicit-dependencies
+import { date } from 'io-ts-types/lib/Date/date';
 import { uuid } from 'io-ts-types/lib/string/uuid';
 import { v4 } from 'uuid';
 
@@ -10,20 +10,20 @@ import { ValueObjectDomainError } from '.';
 
 export interface ValueObject<T> {
   readonly equalsTo: (other: ValueObject<T>) => boolean;
-  value: T;
+  readonly value: T;
 }
 
-export type StringVO = ValueObject<Readonly<string>>;
+export type StringVO = ValueObject<string>;
 
-export type NullableStringVO = ValueObject<Readonly<string | null>>;
+export type NullableStringVO = ValueObject<string | null>;
 
-export type Uuid = Readonly<string>;
+export type Uuid = string;
 
 export type UuidVO = ValueObject<Uuid>;
 
-export type NumberVO = ValueObject<Readonly<number>>;
+export type NumberVO = ValueObject<number>;
 
-export type NullableNumberVO = ValueObject<Readonly<number | null>>;
+export type NullableNumberVO = ValueObject<number | null>;
 
 export type IntVO = NumberVO;
 
@@ -32,6 +32,12 @@ export type NullableIntVO = NullableNumberVO;
 export type FloatVO = NumberVO;
 
 export type NullableFloatVO = NullableNumberVO;
+
+export type DateVO = ValueObject<Date>;
+
+export type IntervalDateVO = ValueObject<{ end: Date; start: Date }>;
+
+export type NullableDateVO = ValueObject<Date | null>;
 
 // Helpers
 
@@ -49,7 +55,7 @@ export const stringVO = (value: string): StringVO => {
     throw new ValueObjectDomainError('INVALID_STRING', value);
   }
 
-  return simpleValueObject<Readonly<string>>(value);
+  return simpleValueObject<string>(value);
 };
 
 export const nullableStringVO = (value: string | null): NullableStringVO => {
@@ -61,7 +67,7 @@ export const nullableStringVO = (value: string | null): NullableStringVO => {
     throw new ValueObjectDomainError('INVALID_NULLABLE_STRING', value);
   }
 
-  return simpleValueObject<Readonly<string | null>>(value);
+  return simpleValueObject<string | null>(value);
 };
 
 export const uuidVO = (value?: string): ValueObject<Uuid> => {
@@ -79,7 +85,7 @@ export const numberVO = (value: number): NumberVO => {
     throw new ValueObjectDomainError('INVALID_NUMBER', value);
   }
 
-  return simpleValueObject<Readonly<number>>(value);
+  return simpleValueObject<number>(value);
 };
 
 export const nullableNumberVO = (value: number | null): NullableNumberVO => {
@@ -91,7 +97,7 @@ export const nullableNumberVO = (value: number | null): NullableNumberVO => {
     throw new ValueObjectDomainError('INVALID_NULLABLE_NUMBER', value);
   }
 
-  return simpleValueObject<Readonly<number | null>>(value);
+  return simpleValueObject<number | null>(value);
 };
 
 export const intVO = (value: number): IntVO => {
@@ -99,7 +105,7 @@ export const intVO = (value: number): IntVO => {
     throw new ValueObjectDomainError('INVALID_INT', value);
   }
 
-  return simpleValueObject<Readonly<number>>(value);
+  return simpleValueObject<number>(value);
 };
 
 export const nullableIntVO = (value: number | null): NullableIntVO => {
@@ -111,7 +117,7 @@ export const nullableIntVO = (value: number | null): NullableIntVO => {
     throw new ValueObjectDomainError('INVALID_NULLABLE_INT', value);
   }
 
-  return simpleValueObject<Readonly<number | null>>(value);
+  return simpleValueObject<number | null>(value);
 };
 
 export const floatVO = (value: number): FloatVO => {
@@ -119,7 +125,7 @@ export const floatVO = (value: number): FloatVO => {
     throw new ValueObjectDomainError('INVALID_INT', value);
   }
 
-  return simpleValueObject<Readonly<number>>(value);
+  return simpleValueObject<number>(value);
 };
 
 export const nullableFloatVO = (value: number | null): NullableFloatVO => {
@@ -127,5 +133,36 @@ export const nullableFloatVO = (value: number | null): NullableFloatVO => {
     throw new ValueObjectDomainError('INVALID_NULLABLE_FLOAT', value);
   }
 
-  return simpleValueObject<Readonly<number | null>>(value);
+  return simpleValueObject<number | null>(value);
+};
+
+export const dateVO = (value: Date): DateVO => {
+  if (date.decode(value).isLeft()) {
+    throw new ValueObjectDomainError('INVALID_DATE', value);
+  }
+
+  return simpleValueObject<Date>(value);
+};
+
+export const nullableDateVO = (value: Date | null): NullableDateVO => {
+  if (
+    fromNullable(date)(new Date())
+      .decode(value)
+      .isLeft()
+  ) {
+    throw new ValueObjectDomainError('INVALID_NULLABLE_DATE', value);
+  }
+
+  return simpleValueObject<Date | null>(value);
+};
+
+export const intervalDateVO = (value: {
+  end: Date;
+  start: Date;
+}): IntervalDateVO => {
+  if (value.end.getMilliseconds() < value.start.getMilliseconds()) {
+    throw new ValueObjectDomainError('INVALID_INTERVAL_DATE', value);
+  }
+
+  return simpleValueObject<{ end: Date; start: Date }>(value);
 };

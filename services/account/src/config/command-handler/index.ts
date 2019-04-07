@@ -1,6 +1,6 @@
 import { CommandHandler, Oumi } from '@oumi-package/core/lib';
 
-import changePasswordHandler  from './change-password.handler';
+import changePasswordHandler from './change-password.handler';
 import updateProfileHandler from './update-profile.handler';
 import userRegistrationHandler from './user-registration.handler';
 

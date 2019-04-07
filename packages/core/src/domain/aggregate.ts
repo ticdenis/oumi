@@ -15,3 +15,5 @@ export abstract class AggregateRoot<DomainEventType> {
     this._domainEvents.push(domainEvent);
   }
 }
+
+export abstract class Aggregate {}

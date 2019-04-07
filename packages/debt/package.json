@@ -22,7 +22,9 @@
     "@oumi-package/core": "0.0.0",
     "@oumi-package/shared": "0.0.0",
     "@oumi-package/user": "0.0.0",
-    "fp-ts": "^1.14.3"
+    "fp-ts": "^1.14.3",
+    "moment": "^2.24.0",
+    "ramda": "^0.26.1"
   },
   "devDependencies": {
     "@fluffy-spoon/substitute": "^1.76.0",
