@@ -20,13 +20,15 @@
     "build": "yarn workspaces run build",
     "clean": "yarn workspaces run clean",
     "lint": "yarn workspaces run lint",
+    "lint:fix": "yarn workspaces run lint:fix",
     "prettier": "yarn workspaces run prettier",
+    "update": "yarn workspaces run upgrade",
     "test": "yarn workspaces run test",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "devDependencies": {
-    "@types/inquirer": "^0.0.44",
-    "@types/node": "^11.11.5",
+    "@types/inquirer": "^6.0.0",
+    "@types/node": "^11.13.0",
     "@types/shelljs": "^0.8.3",
     "chalk": "^2.4.2",
     "commitizen": "^3.0.7",
