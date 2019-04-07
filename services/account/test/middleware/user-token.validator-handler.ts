@@ -1,4 +1,8 @@
-import { Oumi, stringVO } from '@oumi-package/core/lib';
+import { Oumi } from '@oumi-package/core/lib';
+import {
+  UserEmailStub,
+  UserPasswordNotEncryptedStub,
+} from '@oumi-package/user/lib/infrastructure/test/user.stubs';
 
 import { Substitute } from '@fluffy-spoon/substitute';
 import express from 'express';
@@ -42,8 +46,8 @@ describe('user token POST validator handler', () => {
     // Given
     const req: express.Request = {
       body: {
-        email: stringVO('test@oumi.com').value,
-        password: stringVO('secret').value,
+        email: UserEmailStub.value,
+        password: UserPasswordNotEncryptedStub.value,
       },
     } as any;
     const res = Substitute.for<express.Response>();

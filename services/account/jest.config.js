@@ -2,6 +2,7 @@
 module.exports = {
   coverageDirectory: "coverage",
   coveragePathIgnorePatterns: [
+    "/src/config/",
     "/dist/",
     "/node_modules/",
     "/tools/",

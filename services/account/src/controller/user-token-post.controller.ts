@@ -1,17 +1,12 @@
-import {
-  DomainError,
-  koResponse,
-  okResponse,
-  Oumi,
-  QueryBus,
-  ValueObjectDomainError,
-} from '@oumi-package/core/lib';
+import { okResponse, Oumi, QueryBus } from '@oumi-package/core/lib';
 import { UserTokenQuery } from '@oumi-package/user/lib';
 
 import express from 'express';
 import * as HttpStatus from 'http-status-codes';
 
 import { SERVICE_ID } from '../config';
+
+import { defaultCatchMappingExceptions } from './util';
 
 export const userTokenPostController: Oumi.Controller<
   express.Handler
@@ -23,12 +18,4 @@ export const userTokenPostController: Oumi.Controller<
       res.status(HttpStatus.OK).json(okResponse(token));
       next();
     })
-    .catch(err => {
-      if (!(err instanceof DomainError)) {
-        next(err);
-      } else if (err instanceof ValueObjectDomainError) {
-        res.status(HttpStatus.BAD_REQUEST).json(koResponse([err]));
-      } else {
-        res.status(HttpStatus.CONFLICT).json(koResponse([err]));
-      }
-    });
+    .catch(defaultCatchMappingExceptions(req, res, next));

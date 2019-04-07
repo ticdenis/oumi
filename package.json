@@ -9,6 +9,7 @@
     "packages/shared",
     "packages/user",
     "packages/contact",
+    "packages/debt",
     "services/account"
   ],
   "scripts": {
