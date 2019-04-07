@@ -20,6 +20,6 @@ export const userContactsBuilderService: UserContactsBuilder = ({
 }) => input =>
   queryRepository
     .allOfId(input.id)
-    .mapLeft(() => ContactDomainError.notFound(input.id.value))
+    .mapLeft(() => ContactDomainError.notFound('id', input.id.value))
     .map(userContactsTransformer)
     .run();

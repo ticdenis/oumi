@@ -9,7 +9,14 @@ import {
   UserNicknameStub,
 } from '@oumi-package/shared/lib/infrastructure/test/user.stubs';
 
-import { Contact, ContactConstructor, ContactDebt } from '../../domain';
+import {
+  Contact,
+  ContactConstructor,
+  ContactDebt,
+  contactRequestStatusVO,
+  ContactRequest,
+} from '../../domain';
+import { nullableStringVO } from '@oumi-package/core';
 
 // tslint:disable-next-line: variable-name
 export const EuroContactDebtStub: ContactDebt = {
@@ -31,6 +38,30 @@ export const generateDolarContactDebtStub = (
   id: args.id || UserIdStub,
 });
 
+export const generateContactRequestStub = (
+  args: Partial<ContactRequest> = {},
+): ContactRequest => ({
+  message:
+    args.message !== undefined ? args.message : nullableStringVO('message'),
+  nickname: args.nickname || UserNicknameStub,
+  status: args.status || ContactRequestStatusSendedStub,
+});
+
+// tslint:disable-next-line: variable-name
+export const ContactRequestStatusSendedStub = contactRequestStatusVO('SENDED');
+// tslint:disable-next-line: variable-name
+export const ContactRequestStatusPendingStub = contactRequestStatusVO(
+  'PENDING',
+);
+// tslint:disable-next-line: variable-name
+export const ContactRequestStatusAcceptedStub = contactRequestStatusVO(
+  'ACCEPTED',
+);
+// tslint:disable-next-line: variable-name
+export const ContactRequestStatusRefusedStub = contactRequestStatusVO(
+  'REFUSED',
+);
+
 // tslint:disable-next-line: variable-name
 export const ContactStub = new Contact({
   debts: [generateEuroContactDebtStub(), generateDolarContactDebtStub()],
@@ -38,6 +69,7 @@ export const ContactStub = new Contact({
   id: UserIdStub,
   lastname: UserLastnameStub,
   nickname: UserNicknameStub,
+  requests: [generateContactRequestStub()],
 });
 
 export const generateContactStub = (args: Partial<ContactConstructor> = {}) =>
@@ -50,4 +82,5 @@ export const generateContactStub = (args: Partial<ContactConstructor> = {}) =>
     id: args.id || UserIdStub,
     lastname: args.lastname || UserLastnameStub,
     nickname: args.nickname || UserNicknameStub,
+    requests: args.requests || [generateContactRequestStub()],
   });

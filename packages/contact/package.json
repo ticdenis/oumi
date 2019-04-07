@@ -22,6 +22,7 @@
     "@oumi-package/core": "0.0.0",
     "@oumi-package/shared": "0.0.0",
     "fp-ts": "^1.14.3",
+    "io-ts": "^1.8.5",
     "ramda": "^0.26.1"
   },
   "devDependencies": {

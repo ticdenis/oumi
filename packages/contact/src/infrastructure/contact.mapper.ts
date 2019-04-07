@@ -1,3 +1,4 @@
+import { nullableStringVO } from '@oumi-package/core';
 import { amountVO } from '@oumi-package/shared/lib/domain/amount.props';
 import {
   userFirstnameVO,
@@ -8,7 +9,12 @@ import {
 
 import * as R from 'ramda';
 
-import { Contact, ContactDomainError, ContactMapper } from '../domain';
+import {
+  Contact,
+  ContactDomainError,
+  ContactMapper,
+  contactRequestStatusVO,
+} from '../domain';
 
 const item = R.ifElse(
   R.has('id'),
@@ -25,6 +31,14 @@ const item = R.ifElse(
       id: userIdVO(source.id),
       lastname: userLastnameVO(source.lastname),
       nickname: userNicknameVO(source.nickname),
+      requests: R.map(
+        request => ({
+          message: nullableStringVO(request.message),
+          nickname: userNicknameVO(request.nickname),
+          status: contactRequestStatusVO(request.status),
+        }),
+        source.requests,
+      ),
     }),
   source => {
     throw ContactDomainError.invalidSource(source);

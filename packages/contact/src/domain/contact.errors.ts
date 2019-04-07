@@ -1,10 +1,10 @@
 import { DomainError } from '@oumi-package/core';
 
 export class ContactDomainError extends DomainError {
-  public static notFound(id: string): ContactDomainError {
+  public static notFound(key: string, value: any): ContactDomainError {
     return new ContactDomainError(
       'CONTACT_NOT_FOUND',
-      `The <${id}> contact id not found`,
+      `The <${value}> contact ${key} not found`,
     );
   }
 
@@ -12,6 +12,16 @@ export class ContactDomainError extends DomainError {
     return new ContactDomainError(
       'CONTACT_INVALID_SOURCE',
       `The <${source}> source for contact is not valid`,
+    );
+  }
+
+  public static requestAlreadyExists(
+    requesterId: string,
+    contactId: string,
+  ): ContactDomainError {
+    return new ContactDomainError(
+      'CONTACT_REQUEST_ALREADY_EXISTS',
+      `The <${contactId}> contact id and ${requesterId} requester id already exists`,
     );
   }
 
