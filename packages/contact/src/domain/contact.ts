@@ -7,8 +7,8 @@ import {
 } from '@oumi-package/shared/lib/domain/user.props';
 
 import { ContactDebt, ContactRequest } from '.';
-import { newRequested } from './contact.events';
 import { ContactDomainError } from './contact.errors';
+import { newRequested } from './contact.events';
 import { contactRequestStatusVO } from './contact.props';
 
 export interface ContactConstructor {

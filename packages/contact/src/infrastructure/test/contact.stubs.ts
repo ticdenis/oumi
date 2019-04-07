@@ -1,3 +1,4 @@
+import { nullableStringVO } from '@oumi-package/core';
 import {
   DolarAmountStub,
   EuroAmountStub,
@@ -13,10 +14,9 @@ import {
   Contact,
   ContactConstructor,
   ContactDebt,
-  contactRequestStatusVO,
   ContactRequest,
+  contactRequestStatusVO,
 } from '../../domain';
-import { nullableStringVO } from '@oumi-package/core';
 
 // tslint:disable-next-line: variable-name
 export const EuroContactDebtStub: ContactDebt = {
