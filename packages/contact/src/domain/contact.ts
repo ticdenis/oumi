@@ -1,4 +1,4 @@
-import { AggregateRoot } from '@oumi-package/core/lib';
+import { AggregateRoot, NullableStringVO } from '@oumi-package/core/lib';
 import {
   UserFirstname,
   UserId,
@@ -6,7 +6,10 @@ import {
   UserNickname,
 } from '@oumi-package/shared/lib/domain/user.props';
 
-import { ContactDebt } from '.';
+import { ContactDebt, ContactRequest } from '.';
+import { ContactDomainError } from './contact.errors';
+import { newRequested } from './contact.events';
+import { contactRequestStatusVO } from './contact.props';
 
 export interface ContactConstructor {
   debts: ContactDebt[];
@@ -14,9 +17,11 @@ export interface ContactConstructor {
   id: UserId;
   lastname: UserLastname;
   nickname: UserNickname;
+  requests: ContactRequest[];
 }
 
 export class Contact extends AggregateRoot<any> {
+  private _requests: ContactRequest[];
   private _debts: ContactDebt[];
   private _firstname: UserFirstname;
   private _id: UserId;
@@ -31,6 +36,44 @@ export class Contact extends AggregateRoot<any> {
     this._id = args.id;
     this._lastname = args.lastname;
     this._nickname = args.nickname;
+    this._requests = args.requests;
+  }
+
+  public newRequest(contact: Contact, message: NullableStringVO): void {
+    const requestExist = contact._requests.find(req =>
+      req.nickname.equalsTo(this._nickname),
+    );
+
+    if (requestExist) {
+      throw ContactDomainError.requestAlreadyExists(
+        this._id.value,
+        contact._id.value,
+      );
+    }
+
+    this._requests.push({
+      message,
+      nickname: contact._nickname,
+      status: contactRequestStatusVO('SENDED'),
+    });
+
+    contact._requests.push({
+      message,
+      nickname: this._nickname,
+      status: contactRequestStatusVO('PENDING'),
+    });
+
+    this.recordDomainEvent(
+      newRequested({
+        contactId: contact._id.value,
+        message: message.value,
+        requesterId: this._id.value,
+      }),
+    );
+  }
+
+  get requests(): ContactRequest[] {
+    return this._requests;
   }
 
   get debts(): ContactDebt[] {
