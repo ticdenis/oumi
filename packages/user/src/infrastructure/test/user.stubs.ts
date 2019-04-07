@@ -1,4 +1,4 @@
-import { stringVO } from '@oumi-package/core';
+import { stringVO } from '@oumi-package/core/lib';
 
 import {
   UserFirstnameStub,

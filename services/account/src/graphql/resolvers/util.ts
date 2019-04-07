@@ -1,6 +1,8 @@
 import {
   Command,
   CommandBus,
+  EventPublisher,
+  EventSubscriber,
   Oumi,
   Query,
   QueryBus,
@@ -20,7 +22,11 @@ export const mutationResolver = <Data>(
 ): Resolver<{ input: Data }, void> => (_, { input }, { container }) =>
   container
     .get<CommandBus>(SERVICE_ID.BUS.COMMAND)
-    .dispatch(new CommandClass(input));
+    .dispatch(new CommandClass(input))
+    .then(async response => {
+      await runDomainEventsJob(container);
+      return response;
+    });
 
 export const queryResolver = <Data, Response>(
   // tslint:disable-next-line: variable-name
@@ -28,4 +34,18 @@ export const queryResolver = <Data, Response>(
 ): Resolver<{ input: Data }, Response> => (_, { input }, { container }) =>
   container
     .get<QueryBus>(SERVICE_ID.BUS.QUERY)
-    .ask<Data, Response>(new QueryClass(input));
+    .ask<Data, Response>(new QueryClass(input))
+    .then(async response => {
+      await runDomainEventsJob(container);
+      return response;
+    });
+
+const persistDomainEventJob = (container: Oumi.Container) =>
+  container
+    .get<EventPublisher>(SERVICE_ID.DOMAIN_EVENT_REPOSITORY)
+    .publish(
+      ...container.get<EventSubscriber>(SERVICE_ID.EVENT_SUBSCRIBER).events(),
+    );
+
+export const runDomainEventsJob = async (container: Oumi.Container) =>
+  Promise.all([persistDomainEventJob(container)]);

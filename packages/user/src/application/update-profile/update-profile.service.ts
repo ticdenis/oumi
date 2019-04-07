@@ -1,4 +1,4 @@
-import { EventPublisher } from '@oumi-package/core';
+import { EventPublisher } from '@oumi-package/core/lib';
 
 import { Either, left, right } from 'fp-ts/lib/Either';
 import { constVoid } from 'fp-ts/lib/function';

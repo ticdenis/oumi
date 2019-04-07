@@ -1,4 +1,4 @@
-import { EventPublisher } from '@oumi-package/core';
+import { EventPublisher } from '@oumi-package/core/lib';
 import {
   UserFirstnameStub,
   UserIdStub,

@@ -1,9 +1,10 @@
-import { CommandHandler, eitherToPromise, stringVO } from '@oumi-package/core';
-
 import {
-  userIdVO,
-  userPasswordVO,
-} from '../../domain';
+  CommandHandler,
+  eitherToPromise,
+  stringVO,
+} from '@oumi-package/core/lib';
+
+import { userIdVO, userPasswordVO } from '../../domain';
 
 import { ChangePasswordCommand, ChangePasswordService } from '.';
 
@@ -16,6 +17,6 @@ export const changePasswordHandler: ChangePasswordCommandHandler = service => as
     await service({
       id: userIdVO(command.data.id),
       newPassword: userPasswordVO(command.data.newPassword),
-      oldPassword: stringVO(command.data.oldPassword)
+      oldPassword: stringVO(command.data.oldPassword),
     }),
   );

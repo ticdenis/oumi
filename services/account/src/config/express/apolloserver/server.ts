@@ -1,4 +1,4 @@
-import { Oumi } from '@oumi-package/core';
+import { Oumi } from '@oumi-package/core/lib';
 
 import { ApolloServer } from 'apollo-server-express';
 

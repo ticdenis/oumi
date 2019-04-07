@@ -1,6 +1,8 @@
-import { Oumi } from '@oumi-package/core/lib';
+import { nullableStringVO, Oumi } from '@oumi-package/core/lib';
 
 import express from 'express';
+
+import { SERVICE_ID } from '..';
 
 import { loadBuses } from './buses';
 import { loadAfterMiddlewares, loadBeforeMiddlewares } from './middlewares';
@@ -10,6 +12,8 @@ import { loadRoutes } from './routes';
 export const loadApplication = (
   container: Oumi.Container,
 ): Oumi.Application => {
+  container.set(SERVICE_ID.USER_ID, nullableStringVO(null));
+
   loadRepositories(container);
 
   loadBuses(container);

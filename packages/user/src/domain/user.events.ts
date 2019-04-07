@@ -1,4 +1,4 @@
-import { event } from '@oumi-package/core';
+import { event } from '@oumi-package/core/lib';
 
 export type UserEvents = UserRegistered | ProfileUpdated | PasswordChanged;
 
@@ -28,5 +28,3 @@ export const userRegistered = (data: UserRegistered) => event(data);
 export const profileUpdated = (data: ProfileUpdated) => event(data);
 
 export const passwordChanged = (data: PasswordChanged) => event(data);
-
-

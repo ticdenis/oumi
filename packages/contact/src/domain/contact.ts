@@ -1,4 +1,4 @@
-import { AggregateRoot } from '@oumi-package/core';
+import { AggregateRoot } from '@oumi-package/core/lib';
 import {
   UserFirstname,
   UserId,
