@@ -1,4 +1,4 @@
-import { nullableStringVO } from '@oumi-package/core';
+import { NullableStringVO, nullableStringVO } from '@oumi-package/core';
 import {
   DolarAmountStub,
   EuroAmountStub,
@@ -23,6 +23,9 @@ export const EuroContactDebtStub: ContactDebt = {
   amount: EuroAmountStub,
   id: UserIdStub,
 };
+
+// tslint:disable-next-line: variable-name
+export const ContactMessageStub: NullableStringVO = nullableStringVO('message');
 
 export const generateEuroContactDebtStub = (
   args: Partial<ContactDebt> = {},

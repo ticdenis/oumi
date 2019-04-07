@@ -39,12 +39,12 @@ export class Contact extends AggregateRoot<any> {
     this._requests = args.requests;
   }
 
-  public newRequest(contact: Contact, message: NullableStringVO) {
+  public newRequest(contact: Contact, message: NullableStringVO): void {
     const requestExist = contact._requests.find(req =>
       req.nickname.equalsTo(this._nickname),
     );
 
-    if (!requestExist) {
+    if (requestExist) {
       throw ContactDomainError.requestAlreadyExists(
         this._id.value,
         contact._id.value,

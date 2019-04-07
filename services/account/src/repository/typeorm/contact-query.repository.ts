@@ -1,7 +1,7 @@
 import { Contact, ContactQueryRepository } from '@oumi-package/contact';
 import { jsonContactMapper } from '@oumi-package/contact/lib/infrastructure/contact.mapper';
 import { Oumi } from '@oumi-package/core/lib';
-import { UserId } from '@oumi-package/user/lib';
+import { UserId, UserNickname } from '@oumi-package/user/lib';
 
 import { TaskEither, tryCatch } from 'fp-ts/lib/TaskEither';
 import * as R from 'ramda';
@@ -36,6 +36,13 @@ export class TypeORMContactQueryRepository implements ContactQueryRepository {
       ),
       () => null,
     );
+  }
+
+  public ofId(id: UserId): TaskEither<null, Contact> {
+    throw new Error('Method not implemented.');
+  }
+  public ofNickname(nickname: UserNickname): TaskEither<null, Contact> {
+    throw new Error('Method not implemented.');
   }
 
   private _getUserContacts(id: string): Promise<_Contact[]> {
