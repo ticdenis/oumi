@@ -26,7 +26,9 @@
     "strictNullChecks": false,
     "noUnusedLocals": true,
     "skipLibCheck": true,
-    "target": "esnext"
+    "target": "esnext",
+    "incremental": true,
+    "tsBuildInfoFile": "dist/tsbuildinfo.json"
   },
   "exclude": [
     "dist",

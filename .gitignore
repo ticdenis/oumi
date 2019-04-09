@@ -21,5 +21,4 @@ build/Release
 .cache
 draft.md
 node_modules
-tsconfig.tsbuildinfo
 ./vscode/settings.json

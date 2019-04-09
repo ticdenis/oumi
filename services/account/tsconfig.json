@@ -27,7 +27,9 @@
     "noUnusedLocals": true,
     "skipLibCheck": true,
     "target": "esnext",
-    "types": ["jest", "node"]
+    "types": ["jest", "node"],
+    "incremental": true,
+    "tsBuildInfoFile": "dist/tsbuildinfo.json"
   },
   "exclude": [
     "dist",

@@ -17,10 +17,12 @@
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "lint:fix": "tslint -c tslint.json -p tsconfig.json --fix",
     "prettier": "prettier --config .prettierrc --write \"./**/*.ts\"",
+    "upgrade": "yarn upgrade --latest",
     "test": "jest --verbose",
     "test:watch": "jest --verbose --watch",
     "coverage": "jest --coverage",
-    "report": "jest --coverage"
+    "report": "jest --coverage",
+    "pm2": "pm2"
   },
   "dependencies": {
     "reflect-metadata": "^0.1.13"
