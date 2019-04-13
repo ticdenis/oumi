@@ -1,12 +1,18 @@
+import { DebtId } from '@oumi-package/shared/lib/domain/debt.props';
+
+import { TaskEither } from 'fp-ts/lib/TaskEither';
+
 import { Debt } from './';
-import { DebtDebtor, DebtLoaner } from './debt.props';
+import { DebtorId, LoanerId } from './debt.props';
 
 export interface DebtCommandRepository {
+  confirmDebtRequest(debt: Debt): Promise<void>;
   create(debt: Debt): Promise<void>;
 }
 
 export interface DebtQueryRepository {
-  debtorExists(id: DebtDebtor['id']): Promise<boolean>;
-  loanerExists(id: DebtLoaner['id']): Promise<boolean>;
-  pendingRequestsOfDebtorId(id: DebtDebtor['id']): Promise<Debt[]>;
+  debtorExists(id: DebtorId): Promise<boolean>;
+  loanerExists(id: LoanerId): Promise<boolean>;
+  ofId(id: DebtId): TaskEither<null, Debt>;
+  pendingRequestsOfDebtorId(id: DebtorId): Promise<Debt[]>;
 }

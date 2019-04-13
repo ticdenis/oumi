@@ -1,6 +1,20 @@
 import { DomainError } from '@oumi-package/core/lib';
 
 export class DebtDomainError extends DomainError {
+  public static debtNotExists(id: string): DebtDomainError {
+    return new DebtDomainError(
+      'DEBT_NOT_EXISTS',
+      `The <${id}> debt id not exists`,
+    );
+  }
+
+  public static debtRequestAlreadyConfirmed(id: string) {
+    return new DebtDomainError(
+      'DEBT_REQUEST_ALREADY_CONFIRMED',
+      `The <${id}> debt id request already confirmed`,
+    );
+  }
+
   public static loanerNotFound(id: string): DebtDomainError {
     return new DebtDomainError(
       'LOANER_NOT_FOUND',
