@@ -1,8 +1,10 @@
 import { AggregateRoot } from '@oumi-package/core/lib';
 import { DebtId } from '@oumi-package/shared/lib/domain/debt.props';
-import { UserId } from '@oumi-package/user/lib';
 
 import {
+  debRequestConfirmed,
+  DEBT_CONFIRMED_STATUS,
+  DEBT_PENDING_STATUS,
   DEBT_SENDED_STATUS,
   DebtAmount,
   DebtConcept,
@@ -12,9 +14,10 @@ import {
   DebtIntervalDate,
   DebtLimitDate,
   DebtLoaner,
+  debtNewRequested,
 } from '.';
-import { debtNewRequested } from './debt.events';
-import { DEBT_PENDING_STATUS } from './debt.props';
+import { DebtDomainError } from './debt.errors';
+import { DebtorId, LoanerId } from './debt.props';
 
 export interface DebtConstructor {
   amount: DebtAmount;
@@ -30,10 +33,10 @@ export class Debt extends AggregateRoot<DebtEvents> {
   public static newRequest(args: {
     amount: DebtAmount;
     concept: DebtConcept;
-    debtorId: UserId;
+    debtorId: DebtorId;
     id: DebtId;
     intervalDate: DebtIntervalDate;
-    loanerId: UserId;
+    loanerId: LoanerId;
   }): Debt {
     const debt = new Debt({
       amount: args.amount,
@@ -82,6 +85,25 @@ export class Debt extends AggregateRoot<DebtEvents> {
     this._initialDate = args.initialDate;
     this._limitDate = args.limitDate;
     this._loaner = args.loaner;
+  }
+
+  public confirmRequest(): void {
+    if (
+      [this._debtor.status, this._debtor.status].includes(DEBT_CONFIRMED_STATUS)
+    ) {
+      throw DebtDomainError.debtRequestAlreadyConfirmed(this._id.value);
+    }
+
+    this._debtor.status = DEBT_CONFIRMED_STATUS;
+    this._loaner.status = DEBT_CONFIRMED_STATUS;
+
+    this.recordDomainEvent(
+      debRequestConfirmed({
+        debtorId: this._debtor.id.value,
+        id: this._id.value,
+        loanerId: this._loaner.id.value,
+      }),
+    );
   }
 
   get amount(): DebtAmount {

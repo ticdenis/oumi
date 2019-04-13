@@ -7,12 +7,12 @@ import {
   stringVO,
   ValueObject,
 } from '@oumi-package/core/lib';
-import { CurrencyVO } from '@oumi-package/shared/lib//domain/currency.props';
 import {
   AmountVO,
   amountVO,
 } from '@oumi-package/shared/lib/domain/amount.props';
-import { UserId } from '@oumi-package/user/lib';
+import { CurrencyVO } from '@oumi-package/shared/lib/domain/currency.props';
+import { UserId, userIdVO } from '@oumi-package/user/lib';
 
 import moment from 'moment';
 
@@ -31,25 +31,36 @@ export type DebtIntervalDate = ValueObject<{
 
 export type DebtLimitDate = NullableDateVO;
 
-export type DebtStatus = 'SENDED' | 'PENDING' | 'ACCEPTED' | 'REFUSED';
+export type DebtStatus =
+  | 'COMPLETED'
+  | 'SENDED'
+  | 'PENDING'
+  | 'CONFIRMED'
+  | 'REFUSED';
+
+export type DebtorId = UserId;
+
+export type LoanerId = UserId;
 
 export interface DebtDebtor {
-  id: UserId;
+  id: DebtorId;
   status: DebtStatus;
 }
 
 export interface DebtLoaner {
-  id: UserId;
+  id: LoanerId;
   status: DebtStatus;
 }
 
 // Impl
 
+export const DEBT_COMPLETED_STATUS: DebtStatus = 'COMPLETED';
+
 export const DEBT_SENDED_STATUS: DebtStatus = 'SENDED';
 
 export const DEBT_PENDING_STATUS: DebtStatus = 'PENDING';
 
-export const DEBT_ACCEPTED_STATUS: DebtStatus = 'ACCEPTED';
+export const DEBT_CONFIRMED_STATUS: DebtStatus = 'CONFIRMED';
 
 export const DEBT_REFUSED_STATUS: DebtStatus = 'REFUSED';
 
@@ -76,6 +87,10 @@ export const debtAmountVO = (value: {
 };
 
 export const debtConceptVO = stringVO;
+
+export const debtorIdVO = userIdVO;
+
+export const loanerIdVO = userIdVO;
 
 export const debtInitialDateVO = (
   value: Date | null = null,
