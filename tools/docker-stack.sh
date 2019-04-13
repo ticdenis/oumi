@@ -17,12 +17,11 @@ function usage {
     echo "  build     Build docker images"
     echo "  start     Start docker stack"
     echo "  stop      Stop docker stack"
-    echo "  yarn      (install|clean|build)"
+    echo "  yarn      Execute yarn"
     echo "  services  Show $APP services"
     echo "  logs      Show $APP service logs"
     echo "  up        Scale to 0 $APP service"
-    echo "  dowb      Scale to 1 $APP service"
-    echo "  test      Test all $APP packages & services"
+    echo "  down      Scale to 1 $APP service"
     exit 1
 }
 

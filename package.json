@@ -23,7 +23,7 @@
     "watch:package-core": "yarn workspace @oumi-package/core run watch",
     "watch:package-shared": "yarn workspace @oumi-package/shared run watch",
     "watch:package-user": "yarn workspace @oumi-package/user run watch",
-    "watch:package-account": "yarn workspace @oumi-package/account run watch",
+    "watch:package-contact": "yarn workspace @oumi-package/contact run watch",
     "watch:package-debt": "yarn workspace @oumi-package/debt run watch",
     "clean": "yarn workspaces run clean",
     "lint": "yarn workspaces run lint",
@@ -31,6 +31,14 @@
     "prettier": "yarn workspaces run prettier",
     "update": "yarn workspaces run upgrade",
     "test": "yarn workspaces run test",
+    "test:packages": "concurrently \"yarn:test:package-*\"",
+    "test:package-core": "yarn workspace @oumi-package/core run test",
+    "test:package-shared": "yarn workspace @oumi-package/shared run test",
+    "test:package-user": "yarn workspace @oumi-package/user run test",
+    "test:package-contact": "yarn workspace @oumi-package/contact run test",
+    "test:package-debt": "yarn workspace @oumi-package/debt run test",
+    "test:services": "concurrently \"yarn:test:service-*\"",
+    "test:service-accounts": "yarn workspace @oumi-service/accounts run test",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "devDependencies": {
