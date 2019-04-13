@@ -1,14 +1,16 @@
-import { UserId } from '@oumi-package/shared/lib/domain/user.props';
-
 import { Either } from 'fp-ts/lib/Either';
 
-import { ContactDomainError, ContactQueryRepository } from '../../domain';
+import {
+  ContactDomainError,
+  ContactId,
+  ContactQueryRepository,
+} from '../../domain';
 
 import { UserContactsResponse } from '.';
 import { userContactsTransformer } from './user-contacts.response';
 
 export type UserContactsService = (input: {
-  id: UserId;
+  id: ContactId;
 }) => Promise<Either<ContactDomainError, UserContactsResponse>>;
 
 export type UserContactsBuilder = (options: {

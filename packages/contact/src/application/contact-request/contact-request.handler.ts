@@ -3,10 +3,8 @@ import {
   eitherToPromise,
   nullableStringVO,
 } from '@oumi-package/core/lib';
-import {
-  userIdVO,
-  userNicknameVO,
-} from '@oumi-package/shared/lib/domain/user.props';
+
+import { contactIdVO, contactNicknameVO } from '../../domain';
 
 import { ContactRequestCommand, ContactRequestService } from '.';
 
@@ -18,7 +16,7 @@ export const contactRequestHandler: ContactRequestCommandHandler = service => as
   eitherToPromise(
     await service({
       message: nullableStringVO(command.data.message),
-      nickname: userNicknameVO(command.data.nickname),
-      requesterId: userIdVO(command.data.requesterId),
+      nickname: contactNicknameVO(command.data.nickname),
+      requesterId: contactIdVO(command.data.requesterId),
     }),
   );

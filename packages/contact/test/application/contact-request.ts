@@ -1,12 +1,4 @@
 import { EventPublisher } from '@oumi-package/core/lib';
-import {
-  userIdVO,
-  userNicknameVO,
-} from '@oumi-package/shared/lib/domain/user.props';
-import {
-  UserIdStub,
-  UserNicknameStub,
-} from '@oumi-package/shared/lib/infrastructure/test/user.stubs';
 
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
 import { ObjectSubstitute } from '@fluffy-spoon/substitute/dist/src/Transformations';
@@ -23,11 +15,15 @@ import {
 import {
   Contact,
   ContactCommandRepository,
+  contactIdVO,
+  contactNicknameVO,
   ContactQueryRepository,
 } from '../../src/domain';
 import {
   ContactMessageStub,
   generateContactStub,
+  ContactIdStub,
+  ContactNicknameStub,
 } from '../../src/infrastructure/test/contact.stubs';
 
 const test = ava as TestInterface<{
@@ -44,14 +40,14 @@ const test = ava as TestInterface<{
 
 test.beforeEach(t => {
   t.context.contact = generateContactStub({
-    id: userIdVO(),
-    nickname: userNicknameVO('contactA'),
+    id: contactIdVO(),
+    nickname: contactNicknameVO('contactA'),
     requests: [],
   });
   t.context.data = {
     message: ContactMessageStub.value,
-    nickname: UserNicknameStub.value,
-    requesterId: UserIdStub.value,
+    nickname: ContactNicknameStub.value,
+    requesterId: ContactIdStub.value,
   };
   t.context.event = {
     publisher: Substitute.for<EventPublisher>(),

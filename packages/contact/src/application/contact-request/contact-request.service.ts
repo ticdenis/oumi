@@ -3,10 +3,6 @@ import {
   EventPublisher,
   NullableStringVO,
 } from '@oumi-package/core/lib';
-import {
-  UserId,
-  UserNickname,
-} from '@oumi-package/shared/lib/domain/user.props';
 
 import { Either, left, right } from 'fp-ts/lib/Either';
 import { constVoid } from 'fp-ts/lib/function';
@@ -14,12 +10,14 @@ import { constVoid } from 'fp-ts/lib/function';
 import {
   ContactCommandRepository,
   ContactDomainError,
+  ContactId,
+  ContactNickname,
   ContactQueryRepository,
 } from '../../domain';
 
 export type ContactRequestService = (input: {
-  requesterId: UserId;
-  nickname: UserNickname;
+  requesterId: ContactId;
+  nickname: ContactNickname;
   message: NullableStringVO;
 }) => Promise<Either<DomainError, void>>;
 

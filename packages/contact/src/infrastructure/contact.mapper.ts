@@ -1,18 +1,16 @@
-import { nullableStringVO } from '@oumi-package/core';
-import { amountVO } from '@oumi-package/shared/lib/domain/amount.props';
-import {
-  userFirstnameVO,
-  userIdVO,
-  userLastnameVO,
-  userNicknameVO,
-} from '@oumi-package/shared/lib/domain/user.props';
-
 import * as R from 'ramda';
 
 import {
   Contact,
+  contactAmountVO,
   ContactDomainError,
+  contactFirstnameVO,
+  contactFullnameVO,
+  contactIdVO,
+  contactLastnameVO,
   ContactMapper,
+  contactMessageVO,
+  contactNicknameVO,
   contactRequestStatusVO,
 } from '../domain';
 
@@ -22,19 +20,24 @@ const item = R.ifElse(
     new Contact({
       debts: R.map(
         debt => ({
-          amount: amountVO(debt.amount),
-          id: userIdVO(debt.id),
+          amount: contactAmountVO(debt.amount),
+          id: contactIdVO(debt.id),
         }),
         source.debts,
       ),
-      firstname: userFirstnameVO(source.firstname),
-      id: userIdVO(source.id),
-      lastname: userLastnameVO(source.lastname),
-      nickname: userNicknameVO(source.nickname),
+      firstname: contactFirstnameVO(source.firstname),
+      id: contactIdVO(source.id),
+      lastname: contactLastnameVO(source.lastname),
+      nickname: contactNicknameVO(source.nickname),
       requests: R.map(
         request => ({
-          message: nullableStringVO(request.message),
-          nickname: userNicknameVO(request.nickname),
+          fullname: contactFullnameVO({
+            firstname: request.firstname,
+            lastname: request.lastname,
+          }),
+          id: contactIdVO(request.id),
+          message: contactMessageVO(request.message),
+          nickname: contactNicknameVO(request.nickname),
           status: contactRequestStatusVO(request.status),
         }),
         source.requests,
