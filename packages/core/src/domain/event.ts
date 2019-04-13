@@ -10,6 +10,7 @@ export interface Event<T> extends Message {
 }
 
 export interface EventSubscriber {
+  clear(): void;
   events<T>(): Event<T>[];
   handle<T>(event: Event<T>): void;
   isSubscribedTo<T>(event: Event<T>): boolean;

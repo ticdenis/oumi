@@ -13,5 +13,7 @@ export const persistDomainEventsHandler: Oumi.Handler<
       ...container.get<EventSubscriber>(SERVICE_ID.EVENT_SUBSCRIBER).events(),
     );
 
+  container.get<EventSubscriber>(SERVICE_ID.EVENT_SUBSCRIBER).clear();
+
   next();
 };

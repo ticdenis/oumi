@@ -40,6 +40,7 @@ describe('persist domain events handler', () => {
     );
     const fakeEvents = [event({})];
     const fakeEventSubscriber: EventSubscriber = {
+      clear: jest.fn(),
       events: jest.fn().mockReturnValue(fakeEvents),
       handle: jest.fn(),
       isSubscribedTo: jest.fn(),
@@ -59,6 +60,7 @@ describe('persist domain events handler', () => {
       ...fakeEvents,
     );
     expect(fakeEventSubscriber.events).toHaveBeenCalled();
+    expect(fakeEventSubscriber.clear).toHaveBeenCalled();
     expect(context.next).toHaveBeenCalled();
     done();
   });

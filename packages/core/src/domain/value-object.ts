@@ -110,6 +110,7 @@ export const intVO = (value: number): IntVO => {
 
 export const nullableIntVO = (value: number | null): NullableIntVO => {
   if (
+    // tslint:disable-next-line: deprecation
     fromNullable(t.Integer)(0)
       .decode(value)
       .isLeft()

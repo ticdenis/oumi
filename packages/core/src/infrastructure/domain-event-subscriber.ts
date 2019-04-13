@@ -12,6 +12,10 @@ export class DomainEventSubscriber implements EventSubscriber {
   private static _instance: DomainEventSubscriber = null;
   protected _events = new Map<string, Event<any>>();
 
+  public clear(): void {
+    this._events.clear();
+  }
+
   public events<T>(): Event<T>[] {
     return Array.from(this._events.values());
   }

@@ -10,14 +10,21 @@
     "packages/user",
     "packages/contact",
     "packages/debt",
-    "services/account"
+    "services/accounts"
   ],
   "scripts": {
     "preinstall": "node -e 'if(!/yarn\\.js$/.test(process.env.npm_execpath))throw new Error(\"Use yarn\")'",
     "commit": "git-cz",
     "cli": "./tools/cli.ts",
+    "docker": "./tools/docker-stack.sh",
     "reset": "rimraf node_modules && rimraf **/node_modules && yarn install && yarn clean && yarn build",
     "build": "yarn workspaces run build",
+    "watch:packages": "concurrently \"npm:watch:package-*\"",
+    "watch:package-core": "yarn workspace @oumi-package/core run watch",
+    "watch:package-shared": "yarn workspace @oumi-package/shared run watch",
+    "watch:package-user": "yarn workspace @oumi-package/user run watch",
+    "watch:package-account": "yarn workspace @oumi-package/account run watch",
+    "watch:package-debt": "yarn workspace @oumi-package/debt run watch",
     "clean": "yarn workspaces run clean",
     "lint": "yarn workspaces run lint",
     "lint:fix": "yarn workspaces run lint:fix",
@@ -38,7 +45,7 @@
     "inquirer": "^6.2.2",
     "shelljs": "^0.8.3",
     "ts-node": "^8.0.3",
-    "typescript": "^3.4.2"
+    "typescript": "^3.4.3"
   },
   "config": {
     "commitizen": {

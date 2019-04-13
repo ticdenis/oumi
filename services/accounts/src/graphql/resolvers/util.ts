@@ -40,12 +40,18 @@ export const queryResolver = <Data, Response>(
       return response;
     });
 
-const persistDomainEventJob = (container: Oumi.Container) =>
+const persistDomainEventsJob = (container: Oumi.Container) =>
   container
     .get<EventPublisher>(SERVICE_ID.DOMAIN_EVENT_REPOSITORY)
     .publish(
       ...container.get<EventSubscriber>(SERVICE_ID.EVENT_SUBSCRIBER).events(),
     );
 
+const clearDomainEventsJob = (container: Oumi.Container) =>
+  container.get<EventSubscriber>(SERVICE_ID.EVENT_SUBSCRIBER).clear();
+
 export const runDomainEventsJob = async (container: Oumi.Container) =>
-  Promise.all([persistDomainEventJob(container)]);
+  Promise.all([
+    persistDomainEventsJob(container),
+    Promise.resolve(clearDomainEventsJob(container)),
+  ]);

@@ -1,0 +1,58 @@
+version: "3.7"
+
+services:
+  proxy:
+    image: nginx:1.15-alpine
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./tools/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - oumi_proxy
+    command: ["nginx", "-g", "daemon off;"]
+  packages:
+    image: oumi/node
+    volumes:
+      - .:/app
+    command: ["yarn", "run", "watch:packages"]
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "2999:80"
+    volumes:
+      - oumi_pgadmin_data:/var/lib/pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=test@oumi.com
+      - PGADMIN_DEFAULT_PASSWORD=secret
+    networks:
+      - accounts_database
+  accounts_database:
+    image: postgres:11-alpine
+    volumes:
+      - oumi_accounts_database_data:/var/lib/postgresql/data
+    networks:
+      - accounts_database
+  accounts:
+    image: oumi/node
+    volumes:
+      - .:/app
+    ports:
+      - "3001:3001"
+    networks:
+      - oumi_proxy
+      - accounts_database
+    command: ["yarn", "workspace", "@oumi-service/accounts", "dev"]
+
+volumes:
+  oumi_accounts_database_data:
+    name: oumi_accounts_database_data
+  oumi_pgadmin_data:
+    name: oumi_pgadmindata
+
+networks:
+  oumi_proxy:
+    name: oumi_proxy
+    attachable: true
+  accounts_database:
+    name: oumi_accounts_database
+    attachable: true
