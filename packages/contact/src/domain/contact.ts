@@ -1,32 +1,34 @@
-import { AggregateRoot, NullableStringVO } from '@oumi-package/core/lib';
-import {
-  UserFirstname,
-  UserId,
-  UserLastname,
-  UserNickname,
-} from '@oumi-package/shared/lib/domain/user.props';
+import { AggregateRoot } from '@oumi-package/core/lib';
 
 import { ContactDebt, ContactRequest } from '.';
 import { ContactDomainError } from './contact.errors';
 import { newRequested } from './contact.events';
-import { contactRequestStatusVO } from './contact.props';
+import {
+  ContactFirstname,
+  contactFullnameVO,
+  ContactId,
+  ContactLastname,
+  ContactMessage,
+  ContactNickname,
+  contactRequestStatusVO,
+} from './contact.props';
 
 export interface ContactConstructor {
   debts: ContactDebt[];
-  firstname: UserFirstname;
-  id: UserId;
-  lastname: UserLastname;
-  nickname: UserNickname;
+  firstname: ContactFirstname;
+  id: ContactId;
+  lastname: ContactLastname;
+  nickname: ContactNickname;
   requests: ContactRequest[];
 }
 
 export class Contact extends AggregateRoot<any> {
   private _requests: ContactRequest[];
   private _debts: ContactDebt[];
-  private _firstname: UserFirstname;
-  private _id: UserId;
-  private _lastname: UserLastname;
-  private _nickname: UserNickname;
+  private _firstname: ContactFirstname;
+  private _id: ContactId;
+  private _lastname: ContactLastname;
+  private _nickname: ContactNickname;
 
   constructor(args: ContactConstructor) {
     super();
@@ -39,7 +41,7 @@ export class Contact extends AggregateRoot<any> {
     this._requests = args.requests;
   }
 
-  public newRequest(contact: Contact, message: NullableStringVO): void {
+  public newRequest(contact: Contact, message: ContactMessage): void {
     const requestExist = contact._requests.find(req =>
       req.nickname.equalsTo(this._nickname),
     );
@@ -52,12 +54,22 @@ export class Contact extends AggregateRoot<any> {
     }
 
     this._requests.push({
+      fullname: contactFullnameVO({
+        firstname: contact._firstname.value,
+        lastname: contact._lastname.value,
+      }),
+      id: contact._id,
       message,
       nickname: contact._nickname,
       status: contactRequestStatusVO('SENDED'),
     });
 
     contact._requests.push({
+      fullname: contactFullnameVO({
+        firstname: this._firstname.value,
+        lastname: this._lastname.value,
+      }),
+      id: this._id,
       message,
       nickname: this._nickname,
       status: contactRequestStatusVO('PENDING'),
@@ -80,19 +92,19 @@ export class Contact extends AggregateRoot<any> {
     return this._debts;
   }
 
-  get id(): UserId {
+  get id(): ContactId {
     return this._id;
   }
 
-  get firstname(): UserFirstname {
+  get firstname(): ContactFirstname {
     return this._firstname;
   }
 
-  get lastname(): UserLastname {
+  get lastname(): ContactLastname {
     return this._lastname;
   }
 
-  get nickname(): UserNickname {
+  get nickname(): ContactNickname {
     return this._nickname;
   }
 }

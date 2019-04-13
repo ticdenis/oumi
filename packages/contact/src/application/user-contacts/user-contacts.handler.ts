@@ -1,5 +1,6 @@
 import { eitherToPromise, QueryHandler } from '@oumi-package/core/lib';
-import { userIdVO } from '@oumi-package/shared/lib/domain/user.props';
+
+import { contactIdVO } from '../../domain';
 
 import {
   UserContactsQuery,
@@ -14,6 +15,6 @@ export type UserContactsQueryHandler = (
 export const userContactsHandler: UserContactsQueryHandler = service => async query =>
   eitherToPromise(
     await service({
-      id: userIdVO(query.data.id),
+      id: contactIdVO(query.data.id),
     }),
   );
