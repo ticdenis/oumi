@@ -20,7 +20,8 @@ function usage {
     echo "  yarn      (install|clean|build)"
     echo "  services  Show $APP services"
     echo "  logs      Show $APP service logs"
-    echo "  restart   Restart $APP service"
+    echo "  up        Scale to 0 $APP service"
+    echo "  dowb      Scale to 1 $APP service"
     echo "  test      Test all $APP packages & services"
     exit 1
 }
@@ -38,10 +39,10 @@ case $COMMAND in
     docker stack services $APP;;
   "logs")
     docker service logs $APP\_$OPTION -f;;
-  "restart")
-    docker service scale $APP\_$OPTION=0
-    docker service scale $APP\_$OPTION=1
-    ;;
+  "down")
+    docker service scale $APP\_$OPTION\=0;;
+  "up")
+    docker service scale $APP\_$OPTION\=1;;
   *)
     usage ;;
 esac

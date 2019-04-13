@@ -1,6 +1,8 @@
 import { nullableStringVO, Oumi } from '@oumi-package/core/lib';
 
+import { createTerminus } from '@godaddy/terminus';
 import express from 'express';
+import http from 'http';
 
 import { SERVICE_ID } from '..';
 
@@ -26,7 +28,14 @@ export const loadApplication = (
 
   loadAfterMiddlewares(app, container);
 
+  const logger = container.get<Oumi.Logger>(SERVICE_ID.LOGGER);
+  const db = container.get<Oumi.Database>(SERVICE_ID.DB);
+  const server = createTerminus(http.createServer(app), {
+    logger: (msg, err) => logger.log(`Terminus: [msg] ${msg} [err] ${err}`),
+    onSignal: () => Promise.all([() => db.disconnect()]),
+  });
+
   return {
-    listen: app.listen.bind(app),
+    listen: server.listen.bind(server),
   };
 };

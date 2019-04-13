@@ -6,21 +6,21 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./tools/nginx.conf:/etc/nginx/nginx.conf
+      - ./tools/nginx.conf:/etc/nginx/nginx.conf:delegated
     networks:
       - oumi_proxy
     command: ["nginx", "-g", "daemon off;"]
-  packages:
+  wpackages:
     image: oumi/node
     volumes:
-      - .:/app
+      - .:/app:delegated
     command: ["yarn", "run", "watch:packages"]
   pgadmin:
     image: dpage/pgadmin4
     ports:
       - "2999:80"
     volumes:
-      - oumi_pgadmin_data:/var/lib/pgadmin
+      - oumi_pgadmin_data:/var/lib/pgadmin:delegated
     environment:
       - PGADMIN_DEFAULT_EMAIL=test@oumi.com
       - PGADMIN_DEFAULT_PASSWORD=secret
@@ -29,13 +29,13 @@ services:
   accounts_database:
     image: postgres:11-alpine
     volumes:
-      - oumi_accounts_database_data:/var/lib/postgresql/data
+      - oumi_accounts_database_data:/var/lib/postgresql/data:delegated
     networks:
       - accounts_database
   accounts:
     image: oumi/node
     volumes:
-      - .:/app
+      - .:/app:delegated
     ports:
       - "3001:3001"
     networks:
@@ -45,8 +45,10 @@ services:
 
 volumes:
   oumi_accounts_database_data:
+    external: true
     name: oumi_accounts_database_data
   oumi_pgadmin_data:
+    external: true
     name: oumi_pgadmindata
 
 networks:

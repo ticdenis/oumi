@@ -41,13 +41,8 @@ export async function main({
 
   const app = await appLoader(container);
   app.listen(parseInt(env.APP_PORT, 0), '0.0.0.0', () =>
-    logger.log(`Listeningggggg at http://localhost:${env.APP_PORT}`),
+    logger.log(`Listening at http://localhost:${env.APP_PORT}`),
   );
-
-  process.on('uncaughtException', err => {
-    logger.log(`Uncaught exception: ${err}`);
-    process.exit(1);
-  });
 }
 
 if (require.main === module) {
