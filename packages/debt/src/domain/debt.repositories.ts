@@ -8,4 +8,5 @@ export interface DebtCommandRepository {
 export interface DebtQueryRepository {
   debtorExists(id: DebtDebtor['id']): Promise<boolean>;
   loanerExists(id: DebtLoaner['id']): Promise<boolean>;
+  pendingRequestsOfDebtorId(id: DebtDebtor['id']): Promise<Debt[]>;
 }
