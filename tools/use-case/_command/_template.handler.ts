@@ -1,4 +1,4 @@
-import { CommandHandler, eitherToPromise } from "@oumi-package/core";
+import { CommandHandler, eitherToPromise } from "@oumi-package/core/lib";
 
 import { _TemplateCommand, _TemplateService } from ".";
 
