@@ -35,6 +35,16 @@ export class ContactDomainError extends DomainError {
     );
   }
 
+  public static requestAlreadyDenied(
+    requesterId: string,
+    contactId: string,
+  ): ContactDomainError {
+    return new ContactDomainError(
+      'CONTACT_REQUEST_ALREADY_DENIED',
+      `The <${contactId}> contact id and ${requesterId} requester id already exists`,
+    );
+  }
+
   public static requestNotFound(requesterId: string): ContactDomainError {
     return new ContactDomainError(
       'CONTACT_REQUEST_NOT_FOUND',

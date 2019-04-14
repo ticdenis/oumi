@@ -7,10 +7,10 @@ import { right } from 'fp-ts/lib/Either';
 import { fromEither, fromLeft } from 'fp-ts/lib/TaskEither';
 
 import {
-  confirmContactRequestBuilderService,
-  ConfirmContactRequestCommand,
-  ConfirmContactRequestData,
-  confirmContactRequestHandler,
+  denyContactRequestBuilderService,
+  DenyContactRequestCommand,
+  DenyContactRequestData,
+  denyContactRequestHandler,
 } from '../../src/application';
 import {
   Contact,
@@ -19,9 +19,10 @@ import {
   ContactQueryRepository,
 } from '../../src/domain';
 import { ContactId } from '../../src/domain/contact.props';
+import { ContactRequestStatusRefusedStub } from '../../src/infrastructure/test/contact.stubs';
 import {
-  ContactRequestStatusConfirmedStub,
   ContactRequestStatusPendingStub,
+  // ContactRequestStatusRefusedStub,
   generateContactRequestStub,
   generateContactStub,
 } from '../../src/infrastructure/test/contact.stubs';
@@ -29,7 +30,7 @@ import {
 interface Context {
   contact: Contact;
   requester: Contact;
-  data: ConfirmContactRequestData;
+  data: DenyContactRequestData;
   event: {
     publisher: ObjectSubstitute<EventPublisher>;
   };
@@ -75,7 +76,7 @@ test.beforeEach(t => {
   };
 });
 
-test('should confirm request', async t => {
+test('should deny request', async t => {
   // Given
   t.context.repository.query
     .ofId(Arg.is((id: ContactId) => t.context.contact.id.equalsTo(id)))
@@ -85,13 +86,13 @@ test('should confirm request', async t => {
     .ofId(Arg.is((id: ContactId) => t.context.requester.id.equalsTo(id)))
     .returns(fromEither(right(t.context.requester)));
 
-  const service = confirmContactRequestBuilderService({
+  const service = denyContactRequestBuilderService({
     commandRepository: t.context.repository.command,
     eventPublisher: t.context.event.publisher,
     queryRepository: t.context.repository.query,
   });
-  const commandHandler = confirmContactRequestHandler(service);
-  const command = new ConfirmContactRequestCommand(t.context.data);
+  const commandHandler = denyContactRequestHandler(service);
+  const command = new DenyContactRequestCommand(t.context.data);
   // When
   const fn = commandHandler(command);
   // Then
@@ -113,13 +114,13 @@ const testShouldThrowNotFoundRequestError = (
     .ofId(Arg.is((id: ContactId) => requester.id.equalsTo(id)))
     .returns(requesterReturns ? fromEither(right(requester)) : fromLeft(null));
 
-  const service = confirmContactRequestBuilderService({
+  const service = denyContactRequestBuilderService({
     commandRepository: t.context.repository.command,
     eventPublisher: t.context.event.publisher,
     queryRepository: t.context.repository.query,
   });
-  const commandHandler = confirmContactRequestHandler(service);
-  const command = new ConfirmContactRequestCommand(t.context.data);
+  const commandHandler = denyContactRequestHandler(service);
+  const command = new DenyContactRequestCommand(t.context.data);
   // When
   const fn = commandHandler(command);
   // Then
@@ -171,13 +172,13 @@ test('should throw requester request not found error', async t => {
   )(t);
 });
 
-test('should throw contact request already confirmed status error', async t => {
+test('should throw contact request already refused status error', async t => {
   const contact = generateContactStub({
     id: t.context.contact.id,
     requests: [
       generateContactRequestStub({
         id: t.context.contact.id,
-        status: ContactRequestStatusConfirmedStub,
+        status: ContactRequestStatusRefusedStub,
       }),
     ],
   });
@@ -189,13 +190,13 @@ test('should throw contact request already confirmed status error', async t => {
   )(t);
 });
 
-test('should throw requester request already confirmed status error', async t => {
+test('should throw requester request already refused status error', async t => {
   const requester = generateContactStub({
     id: t.context.requester.id,
     requests: [
       generateContactRequestStub({
         id: t.context.requester.id,
-        status: ContactRequestStatusConfirmedStub,
+        status: ContactRequestStatusRefusedStub,
       }),
     ],
   });
