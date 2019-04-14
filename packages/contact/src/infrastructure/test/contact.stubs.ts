@@ -12,6 +12,10 @@ import {
 
 import {
   Contact,
+  CONTACT_REQUEST_CONFIRMED_STATUS,
+  CONTACT_REQUEST_PENDING_STATUS,
+  CONTACT_REQUEST_REFUSED_STATUS,
+  CONTACT_REQUEST_SENDED_STATUS,
   ContactConstructor,
   ContactDebt,
   contactFullnameVO,
@@ -24,6 +28,12 @@ export const ContactIdStub = UserIdStub;
 
 // tslint:disable-next-line: variable-name
 export const ContactNicknameStub = UserNicknameStub;
+
+// tslint:disable-next-line: variable-name
+export const ContactLastnameStub = UserLastnameStub;
+
+// tslint:disable-next-line: variable-name
+export const ContactFirstnameStub = UserFirstnameStub;
 
 // tslint:disable-next-line: variable-name
 export const EuroContactDebtStub: ContactDebt = {
@@ -54,12 +64,9 @@ export const generateContactRequestStub = (
   fullname: args.fullname || ContactFullnameStub,
   id: args.id || ContactIdStub,
   message: args.message !== undefined ? args.message : ContactMessageStub,
-  nickname: args.nickname || UserNicknameStub,
+  nickname: args.nickname || ContactNicknameStub,
   status: args.status || ContactRequestStatusSendedStub,
 });
-
-// tslint:disable-next-line: variable-name
-export const ContactRequestStatusSendedStub = contactRequestStatusVO('SENDED');
 
 // tslint:disable-next-line: variable-name
 export const ContactFullnameStub = contactFullnameVO({
@@ -68,25 +75,30 @@ export const ContactFullnameStub = contactFullnameVO({
 });
 
 // tslint:disable-next-line: variable-name
+export const ContactRequestStatusSendedStub = contactRequestStatusVO(
+  CONTACT_REQUEST_SENDED_STATUS,
+);
+
+// tslint:disable-next-line: variable-name
 export const ContactRequestStatusPendingStub = contactRequestStatusVO(
-  'PENDING',
+  CONTACT_REQUEST_PENDING_STATUS,
 );
 // tslint:disable-next-line: variable-name
-export const ContactRequestStatusAcceptedStub = contactRequestStatusVO(
-  'ACCEPTED',
+export const ContactRequestStatusConfirmedStub = contactRequestStatusVO(
+  CONTACT_REQUEST_CONFIRMED_STATUS,
 );
 // tslint:disable-next-line: variable-name
 export const ContactRequestStatusRefusedStub = contactRequestStatusVO(
-  'REFUSED',
+  CONTACT_REQUEST_REFUSED_STATUS,
 );
 
 // tslint:disable-next-line: variable-name
 export const ContactStub = new Contact({
   debts: [generateEuroContactDebtStub(), generateDolarContactDebtStub()],
-  firstname: UserFirstnameStub,
+  firstname: ContactNicknameStub,
   id: ContactIdStub,
-  lastname: UserLastnameStub,
-  nickname: UserNicknameStub,
+  lastname: ContactLastnameStub,
+  nickname: ContactNicknameStub,
   requests: [generateContactRequestStub()],
 });
 
@@ -96,9 +108,9 @@ export const generateContactStub = (args: Partial<ContactConstructor> = {}) =>
       generateEuroContactDebtStub(),
       generateDolarContactDebtStub(),
     ],
-    firstname: args.firstname || UserFirstnameStub,
+    firstname: args.firstname || ContactFirstnameStub,
     id: args.id || ContactIdStub,
-    lastname: args.lastname || UserLastnameStub,
-    nickname: args.nickname || UserNicknameStub,
+    lastname: args.lastname || ContactLastnameStub,
+    nickname: args.nickname || ContactNicknameStub,
     requests: args.requests || [generateContactRequestStub()],
   });

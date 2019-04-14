@@ -22,8 +22,6 @@ import {
   userNicknameVO,
 } from '@oumi-package/shared/lib/domain/user.props';
 
-import * as t from 'io-ts';
-
 export interface ContactDebt {
   amount: ContactAmountVO;
   id: ContactId;
@@ -70,8 +68,17 @@ export interface ContactRequest {
 export type ContactRequestStatus =
   | 'SENDED'
   | 'PENDING'
-  | 'ACCEPTED'
+  | 'CONFIRMED'
   | 'REFUSED';
+
+export const CONTACT_REQUEST_SENDED_STATUS: ContactRequestStatus = 'SENDED';
+
+export const CONTACT_REQUEST_PENDING_STATUS: ContactRequestStatus = 'PENDING';
+
+export const CONTACT_REQUEST_CONFIRMED_STATUS: ContactRequestStatus =
+  'CONFIRMED';
+
+export const CONTACT_REQUEST_REFUSED_STATUS: ContactRequestStatus = 'REFUSED';
 
 export type ContactRequestStatusVO = ValueObject<ContactRequestStatus>;
 
@@ -80,22 +87,17 @@ export const contactFullnameVO = (value: {
   lastname: string;
 }): ContactFullname => stringVO(`${value.firstname} ${value.lastname}`);
 
-const isString = (u: unknown): u is string => typeof u === 'string';
-
-const requestStatusType = new t.Type<string, string, unknown>(
-  'string',
-  isString,
-  (u, c) =>
-    isString(u) && ['SENDED', 'PENDING', 'ACCEPTED', 'REFUSED'].includes(u)
-      ? t.success(u)
-      : t.failure(u, c),
-  t.identity,
-);
-
 export const contactRequestStatusVO = (
   value: string,
 ): ContactRequestStatusVO => {
-  if (requestStatusType.decode(value).isLeft()) {
+  if (
+    ![
+      CONTACT_REQUEST_SENDED_STATUS,
+      CONTACT_REQUEST_PENDING_STATUS,
+      CONTACT_REQUEST_CONFIRMED_STATUS,
+      CONTACT_REQUEST_REFUSED_STATUS,
+    ].includes(value as any)
+  ) {
     throw new ValueObjectDomainError('INVALID_CONTACT_REQUEST_STATUS', value);
   }
 
