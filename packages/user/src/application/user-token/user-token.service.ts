@@ -1,4 +1,4 @@
-import { StringVO, then } from '@oumi-package/core/lib';
+import { StringVO } from '@oumi-package/core/lib';
 
 import { Either, left } from 'fp-ts/lib/Either';
 import * as R from 'ramda';
@@ -29,7 +29,7 @@ export const userTokenBuilderService: UserTokenBuilder = ({
 }) => input =>
   R.pipe(
     () => queryRepository.ofEmail(input.email).run(),
-    then(
+    R.then(
       R.ifElse(
         user => user.isRight() && user.value.password.equalsTo(input.password),
         user => tokenFactory.build(user.value).run(),
