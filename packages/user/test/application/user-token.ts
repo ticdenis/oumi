@@ -1,5 +1,4 @@
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
-import { ObjectSubstitute } from '@fluffy-spoon/substitute/dist/src/Transformations';
 import ava, { TestInterface } from 'ava';
 import { right } from 'fp-ts/lib/Either';
 import { fromEither, fromLeft } from 'fp-ts/lib/TaskEither';
@@ -10,7 +9,7 @@ import {
   userTokenHandler,
   UserTokenQuery,
 } from '../../src/application';
-import { TokenFactory, User, UserQueryRepository } from '../../src/domain';
+import { TokenFactory, UserQueryRepository } from '../../src/domain';
 import { TokenStub } from '../../src/infrastructure/test/token.stubs';
 import {
   UserEmailStub,
@@ -18,13 +17,25 @@ import {
   UserStub,
 } from '../../src/infrastructure/test/user.stubs';
 
+const helper = {
+  handler: (
+    opts: Partial<{
+      queryRepository: UserQueryRepository;
+      tokenFactory: TokenFactory;
+    }> = {},
+  ) =>
+    userTokenHandler(
+      userTokenBuilderService({
+        queryRepository:
+          opts.queryRepository || Substitute.for<UserQueryRepository>(),
+        tokenFactory: opts.tokenFactory || Substitute.for<TokenFactory>(),
+      }),
+    ),
+  query: (data: UserTokenData) => new UserTokenQuery(data),
+};
+
 const test = ava as TestInterface<{
   data: UserTokenData;
-  factory: ObjectSubstitute<TokenFactory>;
-  repository: {
-    query: ObjectSubstitute<UserQueryRepository>;
-  };
-  user: User;
 }>;
 
 test.beforeEach(t => {
@@ -32,42 +43,35 @@ test.beforeEach(t => {
     email: UserEmailStub.value,
     password: UserPasswordNotEncryptedStub.value,
   };
-  t.context.factory = Substitute.for<TokenFactory>();
-  t.context.repository = {
-    query: Substitute.for<UserQueryRepository>(),
-  };
-  t.context.user = UserStub;
 });
 
 test('should return a valid token', async t => {
   // Given
-  t.context.repository.query
-    .ofEmail(Arg.any())
-    .returns(fromEither(right(t.context.user)));
-  t.context.factory.build(Arg.any()).returns(fromEither(right(TokenStub)));
-  const service = userTokenBuilderService({
-    queryRepository: t.context.repository.query,
-    tokenFactory: t.context.factory,
+  const queryRepository = Substitute.for<UserQueryRepository>();
+  queryRepository.ofEmail(Arg.any()).returns(fromEither(right(UserStub)));
+  const tokenFactory = Substitute.for<TokenFactory>();
+  tokenFactory.build(Arg.any()).returns(fromEither(right(TokenStub)));
+  const handler = helper.handler({
+    queryRepository,
+    tokenFactory,
   });
-  const queryHandler = userTokenHandler(service);
-  const query = new UserTokenQuery(t.context.data);
+  const query = helper.query(t.context.data);
   // When
-  const response = await queryHandler(query);
+  const response = await handler(query);
   // Then
   t.is(typeof response, 'string');
 });
 
 test('should throw an error finding user because email or password not exists', async t => {
   // Given
-  t.context.repository.query.ofEmail(Arg.any()).returns(fromLeft(null));
-  const service = userTokenBuilderService({
-    queryRepository: t.context.repository.query,
-    tokenFactory: t.context.factory,
+  const queryRepository = Substitute.for<UserQueryRepository>();
+  queryRepository.ofEmail(Arg.any()).returns(fromLeft(null));
+  const handler = helper.handler({
+    queryRepository,
   });
-  const queryHandler = userTokenHandler(service);
-  const query = new UserTokenQuery(t.context.data);
+  const query = helper.query(t.context.data);
   // When
-  const fn = queryHandler(query);
+  const fn = handler(query);
   // Then
   await t.throwsAsync(fn);
 });

@@ -1,7 +1,6 @@
 import { EventPublisher } from '@oumi-package/core/lib';
 
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
-import { ObjectSubstitute } from '@fluffy-spoon/substitute/dist/src/Transformations';
 import ava, { TestInterface } from 'ava';
 import { right } from 'fp-ts/lib/Either';
 import { fromEither, fromLeft } from 'fp-ts/lib/TaskEither';
@@ -30,13 +29,28 @@ import {
   UserStub,
 } from '../../src/infrastructure/test/user.stubs';
 
+const helper = {
+  command: (data: UserRegistrationData) => new UserRegistrationCommand(data),
+  handler: (
+    opts: Partial<{
+      commandRepository: UserCommandRepository;
+      eventPublisher: EventPublisher;
+      queryRepository: UserQueryRepository;
+    }> = {},
+  ) =>
+    userRegistrationHandler(
+      userRegistrationBuilderService({
+        commandRepository:
+          opts.commandRepository || Substitute.for<UserCommandRepository>(),
+        eventPublisher: opts.eventPublisher || Substitute.for<EventPublisher>(),
+        queryRepository:
+          opts.queryRepository || Substitute.for<UserQueryRepository>(),
+      }),
+    ),
+};
+
 const test = ava as TestInterface<{
   data: UserRegistrationData;
-  eventPublisher: ObjectSubstitute<EventPublisher>;
-  repository: {
-    command: ObjectSubstitute<UserCommandRepository>;
-    query: ObjectSubstitute<UserQueryRepository>;
-  };
 }>;
 
 test.beforeEach(t => {
@@ -49,27 +63,19 @@ test.beforeEach(t => {
     password: UserPasswordStub.value,
     phone: UserPhoneStub.value,
   };
-  t.context.eventPublisher = Substitute.for<EventPublisher>();
-  t.context.repository = {
-    command: Substitute.for<UserCommandRepository>(),
-    query: Substitute.for<UserQueryRepository>(),
-  };
 });
 
 test('should register an user', async t => {
   // Given
-  t.context.repository.query.ofEmail(Arg.any()).returns(fromLeft(null));
-  const service = userRegistrationBuilderService({
-    commandRepository: t.context.repository.command,
-    eventPublisher: t.context.eventPublisher,
-    queryRepository: t.context.repository.query,
-  });
-  const commandHandler = userRegistrationHandler(service);
-  const command = new UserRegistrationCommand(t.context.data);
+  const commandRepository = Substitute.for<UserCommandRepository>();
+  const queryRepository = Substitute.for<UserQueryRepository>();
+  queryRepository.ofEmail(Arg.any()).returns(fromLeft(null));
+  const handler = helper.handler({ commandRepository, queryRepository });
+  const command = helper.command(t.context.data);
   // When
-  await commandHandler(command);
+  await handler(command);
   // Then
-  t.context.repository.command.received(1).create(
+  commandRepository.received(1).create(
     Arg.is(arg => {
       const actual = arg instanceof User;
       t.true(actual);
@@ -80,18 +86,12 @@ test('should register an user', async t => {
 
 test('should throw an error registering an user because email already exists', async t => {
   // Given
-  t.context.repository.query
-    .ofEmail(Arg.any())
-    .returns(fromEither(right(UserStub)));
-  const service = userRegistrationBuilderService({
-    commandRepository: t.context.repository.command,
-    eventPublisher: t.context.eventPublisher,
-    queryRepository: t.context.repository.query,
-  });
-  const commandHandler = userRegistrationHandler(service);
-  const command = new UserRegistrationCommand(t.context.data);
+  const queryRepository = Substitute.for<UserQueryRepository>();
+  queryRepository.ofEmail(Arg.any()).returns(fromEither(right(UserStub)));
+  const handler = helper.handler({ queryRepository });
+  const command = helper.command(t.context.data);
   // When
-  const fn = commandHandler(command);
+  const fn = handler(command);
   // Then
   await t.throwsAsync(fn);
 });

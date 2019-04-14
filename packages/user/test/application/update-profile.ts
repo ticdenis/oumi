@@ -7,7 +7,6 @@ import {
 } from '@oumi-package/shared/lib/infrastructure/test/user.stubs';
 
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
-import { ObjectSubstitute } from '@fluffy-spoon/substitute/dist/src/Transformations';
 import ava, { TestInterface } from 'ava';
 import { right } from 'fp-ts/lib/Either';
 import { fromEither, fromLeft } from 'fp-ts/lib/TaskEither';
@@ -32,13 +31,28 @@ import {
   UserPhoneStub,
 } from '../../src/infrastructure/test/user.stubs';
 
+const helper = {
+  command: (data: UpdateProfileData) => new UpdateProfileCommand(data),
+  handler: (
+    opts: Partial<{
+      commandRepository: UserCommandRepository;
+      eventPublisher: EventPublisher;
+      queryRepository: UserQueryRepository;
+    }> = {},
+  ) =>
+    updateProfileHandler(
+      updateProfileBuilderService({
+        commandRepository:
+          opts.commandRepository || Substitute.for<UserCommandRepository>(),
+        eventPublisher: opts.eventPublisher || Substitute.for<EventPublisher>(),
+        queryRepository:
+          opts.queryRepository || Substitute.for<UserQueryRepository>(),
+      }),
+    ),
+};
+
 const test = ava as TestInterface<{
   data: UpdateProfileData;
-  eventPublisher: ObjectSubstitute<EventPublisher>;
-  repository: {
-    command: ObjectSubstitute<UserCommandRepository>;
-    query: ObjectSubstitute<UserQueryRepository>;
-  };
 }>;
 
 test.beforeEach(t => {
@@ -49,25 +63,18 @@ test.beforeEach(t => {
     nickname: UserNicknameStub.value,
     phone: UserPhoneStub.value,
   };
-  t.context.eventPublisher = Substitute.for<EventPublisher>();
-  t.context.repository = {
-    command: Substitute.for<UserCommandRepository>(),
-    query: Substitute.for<UserQueryRepository>(),
-  };
 });
 
 test('should throw user not found', async t => {
   // Given
-  t.context.repository.query.ofId(Arg.any()).returns(fromLeft(null));
-  const service = updateProfileBuilderService({
-    commandRepository: t.context.repository.command,
-    eventPublisher: t.context.eventPublisher,
-    queryRepository: t.context.repository.query,
+  const queryRepository = Substitute.for<UserQueryRepository>();
+  queryRepository.ofId(Arg.any()).returns(fromLeft(null));
+  const handler = helper.handler({
+    queryRepository,
   });
-  const commandHandler = updateProfileHandler(service);
-  const command = new UpdateProfileCommand(t.context.data);
+  const command = helper.command(t.context.data);
   // When
-  const fn = commandHandler(command);
+  const fn = handler(command);
   // Then
   await t.throwsAsync(fn);
 });
@@ -81,20 +88,20 @@ test('should update profile', async t => {
     nickname: userNicknameVO('new-nickname'),
     phone: userPhoneVO('new-phone'),
   });
-  t.context.repository.query.ofId(Arg.any()).returns(fromEither(right(user)));
-  t.context.repository.command
-    .updateProfile(Arg.any())
-    .returns(Promise.resolve());
-  t.context.eventPublisher.publish().returns();
-  const service = updateProfileBuilderService({
-    commandRepository: t.context.repository.command,
-    eventPublisher: t.context.eventPublisher,
-    queryRepository: t.context.repository.query,
+  const commandRepository = Substitute.for<UserCommandRepository>();
+  commandRepository.updateProfile(Arg.any()).returns(Promise.resolve());
+  const eventPublisher = Substitute.for<EventPublisher>();
+  eventPublisher.publish().returns();
+  const queryRepository = Substitute.for<UserQueryRepository>();
+  queryRepository.ofId(Arg.any()).returns(fromEither(right(user)));
+  const handler = helper.handler({
+    commandRepository,
+    eventPublisher,
+    queryRepository,
   });
-  const commandHandler = updateProfileHandler(service);
-  const command = new UpdateProfileCommand(t.context.data);
+  const command = helper.command(t.context.data);
   // When
-  const fn = commandHandler(command);
+  const fn = handler(command);
   // Then
   await t.notThrowsAsync(fn);
 });
