@@ -1,17 +1,21 @@
 import { AggregateRoot } from '@oumi-package/core/lib';
 
-import { ContactDebt, ContactRequest } from '.';
-import { ContactDomainError } from './contact.errors';
-import { newRequested } from './contact.events';
 import {
+  CONTACT_REQUEST_CONFIRMED_STATUS,
+  ContactDebt,
+  ContactDomainError,
+  ContactEvents,
   ContactFirstname,
   contactFullnameVO,
   ContactId,
   ContactLastname,
   ContactMessage,
   ContactNickname,
+  ContactRequest,
   contactRequestStatusVO,
-} from './contact.props';
+  newRequested,
+  requestConfirmed,
+} from '.';
 
 export interface ContactConstructor {
   debts: ContactDebt[];
@@ -22,7 +26,7 @@ export interface ContactConstructor {
   requests: ContactRequest[];
 }
 
-export class Contact extends AggregateRoot<any> {
+export class Contact extends AggregateRoot<ContactEvents> {
   private _requests: ContactRequest[];
   private _debts: ContactDebt[];
   private _firstname: ContactFirstname;
@@ -82,6 +86,49 @@ export class Contact extends AggregateRoot<any> {
         requesterId: this._id.value,
       }),
     );
+  }
+
+  public confirmRequest(requester: Contact): void {
+    const index = this.findContactRequestIndexOrFail(requester.id);
+    this.guardContactRequestAlreadyConfirmed(this._requests[index]);
+
+    const requesterIndex = requester.findContactRequestIndexOrFail(this._id);
+    requester.guardContactRequestAlreadyConfirmed(
+      requester._requests[requesterIndex],
+    );
+
+    this._requests[index].status = contactRequestStatusVO(
+      CONTACT_REQUEST_CONFIRMED_STATUS,
+    );
+    requester._requests[requesterIndex].status = contactRequestStatusVO(
+      CONTACT_REQUEST_CONFIRMED_STATUS,
+    );
+
+    this.recordDomainEvent(
+      requestConfirmed({
+        contactId: this._id.value,
+        requesterId: requester._id.value,
+      }),
+    );
+  }
+
+  private findContactRequestIndexOrFail(id: ContactId) {
+    const index = this._requests.findIndex(request => request.id.equalsTo(id));
+
+    if (index === -1) {
+      throw ContactDomainError.requestNotFound(id.value);
+    }
+
+    return index;
+  }
+
+  private guardContactRequestAlreadyConfirmed(contactRequest: ContactRequest) {
+    if (contactRequest.status.value === CONTACT_REQUEST_CONFIRMED_STATUS) {
+      throw ContactDomainError.requestAlreadyConfirmed(
+        contactRequest.id.value,
+        this._id.value,
+      );
+    }
   }
 
   get requests(): ContactRequest[] {

@@ -5,6 +5,7 @@ import { TaskEither } from 'fp-ts/lib/TaskEither';
 import { Contact, ContactId } from '.';
 
 export interface ContactCommandRepository {
+  confirmRequest(contact: Contact, requester: Contact): Promise<void>;
   newRequest(requester: Contact, contact: Contact): Promise<void>;
 }
 

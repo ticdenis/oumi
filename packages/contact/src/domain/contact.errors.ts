@@ -25,6 +25,23 @@ export class ContactDomainError extends DomainError {
     );
   }
 
+  public static requestAlreadyConfirmed(
+    requesterId: string,
+    contactId: string,
+  ): ContactDomainError {
+    return new ContactDomainError(
+      'CONTACT_REQUEST_ALREADY_CONFIRMED',
+      `The <${contactId}> contact id and ${requesterId} requester id already exists`,
+    );
+  }
+
+  public static requestNotFound(requesterId: string): ContactDomainError {
+    return new ContactDomainError(
+      'CONTACT_REQUEST_NOT_FOUND',
+      `The <${requesterId}> contact request id not found`,
+    );
+  }
+
   public constructor(readonly code: string, message: string) {
     super(code, message);
   }

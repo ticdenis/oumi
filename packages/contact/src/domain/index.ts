@@ -1,3 +1,4 @@
+export * from './contact.events';
 export * from './contact.errors';
 export * from './contact.mapper';
 export * from './contact.props';
