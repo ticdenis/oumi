@@ -1,4 +1,4 @@
-import { DomainError } from "@oumi-package/core";
+import { DomainError } from "@oumi-package/core/lib";
 
 import { Either, right } from "fp-ts/lib/Either";
 import { constVoid } from "fp-ts/lib/function";

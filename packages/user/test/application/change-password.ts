@@ -1,7 +1,6 @@
 import { EventPublisher } from '@oumi-package/core/lib';
 
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
-import { ObjectSubstitute } from '@fluffy-spoon/substitute/dist/src/Transformations';
 import ava, { TestInterface } from 'ava';
 import { right } from 'fp-ts/lib/Either';
 import { fromEither, fromLeft } from 'fp-ts/lib/TaskEither';
@@ -20,13 +19,28 @@ import {
 } from '../../src/domain';
 import { generateUserStub } from '../../src/infrastructure/test/user.stubs';
 
+const helper = {
+  command: (data: ChangePasswordData) => new ChangePasswordCommand(data),
+  handler: (
+    opts: Partial<{
+      commandRepository: UserCommandRepository;
+      eventPublisher: EventPublisher;
+      queryRepository: UserQueryRepository;
+    }> = {},
+  ) =>
+    changePasswordHandler(
+      changePasswordBuilderService({
+        commandRepository:
+          opts.commandRepository || Substitute.for<UserCommandRepository>(),
+        eventPublisher: opts.eventPublisher || Substitute.for<EventPublisher>(),
+        queryRepository:
+          opts.queryRepository || Substitute.for<UserQueryRepository>(),
+      }),
+    ),
+};
+
 const test = ava as TestInterface<{
   data: ChangePasswordData;
-  eventPublisher: ObjectSubstitute<EventPublisher>;
-  repository: {
-    command: ObjectSubstitute<UserCommandRepository>;
-    query: ObjectSubstitute<UserQueryRepository>;
-  };
   user: User;
 }>;
 
@@ -36,11 +50,6 @@ test.beforeEach(t => {
     newPassword: 'newSecret',
     oldPassword: 'secret',
   };
-  t.context.eventPublisher = Substitute.for<EventPublisher>();
-  t.context.repository = {
-    command: Substitute.for<UserCommandRepository>(),
-    query: Substitute.for<UserQueryRepository>(),
-  };
   t.context.user = generateUserStub({
     id: UserIdStub,
   });
@@ -48,57 +57,49 @@ test.beforeEach(t => {
 
 test('should throw user not found', async t => {
   // Given
-  t.context.repository.query.ofId(Arg.any()).returns(fromLeft(null));
-  const service = changePasswordBuilderService({
-    commandRepository: t.context.repository.command,
-    eventPublisher: t.context.eventPublisher,
-    queryRepository: t.context.repository.query,
+  const queryRepository = Substitute.for<UserQueryRepository>();
+  queryRepository.ofId(Arg.any()).returns(fromLeft(null));
+  const handler = helper.handler({
+    queryRepository,
   });
-  const commandHandler = changePasswordHandler(service);
-  const command = new ChangePasswordCommand(t.context.data);
+  const command = helper.command(t.context.data);
   // When
-  const fn = commandHandler(command);
+  const fn = handler(command);
   // Then
   await t.throwsAsync(fn);
 });
 
 test('should throw password not match', async t => {
   // Given
-  t.context.repository.query
-    .ofId(Arg.any())
-    .returns(fromEither(right(t.context.user)));
-  t.context.data.oldPassword = 'error-password';
-  const service = changePasswordBuilderService({
-    commandRepository: t.context.repository.command,
-    eventPublisher: t.context.eventPublisher,
-    queryRepository: t.context.repository.query,
+  const queryRepository = Substitute.for<UserQueryRepository>();
+  queryRepository.ofId(Arg.any()).returns(fromEither(right(t.context.user)));
+  const handler = helper.handler({
+    queryRepository,
   });
-  const commandHandler = changePasswordHandler(service);
-  const command = new ChangePasswordCommand(t.context.data);
+  t.context.data.oldPassword = 'error-password';
+  const command = helper.command(t.context.data);
   // When
-  const fn = commandHandler(command);
+  const fn = handler(command);
   // Then
   await t.throwsAsync(fn);
 });
 
 test('should change password', async t => {
   // Given
-  t.context.repository.query
-    .ofId(Arg.any())
-    .returns(fromEither(right(t.context.user)));
-  t.context.repository.command
-    .updatePassword(Arg.any())
-    .returns(Promise.resolve());
-  t.context.eventPublisher.publish().returns(Promise.resolve());
-  const service = changePasswordBuilderService({
-    commandRepository: t.context.repository.command,
-    eventPublisher: t.context.eventPublisher,
-    queryRepository: t.context.repository.query,
+  const commandRepository = Substitute.for<UserCommandRepository>();
+  commandRepository.updatePassword(Arg.any()).returns(Promise.resolve());
+  const eventPublisher = Substitute.for<EventPublisher>();
+  eventPublisher.publish().returns(Promise.resolve());
+  const queryRepository = Substitute.for<UserQueryRepository>();
+  queryRepository.ofId(Arg.any()).returns(fromEither(right(t.context.user)));
+  const handler = helper.handler({
+    commandRepository,
+    eventPublisher,
+    queryRepository,
   });
-  const commandHandler = changePasswordHandler(service);
-  const command = new ChangePasswordCommand(t.context.data);
+  const command = helper.command(t.context.data);
   // When
-  const fn = commandHandler(command);
+  const fn = handler(command);
   // Then
   await t.notThrowsAsync(fn);
 });

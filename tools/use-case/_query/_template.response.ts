@@ -1,4 +1,4 @@
-import { DataTransformer } from "@oumi-package/core";
+import { DataTransformer } from "@oumi-package/core/lib";
 
 export interface _TemplateResponse {
   // TODO: [key: string]: any;
