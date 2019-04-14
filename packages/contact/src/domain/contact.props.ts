@@ -41,6 +41,24 @@ export type ContactLastname = UserLastname;
 
 export type ContactAmountVO = AmountVO;
 
+export type ContactMessage = NullableStringVO;
+
+export type ContactRequestStatus =
+  | 'SENDED'
+  | 'PENDING'
+  | 'CONFIRMED'
+  | 'REFUSED';
+
+export type ContactRequestStatusVO = ValueObject<ContactRequestStatus>;
+
+export interface ContactRequest {
+  id: ContactId;
+  fullname: ContactFullname;
+  nickname: UserNickname;
+  message: NullableStringVO;
+  status: ContactRequestStatusVO;
+}
+
 // Impl
 
 export const contactNicknameVO = userNicknameVO;
@@ -55,22 +73,6 @@ export const contactMessageVO = nullableStringVO;
 
 export const contactAmountVO = amountVO;
 
-export type ContactMessage = NullableStringVO;
-
-export interface ContactRequest {
-  id: ContactId;
-  fullname: ContactFullname;
-  nickname: UserNickname;
-  message: NullableStringVO;
-  status: ContactRequestStatusVO;
-}
-
-export type ContactRequestStatus =
-  | 'SENDED'
-  | 'PENDING'
-  | 'CONFIRMED'
-  | 'REFUSED';
-
 export const CONTACT_REQUEST_SENDED_STATUS: ContactRequestStatus = 'SENDED';
 
 export const CONTACT_REQUEST_PENDING_STATUS: ContactRequestStatus = 'PENDING';
@@ -79,8 +81,6 @@ export const CONTACT_REQUEST_CONFIRMED_STATUS: ContactRequestStatus =
   'CONFIRMED';
 
 export const CONTACT_REQUEST_REFUSED_STATUS: ContactRequestStatus = 'REFUSED';
-
-export type ContactRequestStatusVO = ValueObject<ContactRequestStatus>;
 
 export const contactFullnameVO = (value: {
   firstname: string;

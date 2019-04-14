@@ -1,4 +1,4 @@
-export * from './user-contacts';
+export * from './confirm-contact-request';
 export * from './contact-request';
 export * from './contact-requests';
-export * from './confirm-contact-request';
+export * from './user-contacts';

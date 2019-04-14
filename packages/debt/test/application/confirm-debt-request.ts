@@ -2,7 +2,6 @@ import { EventPublisher } from '@oumi-package/core/lib';
 import { DebtIdStub } from '@oumi-package/shared/lib/infrastructure/test/debt.stubs';
 
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
-import { ObjectSubstitute } from '@fluffy-spoon/substitute/dist/src/Transformations';
 import ava, { TestInterface } from 'ava';
 import { right } from 'fp-ts/lib/Either';
 import { fromEither, fromLeft } from 'fp-ts/lib/TaskEither';
@@ -14,7 +13,6 @@ import {
   confirmDebtRequestHandler,
 } from '../../src/application';
 import {
-  Debt,
   DEBT_CONFIRMED_STATUS,
   DEBT_PENDING_STATUS,
   DEBT_SENDED_STATUS,
@@ -27,48 +25,45 @@ import {
   generateLoanerStub,
 } from '../../src/infrastructure/test/debt.stubs';
 
+const helper = {
+  command: (data: ConfirmDebtRequestData) =>
+    new ConfirmDebtRequestCommand(data),
+  handler: (
+    opts: Partial<{
+      commandRepository: DebtCommandRepository;
+      eventPublisher: EventPublisher;
+      queryRepository: DebtQueryRepository;
+    }> = {},
+  ) =>
+    confirmDebtRequestHandler(
+      confirmDebtRequestBuilderService({
+        commandRepository:
+          opts.commandRepository || Substitute.for<DebtCommandRepository>(),
+        eventPublisher: opts.eventPublisher || Substitute.for<EventPublisher>(),
+        queryRepository:
+          opts.queryRepository || Substitute.for<DebtQueryRepository>(),
+      }),
+    ),
+};
+
 const test = ava as TestInterface<{
   data: ConfirmDebtRequestData;
-  eventPublisher: ObjectSubstitute<EventPublisher>;
-  repository: {
-    command: ObjectSubstitute<DebtCommandRepository>;
-    query: ObjectSubstitute<DebtQueryRepository>;
-  };
-  debt: Debt;
 }>;
 
 test.beforeEach(t => {
   t.context.data = {
     id: DebtIdStub.value,
   };
-  t.context.eventPublisher = Substitute.for<EventPublisher>();
-  t.context.repository = {
-    command: Substitute.for<DebtCommandRepository>(),
-    query: Substitute.for<DebtQueryRepository>(),
-  };
-  t.context.debt = generateDebtStub({
-    debtor: generateDebtorStub({
-      status: DEBT_PENDING_STATUS,
-    }),
-    id: DebtIdStub,
-    loaner: generateLoanerStub({
-      status: DEBT_SENDED_STATUS,
-    }),
-  });
 });
 
 test('should throw debt not exists', async t => {
   // Given
-  t.context.repository.query.ofId(Arg.any()).returns(fromLeft(null));
-  const service = confirmDebtRequestBuilderService({
-    commandRepository: t.context.repository.command,
-    eventPublisher: t.context.eventPublisher,
-    queryRepository: t.context.repository.query,
-  });
-  const commandHandler = confirmDebtRequestHandler(service);
-  const command = new ConfirmDebtRequestCommand(t.context.data);
+  const queryRepository = Substitute.for<DebtQueryRepository>();
+  queryRepository.ofId(Arg.any()).returns(fromLeft(null));
+  const handler = helper.handler({ queryRepository });
+  const command = helper.command(t.context.data);
   // When
-  const fn = commandHandler(command);
+  const fn = handler(command);
   // Then
   await t.throwsAsync(fn);
 });
@@ -83,38 +78,41 @@ test('should throw debt request already confirmed', async t => {
       status: DEBT_CONFIRMED_STATUS,
     }),
   });
-  t.context.repository.query.ofId(Arg.any()).returns(fromEither(right(debt)));
-  const service = confirmDebtRequestBuilderService({
-    commandRepository: t.context.repository.command,
-    eventPublisher: t.context.eventPublisher,
-    queryRepository: t.context.repository.query,
-  });
-  const commandHandler = confirmDebtRequestHandler(service);
-  const command = new ConfirmDebtRequestCommand(t.context.data);
+  const queryRepository = Substitute.for<DebtQueryRepository>();
+  queryRepository.ofId(Arg.any()).returns(fromEither(right(debt)));
+  const handler = helper.handler({ queryRepository });
+  const command = helper.command(t.context.data);
   // When
-  const fn = commandHandler(command);
+  const fn = handler(command);
   // Then
   await t.throwsAsync(fn);
 });
 
 test('should confirm debt request', async t => {
   // Given
-  t.context.repository.query
-    .ofId(Arg.any())
-    .returns(fromEither(right(t.context.debt)));
-  t.context.repository.command
-    .confirmDebtRequest(Arg.any())
-    .returns(Promise.resolve());
-  t.context.eventPublisher.publish().returns(Promise.resolve());
-  const service = confirmDebtRequestBuilderService({
-    commandRepository: t.context.repository.command,
-    eventPublisher: t.context.eventPublisher,
-    queryRepository: t.context.repository.query,
+  const debt = generateDebtStub({
+    debtor: generateDebtorStub({
+      status: DEBT_PENDING_STATUS,
+    }),
+    id: DebtIdStub,
+    loaner: generateLoanerStub({
+      status: DEBT_SENDED_STATUS,
+    }),
   });
-  const commandHandler = confirmDebtRequestHandler(service);
-  const command = new ConfirmDebtRequestCommand(t.context.data);
+  const commandRepository = Substitute.for<DebtCommandRepository>();
+  commandRepository.confirmDebtRequest(Arg.any()).returns(Promise.resolve());
+  const eventPublisher = Substitute.for<EventPublisher>();
+  eventPublisher.publish().returns(Promise.resolve());
+  const queryRepository = Substitute.for<DebtQueryRepository>();
+  queryRepository.ofId(Arg.any()).returns(fromEither(right(debt)));
+  const handler = helper.handler({
+    commandRepository,
+    eventPublisher,
+    queryRepository,
+  });
+  const command = helper.command(t.context.data);
   // When
-  const fn = commandHandler(command);
+  const fn = handler(command);
   // Then
   await t.notThrowsAsync(fn);
 });

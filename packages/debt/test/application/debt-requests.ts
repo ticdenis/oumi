@@ -1,5 +1,4 @@
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
-import { ObjectSubstitute } from '@fluffy-spoon/substitute/dist/src/Transformations';
 import ava, { TestInterface } from 'ava';
 
 import {
@@ -14,53 +13,54 @@ import {
   DebtStub,
 } from '../../src/infrastructure/test/debt.stubs';
 
+const helper = {
+  handler: (
+    opts: Partial<{
+      queryRepository: DebtQueryRepository;
+    }> = {},
+  ) =>
+    debtRequestsHandler(
+      debtRequestsBuilderService({
+        queryRepository:
+          opts.queryRepository || Substitute.for<DebtQueryRepository>(),
+      }),
+    ),
+  query: (data: DebtRequestsData) => new DebtRequestsQuery(data),
+};
+
 const test = ava as TestInterface<{
   data: DebtRequestsData;
-  repository: {
-    query: ObjectSubstitute<DebtQueryRepository>;
-  };
 }>;
 
 test.beforeEach(t => {
   t.context.data = {
     debtorId: DebtDebtorStub.id.value,
   };
-  t.context.repository = {
-    query: Substitute.for<DebtQueryRepository>(),
-  };
 });
 
 test('should throw debtor not found', async t => {
   // Given
-  t.context.repository.query
-    .debtorExists(Arg.any())
-    .returns(Promise.resolve(false));
-  const service = debtRequestsBuilderService({
-    queryRepository: t.context.repository.query,
-  });
-  const queryHandler = debtRequestsHandler(service);
+  const queryRepository = Substitute.for<DebtQueryRepository>();
+  queryRepository.debtorExists(Arg.any()).returns(Promise.resolve(false));
+  const handler = helper.handler({ queryRepository });
   const query = new DebtRequestsQuery(t.context.data);
   // When
-  const fn = queryHandler(query);
+  const fn = handler(query);
   // Then
   await t.throwsAsync(fn);
 });
 
 test('should get debtor requests', async t => {
   // Given
-  t.context.repository.query
-    .debtorExists(Arg.any())
-    .returns(Promise.resolve(true));
-  t.context.repository.query
+  const queryRepository = Substitute.for<DebtQueryRepository>();
+  queryRepository.debtorExists(Arg.any()).returns(Promise.resolve(true));
+  queryRepository
     .pendingRequestsOfDebtorId(Arg.any())
     .returns(Promise.resolve([DebtStub]));
-  const service = debtRequestsBuilderService({
-    queryRepository: t.context.repository.query,
-  });
-  const queryHandler = debtRequestsHandler(service);
+  const handler = helper.handler({ queryRepository });
   const query = new DebtRequestsQuery(t.context.data);
   // When
-  const fn = queryHandler(query);
+  const fn = handler(query);
   // Then
   await t.notThrowsAsync(fn);
 });
