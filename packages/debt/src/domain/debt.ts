@@ -3,21 +3,24 @@ import { DebtId } from '@oumi-package/shared/lib/domain/debt.props';
 
 import {
   debRequestConfirmed,
+  debRequestDenied,
   DEBT_CONFIRMED_STATUS,
+  DEBT_DENY_STATUS,
   DEBT_PENDING_STATUS,
   DEBT_SENDED_STATUS,
   DebtAmount,
   DebtConcept,
   DebtDebtor,
+  DebtDomainError,
   DebtEvents,
   DebtInitialDate,
   DebtIntervalDate,
   DebtLimitDate,
   DebtLoaner,
   debtNewRequested,
+  DebtorId,
+  LoanerId,
 } from '.';
-import { DebtDomainError } from './debt.errors';
-import { DebtorId, LoanerId } from './debt.props';
 
 export interface DebtConstructor {
   amount: DebtAmount;
@@ -99,6 +102,23 @@ export class Debt extends AggregateRoot<DebtEvents> {
 
     this.recordDomainEvent(
       debRequestConfirmed({
+        debtorId: this._debtor.id.value,
+        id: this._id.value,
+        loanerId: this._loaner.id.value,
+      }),
+    );
+  }
+
+  public denyRequest(): void {
+    if ([this._debtor.status, this._debtor.status].includes(DEBT_DENY_STATUS)) {
+      throw DebtDomainError.debtRequestAlreadyDenied(this._id.value);
+    }
+
+    this._debtor.status = DEBT_DENY_STATUS;
+    this._loaner.status = DEBT_DENY_STATUS;
+
+    this.recordDomainEvent(
+      debRequestDenied({
         debtorId: this._debtor.id.value,
         id: this._id.value,
         loanerId: this._loaner.id.value,

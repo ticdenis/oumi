@@ -15,6 +15,13 @@ export class DebtDomainError extends DomainError {
     );
   }
 
+  public static debtRequestAlreadyDenied(id: string) {
+    return new DebtDomainError(
+      'DEBT_REQUEST_ALREADY_DENIED',
+      `The <${id}> debt id request already denied`,
+    );
+  }
+
   public static loanerNotFound(id: string): DebtDomainError {
     return new DebtDomainError(
       'LOANER_NOT_FOUND',

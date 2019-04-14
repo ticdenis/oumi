@@ -1,6 +1,9 @@
 import { event } from '@oumi-package/core/lib';
 
-export type DebtEvents = DebtNewRequested | DebRequestConfirmed;
+export type DebtEvents =
+  | DebtNewRequested
+  | DebRequestConfirmed
+  | DebRequestDenied;
 
 export interface DebtNewRequested {
   amount: number;
@@ -16,6 +19,14 @@ export interface DebRequestConfirmed {
   loanerId: string;
 }
 
+export interface DebRequestDenied {
+  debtorId: string;
+  id: string;
+  loanerId: string;
+}
+
 export const debtNewRequested = (data: DebtNewRequested) => event(data);
 
 export const debRequestConfirmed = (data: DebRequestConfirmed) => event(data);
+
+export const debRequestDenied = (data: DebRequestDenied) => event(data);
