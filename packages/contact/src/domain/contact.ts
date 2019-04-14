@@ -2,6 +2,7 @@ import { AggregateRoot } from '@oumi-package/core/lib';
 
 import {
   CONTACT_REQUEST_CONFIRMED_STATUS,
+  CONTACT_REQUEST_REFUSED_STATUS,
   ContactDebt,
   ContactDomainError,
   ContactEvents,
@@ -15,6 +16,7 @@ import {
   contactRequestStatusVO,
   newRequested,
   requestConfirmed,
+  requestDenied,
 } from '.';
 
 export interface ContactConstructor {
@@ -113,6 +115,30 @@ export class Contact extends AggregateRoot<ContactEvents> {
     );
   }
 
+  public denyRequest(requester: Contact): void {
+    const index = this.findContactRequestIndexOrFail(requester.id);
+    this.guardContactRequestAlreadyDeny(this._requests[index]);
+
+    const requesterIndex = requester.findContactRequestIndexOrFail(this._id);
+    requester.guardContactRequestAlreadyDeny(
+      requester._requests[requesterIndex],
+    );
+
+    this._requests[index].status = contactRequestStatusVO(
+      CONTACT_REQUEST_REFUSED_STATUS,
+    );
+    requester._requests[requesterIndex].status = contactRequestStatusVO(
+      CONTACT_REQUEST_REFUSED_STATUS,
+    );
+
+    this.recordDomainEvent(
+      requestDenied({
+        contactId: this._id.value,
+        requesterId: requester._id.value,
+      }),
+    );
+  }
+
   private findContactRequestIndexOrFail(id: ContactId): number {
     const index = this._requests.findIndex(request => request.id.equalsTo(id));
 
@@ -127,6 +153,15 @@ export class Contact extends AggregateRoot<ContactEvents> {
     if (request.status.value === CONTACT_REQUEST_CONFIRMED_STATUS) {
       throw ContactDomainError.requestAlreadyConfirmed(
         request.id.value,
+        this._id.value,
+      );
+    }
+  }
+
+  private guardContactRequestAlreadyDeny(contactRequest: ContactRequest): void {
+    if (contactRequest.status.value === CONTACT_REQUEST_REFUSED_STATUS) {
+      throw ContactDomainError.requestAlreadyDenied(
+        contactRequest.id.value,
         this._id.value,
       );
     }

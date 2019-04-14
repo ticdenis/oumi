@@ -1,6 +1,6 @@
 import { event } from '@oumi-package/core';
 
-export type ContactEvents = NewRequested | RequestConfirmed;
+export type ContactEvents = NewRequested | RequestConfirmed | RequestDenied;
 
 export interface NewRequested {
   contactId: string;
@@ -13,6 +13,13 @@ export interface RequestConfirmed {
   requesterId: string;
 }
 
+export interface RequestDenied {
+  contactId: string;
+  requesterId: string;
+}
+
 export const newRequested = (data: NewRequested) => event(data);
 
 export const requestConfirmed = (data: RequestConfirmed) => event(data);
+
+export const requestDenied = (data: RequestDenied) => event(data);
