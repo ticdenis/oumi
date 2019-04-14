@@ -20,4 +20,5 @@ script:
   - yarn clean
   - yarn build
   - yarn lint
-  - yarn test
+  - yarn test:packages
+  - yarn test:services

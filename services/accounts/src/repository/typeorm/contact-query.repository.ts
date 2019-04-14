@@ -1,5 +1,8 @@
-import { Contact, ContactQueryRepository } from '@oumi-package/contact';
-import { jsonContactMapper } from '@oumi-package/contact/lib/infrastructure/contact.mapper';
+import {
+  Contact,
+  ContactQueryRepository,
+  jsonContactMapper,
+} from '@oumi-package/contact/lib';
 import { Oumi } from '@oumi-package/core/lib';
 import { UserId, UserNickname } from '@oumi-package/user/lib';
 

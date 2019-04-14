@@ -3,7 +3,7 @@ import {
   userContactsBuilderService,
   userContactsHandler,
   UserContactsQuery,
-} from '@oumi-package/contact';
+} from '@oumi-package/contact/lib';
 
 import { SERVICE_ID } from '..';
 

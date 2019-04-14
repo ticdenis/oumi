@@ -1,7 +1,7 @@
 import {
   ContactQueryRepository,
   UserContactsData,
-} from '@oumi-package/contact';
+} from '@oumi-package/contact/lib';
 import { ContactStub } from '@oumi-package/contact/lib/infrastructure/test/contact.stubs';
 import { DomainQueryBus, Oumi, QueryBus } from '@oumi-package/core/lib';
 import { UserIdStub } from '@oumi-package/shared/lib/infrastructure/test/user.stubs';
