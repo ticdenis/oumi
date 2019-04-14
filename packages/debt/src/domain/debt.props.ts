@@ -36,7 +36,7 @@ export type DebtStatus =
   | 'SENDED'
   | 'PENDING'
   | 'CONFIRMED'
-  | 'REFUSED';
+  | 'DENIED';
 
 export type DebtorId = UserId;
 
@@ -62,7 +62,7 @@ export const DEBT_PENDING_STATUS: DebtStatus = 'PENDING';
 
 export const DEBT_CONFIRMED_STATUS: DebtStatus = 'CONFIRMED';
 
-export const DEBT_REFUSED_STATUS: DebtStatus = 'REFUSED';
+export const DEBT_DENY_STATUS: DebtStatus = 'DENIED';
 
 const TWO_DECIMALS_REGEX = /^\d+([.]?(\d{1,2})){0,1}/g;
 

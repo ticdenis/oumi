@@ -8,14 +8,14 @@ import { right } from 'fp-ts/lib/Either';
 import { fromEither, fromLeft } from 'fp-ts/lib/TaskEither';
 
 import {
-  confirmDebtRequestBuilderService,
-  ConfirmDebtRequestCommand,
-  ConfirmDebtRequestData,
-  confirmDebtRequestHandler,
+  denyDebtRequestBuilderService,
+  DenyDebtRequestCommand,
+  DenyDebtRequestData,
+  denyDebtRequestHandler,
 } from '../../src/application';
 import {
   Debt,
-  DEBT_CONFIRMED_STATUS,
+  DEBT_DENY_STATUS,
   DEBT_PENDING_STATUS,
   DEBT_SENDED_STATUS,
   DebtCommandRepository,
@@ -28,7 +28,7 @@ import {
 } from '../../src/infrastructure/test/debt.stubs';
 
 const test = ava as TestInterface<{
-  data: ConfirmDebtRequestData;
+  data: DenyDebtRequestData;
   eventPublisher: ObjectSubstitute<EventPublisher>;
   repository: {
     command: ObjectSubstitute<DebtCommandRepository>;
@@ -60,44 +60,44 @@ test.beforeEach(t => {
 test('should throw debt not exists', async t => {
   // Given
   t.context.repository.query.ofId(Arg.any()).returns(fromLeft(null));
-  const service = confirmDebtRequestBuilderService({
+  const service = denyDebtRequestBuilderService({
     commandRepository: t.context.repository.command,
     eventPublisher: t.context.eventPublisher,
     queryRepository: t.context.repository.query,
   });
-  const commandHandler = confirmDebtRequestHandler(service);
-  const command = new ConfirmDebtRequestCommand(t.context.data);
+  const commandHandler = denyDebtRequestHandler(service);
+  const command = new DenyDebtRequestCommand(t.context.data);
   // When
   const fn = commandHandler(command);
   // Then
   await t.throwsAsync(fn);
 });
 
-test('should throw debt request already confirmed', async t => {
+test('should throw debt request already denied', async t => {
   // Given
   const debt = generateDebtStub({
     debtor: generateDebtorStub({
-      status: DEBT_CONFIRMED_STATUS,
+      status: DEBT_DENY_STATUS,
     }),
     loaner: generateLoanerStub({
-      status: DEBT_CONFIRMED_STATUS,
+      status: DEBT_DENY_STATUS,
     }),
   });
   t.context.repository.query.ofId(Arg.any()).returns(fromEither(right(debt)));
-  const service = confirmDebtRequestBuilderService({
+  const service = denyDebtRequestBuilderService({
     commandRepository: t.context.repository.command,
     eventPublisher: t.context.eventPublisher,
     queryRepository: t.context.repository.query,
   });
-  const commandHandler = confirmDebtRequestHandler(service);
-  const command = new ConfirmDebtRequestCommand(t.context.data);
+  const commandHandler = denyDebtRequestHandler(service);
+  const command = new DenyDebtRequestCommand(t.context.data);
   // When
   const fn = commandHandler(command);
   // Then
   await t.throwsAsync(fn);
 });
 
-test('should confirm debt request', async t => {
+test('should deny debt request', async t => {
   // Given
   t.context.repository.query
     .ofId(Arg.any())
@@ -106,13 +106,13 @@ test('should confirm debt request', async t => {
     .confirmDebtRequest(Arg.any())
     .returns(Promise.resolve());
   t.context.eventPublisher.publish().returns(Promise.resolve());
-  const service = confirmDebtRequestBuilderService({
+  const service = denyDebtRequestBuilderService({
     commandRepository: t.context.repository.command,
     eventPublisher: t.context.eventPublisher,
     queryRepository: t.context.repository.query,
   });
-  const commandHandler = confirmDebtRequestHandler(service);
-  const command = new ConfirmDebtRequestCommand(t.context.data);
+  const commandHandler = denyDebtRequestHandler(service);
+  const command = new DenyDebtRequestCommand(t.context.data);
   // When
   const fn = commandHandler(command);
   // Then

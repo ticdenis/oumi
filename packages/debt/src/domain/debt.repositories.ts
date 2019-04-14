@@ -2,12 +2,12 @@ import { DebtId } from '@oumi-package/shared/lib/domain/debt.props';
 
 import { TaskEither } from 'fp-ts/lib/TaskEither';
 
-import { Debt } from './';
-import { DebtorId, LoanerId } from './debt.props';
+import { Debt, DebtorId, LoanerId } from './';
 
 export interface DebtCommandRepository {
   confirmDebtRequest(debt: Debt): Promise<void>;
   create(debt: Debt): Promise<void>;
+  denyDebtRequest(debt: Debt): Promise<void>;
 }
 
 export interface DebtQueryRepository {
