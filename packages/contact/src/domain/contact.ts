@@ -102,6 +102,7 @@ export class Contact extends AggregateRoot<ContactEvents> {
     this._requests[index].status = contactRequestStatusVO(
       CONTACT_REQUEST_CONFIRMED_STATUS,
     );
+
     requester._requests[requesterIndex].status = contactRequestStatusVO(
       CONTACT_REQUEST_CONFIRMED_STATUS,
     );
@@ -114,7 +115,7 @@ export class Contact extends AggregateRoot<ContactEvents> {
     );
   }
 
-  public denyRequest(requester: Contact) {
+  public denyRequest(requester: Contact): void {
     const index = this.findContactRequestIndexOrFail(requester.id);
     this.guardContactRequestAlreadyDeny(this._requests[index]);
 
@@ -138,7 +139,7 @@ export class Contact extends AggregateRoot<ContactEvents> {
     );
   }
 
-  private findContactRequestIndexOrFail(id: ContactId) {
+  private findContactRequestIndexOrFail(id: ContactId): number {
     const index = this._requests.findIndex(request => request.id.equalsTo(id));
 
     if (index === -1) {
@@ -148,16 +149,16 @@ export class Contact extends AggregateRoot<ContactEvents> {
     return index;
   }
 
-  private guardContactRequestAlreadyConfirmed(contactRequest: ContactRequest) {
-    if (contactRequest.status.value === CONTACT_REQUEST_CONFIRMED_STATUS) {
+  private guardContactRequestAlreadyConfirmed(request: ContactRequest): void {
+    if (request.status.value === CONTACT_REQUEST_CONFIRMED_STATUS) {
       throw ContactDomainError.requestAlreadyConfirmed(
-        contactRequest.id.value,
+        request.id.value,
         this._id.value,
       );
     }
   }
 
-  private guardContactRequestAlreadyDeny(contactRequest: ContactRequest) {
+  private guardContactRequestAlreadyDeny(contactRequest: ContactRequest): void {
     if (contactRequest.status.value === CONTACT_REQUEST_REFUSED_STATUS) {
       throw ContactDomainError.requestAlreadyDenied(
         contactRequest.id.value,
