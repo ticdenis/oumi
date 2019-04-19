@@ -4,7 +4,7 @@ import * as R from 'ramda';
 import { Environment } from '..';
 
 export const loadEnvironment = (): Environment => {
-  const raw = R.mergeDeepRight(
+  const raw = R.merge(
     (() => {
       try {
         const output = dotenv.config();

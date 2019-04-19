@@ -1,4 +1,4 @@
-import { Oumi } from '@oumi-package/core/lib';
+import { Oumi } from '@oumi-package/shared/lib/core';
 
 export interface Environment extends Oumi.Environment {
   APP_PORT: string;
@@ -18,8 +18,8 @@ export interface Environment extends Oumi.Environment {
 
 export const SERVICE_ID = {
   BUS: {
-    COMMAND: Symbol.for('COMMAND_BUS_SERVICE_ID'),
-    QUERY: Symbol.for('QUERY_BUS_SERVICE_ID'),
+    SYNC_COMMAND: Symbol.for('SYNC_COMMAND_BUS_SERVICE_ID'),
+    SYNC_QUERY: Symbol.for('SYNC_QUERY_BUS_SERVICE_ID'),
   },
   COMMAND_REPOSITORY: {
     USER: Symbol.for('USER_COMMAND_REPOSITORY_SERVICE_ID'),

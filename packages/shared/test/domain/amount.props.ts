@@ -1,7 +1,6 @@
-import { ValueObjectDomainError } from '@oumi-package/core/lib';
-
 import ava, { TestInterface } from 'ava';
 
+import { ValueObjectDomainError } from '../../src/core';
 import { amountVO } from '../../src/domain/amount.props';
 import { currencyVO, CurrencyVO } from '../../src/domain/currency.props';
 

@@ -1,4 +1,4 @@
-import { Mapper } from '@oumi-package/core/lib';
+import { Mapper } from '@oumi-package/shared/lib/core';
 
 import { User } from './';
 

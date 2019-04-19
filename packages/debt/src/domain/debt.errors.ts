@@ -1,4 +1,4 @@
-import { DomainError } from '@oumi-package/core/lib';
+import { DomainError } from '@oumi-package/shared/lib/core';
 
 export class DebtDomainError extends DomainError {
   public static debtNotExists(id: string): DebtDomainError {

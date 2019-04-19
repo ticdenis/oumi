@@ -2,7 +2,7 @@ import {
   CommandHandler,
   eitherToPromise,
   stringVO,
-} from '@oumi-package/core/lib';
+} from '@oumi-package/shared/lib/core';
 
 import { userIdVO, userPasswordVO } from '../../domain';
 

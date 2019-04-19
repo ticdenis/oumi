@@ -1,4 +1,4 @@
-import { CommandHandler, eitherToPromise } from '@oumi-package/core/lib';
+import { CommandHandler, eitherToPromise } from '@oumi-package/shared/lib/core';
 
 import {
   userEmailVO,

@@ -1,4 +1,4 @@
-import { stringVO, uuidVO } from '.';
+import { stringVO, uuidVO } from './';
 
 // Types
 

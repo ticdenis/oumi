@@ -3,7 +3,7 @@ import {
   EventPublisher,
   EventSubscriber,
   Oumi,
-} from '@oumi-package/core/lib';
+} from '@oumi-package/shared/lib/core';
 
 import { Substitute } from '@fluffy-spoon/substitute';
 import express from 'express';

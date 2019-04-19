@@ -1,6 +1,6 @@
 {
   "name": "@oumi-package/shared",
-  "description": "This package provides the shared componentes betweeen Oumi packages.",
+  "description": "This package provides the shared componentes between Oumi packages.",
   "version": "0.0.0",
   "private": true,
   "license": "UNLICENSED",
@@ -21,13 +21,19 @@
     "report": "nyc report -r=text-lcov > coverage.lcov"
   },
   "dependencies": {
-    "@oumi-package/core": "0.0.0",
-    "io-ts": "^1.8.3"
+    "fp-ts": "^1.17.0",
+    "io-ts": "^1.8.3",
+    "io-ts-types": "^0.4.7",
+    "monocle-ts": "^1.7.1",
+    "ramda": "^0.26.1",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@fluffy-spoon/substitute": "^1.87.0",
     "@types/node": "^11.13.0",
+    "@types/ramda": "^0.26.7",
     "@types/sinon": "^7.0.11",
+    "@types/uuid": "^3.4.4",
     "ava": "^1.4.1",
     "nyc": "^13.3.0",
     "prettier": "^1.16.4",

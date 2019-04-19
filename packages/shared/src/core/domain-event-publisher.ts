@@ -1,4 +1,4 @@
-import { Event, EventPublisher, EventSubscriber } from '../domain';
+import { Event, EventPublisher, EventSubscriber } from './';
 
 export class DomainEventPublisher implements EventPublisher {
   public static instance(): DomainEventPublisher {
@@ -38,6 +38,7 @@ export class DomainEventPublisher implements EventPublisher {
         events.filter(event => subscriber.isSubscribedTo(event)),
       )
       .forEach(subscriber => events.forEach(event => subscriber.handle(event)));
+
     return Promise.resolve();
   }
 }

@@ -1,4 +1,4 @@
-import { CommandHandler, eitherToPromise } from '@oumi-package/core';
+import { CommandHandler, eitherToPromise } from '@oumi-package/shared/lib/core';
 import { debtIdVO } from '@oumi-package/shared/lib/domain/debt.props';
 
 import { DenyDebtRequestCommand, DenyDebtRequestService } from '.';

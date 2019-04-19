@@ -1,4 +1,4 @@
-import { Event, EventSubscriber } from '../domain';
+import { Event, EventSubscriber } from './';
 
 export class DomainEventSubscriber implements EventSubscriber {
   public static instance(): DomainEventSubscriber {

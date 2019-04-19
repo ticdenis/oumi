@@ -3,7 +3,7 @@ import {
   DomainCommandBus,
   EventPublisher,
   Oumi,
-} from '@oumi-package/core/lib';
+} from '@oumi-package/shared/lib/core';
 import {
   UserFirstnameStub,
   UserIdStub,
@@ -81,7 +81,7 @@ describe('user registration POST controller', () => {
       Substitute.for<EventPublisher>(),
     );
     bus.addHandler(...userRegistrationHandler(context.container));
-    context.container.set<CommandBus>(SERVICE_ID.BUS.COMMAND, bus);
+    context.container.set<CommandBus>(SERVICE_ID.BUS.SYNC_COMMAND, bus);
     // When
     const res = await context.request();
     // Then
@@ -105,7 +105,7 @@ describe('user registration POST controller', () => {
       Substitute.for<EventPublisher>(),
     );
     bus.addHandler(...userRegistrationHandler(context.container));
-    context.container.set<CommandBus>(SERVICE_ID.BUS.COMMAND, bus);
+    context.container.set<CommandBus>(SERVICE_ID.BUS.SYNC_COMMAND, bus);
     // When
     const res = await context.request();
     // Then

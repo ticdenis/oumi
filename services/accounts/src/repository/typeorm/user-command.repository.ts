@@ -1,4 +1,4 @@
-import { Oumi } from '@oumi-package/core/lib';
+import { Oumi } from '@oumi-package/shared/lib/core';
 import { User, UserCommandRepository } from '@oumi-package/user/lib';
 
 import { Connection } from 'typeorm';

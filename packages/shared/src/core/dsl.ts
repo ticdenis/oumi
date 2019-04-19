@@ -1,6 +1,6 @@
 import { Errors } from 'io-ts';
 
-import { DomainError } from '../domain';
+import { DomainError } from './';
 
 // tslint:disable-next-line: no-namespace
 export declare namespace Oumi {

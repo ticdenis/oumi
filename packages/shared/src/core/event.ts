@@ -1,6 +1,6 @@
 import * as R from 'ramda';
 
-import { message, Message, stringVO } from '.';
+import { message, Message, stringVO } from './';
 
 // Types
 

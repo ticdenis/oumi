@@ -2,7 +2,7 @@ import {
   DomainError,
   koResponse,
   ValueObjectDomainError,
-} from '@oumi-package/core/lib';
+} from '@oumi-package/shared/lib/core';
 
 import express from 'express';
 import * as HttpStatus from 'http-status-codes';

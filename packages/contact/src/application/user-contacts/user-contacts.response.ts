@@ -1,4 +1,4 @@
-import { DataTransformer } from '@oumi-package/core/lib';
+import { DataTransformer } from '@oumi-package/shared/lib/core';
 
 import * as R from 'ramda';
 

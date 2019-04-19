@@ -1,4 +1,4 @@
-import { event } from '@oumi-package/core';
+import { event } from '@oumi-package/shared/lib/core';
 
 export type ContactEvents = NewRequested | RequestConfirmed | RequestDenied;
 

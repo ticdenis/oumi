@@ -1,4 +1,4 @@
-import { DomainQueryBus, Oumi, QueryBus } from '@oumi-package/core/lib';
+import { DomainQueryBus, Oumi, QueryBus } from '@oumi-package/shared/lib/core';
 import {
   TokenFactory,
   userPasswordVO,
@@ -62,7 +62,7 @@ describe('user token POST controller', () => {
       Substitute.for<TokenFactory>(),
     );
     bus.addHandler(...userTokenHandler(context.container));
-    context.container.set<QueryBus>(SERVICE_ID.BUS.QUERY, bus);
+    context.container.set<QueryBus>(SERVICE_ID.BUS.SYNC_QUERY, bus);
     // When
     const res = await context.request();
     // Then
@@ -91,7 +91,7 @@ describe('user token POST controller', () => {
       Substitute.for<TokenFactory>(),
     );
     bus.addHandler(...userTokenHandler(context.container));
-    context.container.set<QueryBus>(SERVICE_ID.BUS.QUERY, bus);
+    context.container.set<QueryBus>(SERVICE_ID.BUS.SYNC_QUERY, bus);
     // When
     const res = await context.request();
     // Then
@@ -112,7 +112,7 @@ describe('user token POST controller', () => {
     };
     context.container.set(SERVICE_ID.TOKEN_FACTORY, fakeTokenFactory);
     bus.addHandler(...userTokenHandler(context.container));
-    context.container.set<QueryBus>(SERVICE_ID.BUS.QUERY, bus);
+    context.container.set<QueryBus>(SERVICE_ID.BUS.SYNC_QUERY, bus);
     // When
     const res = await context.request();
     // Then

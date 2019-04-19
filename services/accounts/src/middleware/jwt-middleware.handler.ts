@@ -1,4 +1,4 @@
-import { koResponse, Oumi } from '@oumi-package/core/lib';
+import { koResponse, Oumi } from '@oumi-package/shared/lib/core';
 import { TokenReader, UserId } from '@oumi-package/user';
 
 import express from 'express';

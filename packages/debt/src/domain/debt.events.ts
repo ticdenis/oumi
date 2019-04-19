@@ -1,4 +1,4 @@
-import { event } from '@oumi-package/core/lib';
+import { event } from '@oumi-package/shared/lib/core';
 
 export type DebtEvents =
   | DebtNewRequested

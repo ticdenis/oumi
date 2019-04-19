@@ -1,7 +1,6 @@
-import { ValueObjectDomainError } from '@oumi-package/core/lib';
-
 import ava, { TestInterface } from 'ava';
 
+import { ValueObjectDomainError } from '../../src/core';
 import {
   userFirstnameVO,
   userIdVO,

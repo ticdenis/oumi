@@ -1,8 +1,4 @@
-import {
-  floatVO,
-  simpleValueObject,
-  ValueObject,
-} from '@oumi-package/core/lib';
+import { floatVO, simpleValueObject, ValueObject } from '../core';
 
 import { CurrencyVO } from './currency.props';
 

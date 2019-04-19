@@ -2,7 +2,7 @@ import {
   DomainError,
   EventPublisher,
   NullableStringVO,
-} from '@oumi-package/core/lib';
+} from '@oumi-package/shared/lib/core';
 
 import { Either, left, right } from 'fp-ts/lib/Either';
 import { constVoid } from 'fp-ts/lib/function';

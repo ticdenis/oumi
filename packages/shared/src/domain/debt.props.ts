@@ -1,4 +1,4 @@
-import { UuidVO, uuidVO } from '@oumi-package/core/lib';
+import { UuidVO, uuidVO } from '../core';
 
 // Types
 

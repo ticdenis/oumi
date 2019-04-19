@@ -1,4 +1,4 @@
-import { koResponse, okResponse, Oumi } from '@oumi-package/core/lib';
+import { koResponse, okResponse, Oumi } from '@oumi-package/shared/lib/core';
 
 import express from 'express';
 import * as HttpStatus from 'http-status-codes';

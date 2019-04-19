@@ -1,4 +1,4 @@
-import { CommandBus, okResponse, Oumi } from '@oumi-package/core/lib';
+import { CommandBus, okResponse, Oumi } from '@oumi-package/shared/lib/core';
 import { UserRegistrationCommand } from '@oumi-package/user/lib';
 
 import express from 'express';
@@ -12,7 +12,7 @@ export const userRegistrationPostController: Oumi.Controller<
   express.Handler
 > = container => (req, res, next) =>
   container
-    .get<CommandBus>(SERVICE_ID.BUS.COMMAND)
+    .get<CommandBus>(SERVICE_ID.BUS.SYNC_COMMAND)
     .dispatch(new UserRegistrationCommand(req.body))
     .then(() => {
       res.status(HttpStatus.CREATED).json(okResponse());

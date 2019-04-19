@@ -1,4 +1,8 @@
-import { EventPublisher, EventSubscriber, Oumi } from '@oumi-package/core/lib';
+import {
+  EventPublisher,
+  EventSubscriber,
+  Oumi,
+} from '@oumi-package/shared/lib/core';
 
 import express from 'express';
 

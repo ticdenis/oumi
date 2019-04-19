@@ -6,7 +6,7 @@ import {
   stringVO,
   ValueObject,
   ValueObjectDomainError,
-} from '@oumi-package/core/lib';
+} from '@oumi-package/shared/lib/core';
 import {
   AmountVO,
   amountVO,

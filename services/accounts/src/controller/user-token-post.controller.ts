@@ -1,4 +1,4 @@
-import { okResponse, Oumi, QueryBus } from '@oumi-package/core/lib';
+import { okResponse, Oumi, QueryBus } from '@oumi-package/shared/lib/core';
 import { UserTokenQuery } from '@oumi-package/user/lib';
 
 import express from 'express';
@@ -12,7 +12,7 @@ export const userTokenPostController: Oumi.Controller<
   express.Handler
 > = container => (req, res, next) =>
   container
-    .get<QueryBus>(SERVICE_ID.BUS.QUERY)
+    .get<QueryBus>(SERVICE_ID.BUS.SYNC_QUERY)
     .ask(new UserTokenQuery(req.body))
     .then(token => {
       res.status(HttpStatus.OK).json(okResponse(token));

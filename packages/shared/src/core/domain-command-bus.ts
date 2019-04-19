@@ -1,9 +1,4 @@
-import {
-  Command,
-  CommandBus,
-  CommandDomainError,
-  CommandHandler,
-} from '../domain';
+import { Command, CommandBus, CommandDomainError, CommandHandler } from './';
 
 export class DomainCommandBus implements CommandBus {
   public static instance(): DomainCommandBus {

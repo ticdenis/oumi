@@ -1,4 +1,4 @@
-import { Command } from "@oumi-package/core/lib";
+import { Command } from "@oumi-package/shared/lib/core";
 
 export interface _TemplateData {
   // TODO: [key: string]: any

@@ -1,4 +1,4 @@
-import { Command } from '@oumi-package/core';
+import { Command } from '@oumi-package/shared/lib/core';
 
 export interface ConfirmContactRequestData {
   contactRequestId: string;

@@ -1,4 +1,4 @@
-import { AggregateRoot } from '@oumi-package/core/lib';
+import { AggregateRoot } from '@oumi-package/shared/lib/core';
 import { DebtId } from '@oumi-package/shared/lib/domain/debt.props';
 
 import {

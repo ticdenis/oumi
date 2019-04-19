@@ -3,7 +3,7 @@ import {
   ContactQueryRepository,
   jsonContactMapper,
 } from '@oumi-package/contact/lib';
-import { Oumi } from '@oumi-package/core/lib';
+import { Oumi } from '@oumi-package/shared/lib/core';
 import { UserId, UserNickname } from '@oumi-package/user/lib';
 
 import { TaskEither, tryCatch } from 'fp-ts/lib/TaskEither';
@@ -48,6 +48,7 @@ export class TypeORMContactQueryRepository implements ContactQueryRepository {
     throw new Error('Method not implemented.');
   }
 
+  // tslint:disable-next-line: function-name
   private _getUserContacts(id: string): Promise<_Contact[]> {
     return this._connection
       .createQueryBuilder()
@@ -63,6 +64,7 @@ export class TypeORMContactQueryRepository implements ContactQueryRepository {
       .execute();
   }
 
+  // tslint:disable-next-line: function-name
   private async _getUserContactDebts(
     userId: string,
     contactId: string,

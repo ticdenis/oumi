@@ -1,4 +1,4 @@
-import { Oumi } from '@oumi-package/core/lib';
+import { Oumi } from '@oumi-package/shared/lib/core';
 import { UserPasswordNotEncryptedStub } from '@oumi-package/user/lib/infrastructure/test/user.stubs';
 
 import { Substitute } from '@fluffy-spoon/substitute';

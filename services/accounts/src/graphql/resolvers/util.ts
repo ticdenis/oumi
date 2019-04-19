@@ -6,7 +6,7 @@ import {
   Oumi,
   Query,
   QueryBus,
-} from '@oumi-package/core/lib';
+} from '@oumi-package/shared/lib/core';
 
 import { SERVICE_ID } from '../../config';
 
@@ -21,7 +21,7 @@ export const mutationResolver = <Data>(
   CommandClass: new (data: Data) => Command<Data>,
 ): Resolver<{ input: Data }, void> => (_, { input }, { container }) =>
   container
-    .get<CommandBus>(SERVICE_ID.BUS.COMMAND)
+    .get<CommandBus>(SERVICE_ID.BUS.SYNC_COMMAND)
     .dispatch(new CommandClass(input))
     .then(async response => {
       await runDomainEventsJob(container);
@@ -33,7 +33,7 @@ export const queryResolver = <Data, Response>(
   QueryClass: new (data: Data) => Query<Data>,
 ): Resolver<{ input: Data }, Response> => (_, { input }, { container }) =>
   container
-    .get<QueryBus>(SERVICE_ID.BUS.QUERY)
+    .get<QueryBus>(SERVICE_ID.BUS.SYNC_QUERY)
     .ask<Data, Response>(new QueryClass(input))
     .then(async response => {
       await runDomainEventsJob(container);

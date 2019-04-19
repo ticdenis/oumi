@@ -1,4 +1,4 @@
-import { Query, QueryBus, QueryDomainError, QueryHandler } from '../domain';
+import { Query, QueryBus, QueryDomainError, QueryHandler } from './';
 
 export class DomainQueryBus implements QueryBus {
   public static instance(): DomainQueryBus {
@@ -38,8 +38,6 @@ export class DomainQueryBus implements QueryBus {
       );
     }
 
-    const response = await this._queryHandlers.get(query.name)(query);
-
-    return response;
+    return this._queryHandlers.get(query.name)(query);
   }
 }

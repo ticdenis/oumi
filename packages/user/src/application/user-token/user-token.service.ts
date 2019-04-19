@@ -1,4 +1,4 @@
-import { StringVO } from '@oumi-package/core/lib';
+import { StringVO } from '@oumi-package/shared/lib/core';
 
 import { Either, left } from 'fp-ts/lib/Either';
 import * as R from 'ramda';

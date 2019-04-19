@@ -1,4 +1,4 @@
-import { Event, EventPublisher, Oumi } from '@oumi-package/core/lib';
+import { Event, EventPublisher, Oumi } from '@oumi-package/shared/lib/core';
 
 import { Connection } from 'typeorm';
 

@@ -1,4 +1,4 @@
-import { NullableStringVO } from '@oumi-package/core/lib';
+import { NullableStringVO } from '@oumi-package/shared/lib/core';
 import {
   userIdVO,
   userNicknameVO,

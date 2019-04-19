@@ -1,5 +1,5 @@
 import { ContactQueryRepository } from '@oumi-package/contact/lib';
-import { EventPublisher, Oumi } from '@oumi-package/core/lib';
+import { EventPublisher, Oumi } from '@oumi-package/shared/lib/core';
 import {
   simpleJWTFactory,
   simpleJWTReader,

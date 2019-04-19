@@ -1,4 +1,4 @@
-import { EventPublisher } from '@oumi-package/core/lib';
+import { EventPublisher } from '@oumi-package/shared/lib/core';
 import { DebtId } from '@oumi-package/shared/lib/domain/debt.props';
 
 import { Either, left, right } from 'fp-ts/lib/Either';

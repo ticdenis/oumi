@@ -1,4 +1,4 @@
-import { Query } from '@oumi-package/core/lib';
+import { Query } from '@oumi-package/shared/lib/core';
 
 import { Token } from '../../domain';
 

@@ -1,4 +1,4 @@
-import { CommandHandler, Oumi } from '@oumi-package/core/lib';
+import { CommandHandler, Oumi } from '@oumi-package/shared/lib/core';
 
 import changePasswordHandler from './change-password.handler';
 import updateProfileHandler from './update-profile.handler';

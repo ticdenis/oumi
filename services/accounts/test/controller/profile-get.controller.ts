@@ -1,4 +1,4 @@
-import { DomainQueryBus, Oumi, QueryBus } from '@oumi-package/core/lib';
+import { DomainQueryBus, Oumi, QueryBus } from '@oumi-package/shared/lib/core';
 import { UserIdStub } from '@oumi-package/shared/lib/infrastructure/test/user.stubs';
 import {
   ProfileData,
@@ -52,7 +52,7 @@ describe('profile GET controller', () => {
     const bus = DomainQueryBus.instance();
     context.container.set(SERVICE_ID.QUERY_REPOSITORY.USER, fakeQueryRepo);
     bus.addHandler(...profileHandler(context.container));
-    context.container.set<QueryBus>(SERVICE_ID.BUS.QUERY, bus);
+    context.container.set<QueryBus>(SERVICE_ID.BUS.SYNC_QUERY, bus);
     // When
     const res = await context.request();
     // Then
@@ -70,7 +70,7 @@ describe('profile GET controller', () => {
     const bus = DomainQueryBus.instance();
     context.container.set(SERVICE_ID.QUERY_REPOSITORY.USER, fakeQueryRepo);
     bus.addHandler(...profileHandler(context.container));
-    context.container.set<QueryBus>(SERVICE_ID.BUS.QUERY, bus);
+    context.container.set<QueryBus>(SERVICE_ID.BUS.SYNC_QUERY, bus);
     // When
     const res = await context.request();
     // Then

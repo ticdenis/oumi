@@ -1,4 +1,4 @@
-import { CommandHandler, eitherToPromise } from '@oumi-package/core/lib';
+import { CommandHandler, eitherToPromise } from '@oumi-package/shared/lib/core';
 import { currencyFromCodeVO } from '@oumi-package/shared/lib/domain/currency.props';
 import { debtIdVO } from '@oumi-package/shared/lib/domain/debt.props';
 import { userIdVO } from '@oumi-package/user/lib';

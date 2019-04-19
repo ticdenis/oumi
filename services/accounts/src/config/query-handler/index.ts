@@ -1,4 +1,4 @@
-import { Oumi, QueryHandler } from '@oumi-package/core/lib';
+import { Oumi, QueryHandler } from '@oumi-package/shared/lib/core';
 
 import profileHandler from './profile.handler';
 import userContactsHandler from './user-contacts.handler';

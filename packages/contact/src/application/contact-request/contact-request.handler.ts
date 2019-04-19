@@ -2,7 +2,7 @@ import {
   CommandHandler,
   eitherToPromise,
   nullableStringVO,
-} from '@oumi-package/core/lib';
+} from '@oumi-package/shared/lib/core';
 
 import { contactIdVO, contactNicknameVO } from '../../domain';
 

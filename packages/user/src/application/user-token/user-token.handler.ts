@@ -2,7 +2,7 @@ import {
   eitherToPromise,
   QueryHandler,
   stringVO,
-} from '@oumi-package/core/lib';
+} from '@oumi-package/shared/lib/core';
 
 import { userEmailVO } from '../../domain';
 

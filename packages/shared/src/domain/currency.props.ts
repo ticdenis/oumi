@@ -1,8 +1,4 @@
-import {
-  simpleValueObject,
-  stringVO,
-  ValueObject,
-} from '@oumi-package/core/lib';
+import { simpleValueObject, stringVO, ValueObject } from '../core';
 
 export type CurrencyVO = ValueObject<
   Readonly<{ code: string; symbol: string }>

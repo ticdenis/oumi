@@ -1,4 +1,4 @@
-import { AggregateRoot } from '@oumi-package/core/lib';
+import { AggregateRoot } from '@oumi-package/shared/lib/core';
 
 import {
   CONTACT_REQUEST_CONFIRMED_STATUS,

@@ -1,4 +1,7 @@
-import { NullableStringVO, nullableStringVO } from '@oumi-package/core/lib';
+import {
+  NullableStringVO,
+  nullableStringVO,
+} from '@oumi-package/shared/lib/core';
 import {
   DolarAmountStub,
   EuroAmountStub,

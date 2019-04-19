@@ -1,4 +1,4 @@
-import { Request, stringVO, uuidVO } from '.';
+import { Message, stringVO, uuidVO } from './';
 
 // Types
 
@@ -10,7 +10,7 @@ export interface QueryBus {
 
 // Helpers
 
-export abstract class Query<T> implements Request {
+export abstract class Query<T> implements Message {
   public readonly data: T;
   public readonly id: string;
   public readonly name: string;

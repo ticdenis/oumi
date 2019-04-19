@@ -20,10 +20,10 @@
     "report": "nyc report -r=text-lcov > coverage.lcov"
   },
   "dependencies": {
-    "@oumi-package/core": "0.0.0",
     "@oumi-package/shared": "0.0.0",
+    "@types/ramda": "^0.26.7",
     "bcrypt": "^3.0.4",
-    "fp-ts": "^1.15.1",
+    "fp-ts": " ^1.15.1",
     "io-ts": "^1.8.3",
     "jwt-simple": "^0.5.5",
     "ramda": "^0.26.1"

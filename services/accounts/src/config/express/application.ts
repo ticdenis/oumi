@@ -1,4 +1,4 @@
-import { nullableStringVO, Oumi } from '@oumi-package/core/lib';
+import { nullableStringVO, Oumi } from '@oumi-package/shared/lib/core';
 
 import { createTerminus } from '@godaddy/terminus';
 import express from 'express';

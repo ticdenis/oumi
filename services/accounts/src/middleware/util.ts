@@ -1,4 +1,8 @@
-import { koResponse, Oumi, validationReporter } from '@oumi-package/core/lib';
+import {
+  koResponse,
+  Oumi,
+  validationReporter,
+} from '@oumi-package/shared/lib/core';
 
 import express from 'express';
 import { Either } from 'fp-ts/lib/Either';

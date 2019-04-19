@@ -1,4 +1,4 @@
-import { Query } from '@oumi-package/core';
+import { Query } from '@oumi-package/shared/lib/core';
 
 export interface DebtRequestsData {
   debtorId: string;

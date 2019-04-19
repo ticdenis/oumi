@@ -1,4 +1,4 @@
-import { Oumi } from '@oumi-package/core/lib';
+import { Oumi } from '@oumi-package/shared/lib/core';
 import { UserIdStub } from '@oumi-package/shared/lib/infrastructure/test/user.stubs';
 import { TokenDomainError, TokenReader, UserId } from '@oumi-package/user/lib';
 

@@ -1,4 +1,4 @@
-import { AggregateRoot } from '@oumi-package/core/lib';
+import { AggregateRoot } from '@oumi-package/shared/lib/core';
 
 import { UserDomainError } from './user.errors';
 import {

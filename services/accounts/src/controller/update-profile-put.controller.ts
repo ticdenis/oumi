@@ -1,4 +1,4 @@
-import { CommandBus, okResponse, Oumi } from '@oumi-package/core/lib';
+import { CommandBus, okResponse, Oumi } from '@oumi-package/shared/lib/core';
 import { UpdateProfileCommand, UserId } from '@oumi-package/user/lib';
 
 import express from 'express';
@@ -13,7 +13,7 @@ export const updateProfilePutController: Oumi.Controller<
   express.Handler
 > = container => (req, res, next) =>
   container
-    .get<CommandBus>(SERVICE_ID.BUS.COMMAND)
+    .get<CommandBus>(SERVICE_ID.BUS.SYNC_COMMAND)
     .dispatch(
       new UpdateProfileCommand(
         R.assoc(

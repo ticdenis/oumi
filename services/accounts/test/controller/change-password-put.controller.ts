@@ -4,7 +4,7 @@ import {
   EventPublisher,
   Oumi,
   stringVO,
-} from '@oumi-package/core/lib';
+} from '@oumi-package/shared/lib/core';
 import { UserIdStub } from '@oumi-package/shared/lib/infrastructure/test/user.stubs';
 import {
   ChangePasswordData,
@@ -77,7 +77,7 @@ describe('change password PUT controller', () => {
       Substitute.for<EventPublisher>(),
     );
     bus.addHandler(...changePasswordHandler(context.container));
-    context.container.set<CommandBus>(SERVICE_ID.BUS.COMMAND, bus);
+    context.container.set<CommandBus>(SERVICE_ID.BUS.SYNC_COMMAND, bus);
     // When
     const res = await context.request();
     // Then
@@ -104,7 +104,7 @@ describe('change password PUT controller', () => {
     );
     context.data.oldPassword = stringVO('password-error').value;
     bus.addHandler(...changePasswordHandler(context.container));
-    context.container.set<CommandBus>(SERVICE_ID.BUS.COMMAND, bus);
+    context.container.set<CommandBus>(SERVICE_ID.BUS.SYNC_COMMAND, bus);
     // When
     const res = await context.request();
     // Then
@@ -132,7 +132,7 @@ describe('change password PUT controller', () => {
       Substitute.for<EventPublisher>(),
     );
     bus.addHandler(...changePasswordHandler(context.container));
-    context.container.set<CommandBus>(SERVICE_ID.BUS.COMMAND, bus);
+    context.container.set<CommandBus>(SERVICE_ID.BUS.SYNC_COMMAND, bus);
     // When
     const res = await context.request();
     // Then

@@ -1,4 +1,4 @@
-import { DomainError } from "@oumi-package/core/lib";
+import { DomainError } from "@oumi-package/shared/lib/core";
 
 import { Either } from "fp-ts/lib/Either";
 

@@ -1,4 +1,4 @@
-import { Query } from "@oumi-package/core/lib";
+import { Query } from "@oumi-package/shared/lib/core";
 
 export interface _TemplateData {
   // TODO: [key: string]: any

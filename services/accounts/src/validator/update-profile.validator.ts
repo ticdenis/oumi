@@ -1,4 +1,4 @@
-import { Oumi } from '@oumi-package/core/lib';
+import { Oumi } from '@oumi-package/shared/lib/core';
 
 import { Either } from 'fp-ts/lib/Either';
 import * as t from 'io-ts';

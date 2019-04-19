@@ -1,4 +1,4 @@
-import { Event } from '.';
+import { Event } from './';
 
 export abstract class AggregateRoot<DomainEventType> {
   private _domainEvents: Event<DomainEventType>[] = [];

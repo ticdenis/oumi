@@ -13,6 +13,4 @@ export class MessageDomainError extends DomainError {}
 
 export class QueryDomainError extends DomainError {}
 
-export class RequestDomainError extends DomainError {}
-
 export class ValueObjectDomainError extends DomainError {}

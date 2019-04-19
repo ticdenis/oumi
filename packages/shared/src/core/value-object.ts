@@ -4,7 +4,7 @@ import { date } from 'io-ts-types/lib/Date/date';
 import { uuid } from 'io-ts-types/lib/string/uuid';
 import { v4 } from 'uuid';
 
-import { ValueObjectDomainError } from '.';
+import { ValueObjectDomainError } from './';
 
 // Types
 
