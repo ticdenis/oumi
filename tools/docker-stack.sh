@@ -22,7 +22,7 @@ function usage {
     echo "  logs      Show $APP service logs"
     echo "  down        Scale to 0 $APP service"
     echo "  up      Scale to 1 $APP service"
-    exit 1
+    exit 0
 }
 
 case $COMMAND in

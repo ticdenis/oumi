@@ -9,13 +9,15 @@
     "packages/user",
     "packages/contact",
     "packages/debt",
-    "services/accounts"
+    "services/accounts",
+    "services/transactions"
   ],
   "scripts": {
     "preinstall": "node -e 'if(!/yarn\\.js$/.test(process.env.npm_execpath))throw new Error(\"Use yarn\")'",
     "commit": "git-cz",
     "cli": "./tools/cli.ts",
     "docker": "./tools/docker-stack.sh",
+    "pm2": "./tools/pm2-stack.sh",
     "reset": "rimraf node_modules && rimraf **/node_modules && yarn install && yarn clean && yarn build",
     "build": "yarn workspaces run build",
     "watch:packages": "concurrently \"npm:watch:package-*\"",
@@ -36,6 +38,7 @@
     "test:package-debt": "yarn workspace @oumi-package/debt run test",
     "test:services": "concurrently \"yarn:test:service-*\"",
     "test:service-accounts": "yarn workspace @oumi-service/accounts run test",
+    "test:service-transactions": "yarn workspace @oumi-service/transactions run test",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "devDependencies": {

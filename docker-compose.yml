@@ -26,6 +26,7 @@ services:
       - PGADMIN_DEFAULT_PASSWORD=secret
     networks:
       - accounts_database
+      - transactions_database
   accounts_database:
     image: postgres:11-alpine
     volumes:
@@ -42,10 +43,28 @@ services:
       - oumi_proxy
       - accounts_database
     command: ["yarn", "workspace", "@oumi-service/accounts", "dev"]
+  transactions_database:
+    image: postgres:11-alpine
+    volumes:
+      - oumi_transactions_database_data:/var/lib/postgresql/data
+    networks:
+      - transactions_database
+  transactions:
+    image: oumi/node
+    volumes:
+      - .:/app
+    ports:
+      - "3002:3002"
+    networks:
+      - oumi_proxy
+      - transactions_database
+    command: ["yarn", "workspace", "@oumi-service/transactions", "dev"]
 
 volumes:
   oumi_accounts_database_data:
     name: oumi_accounts_database_data
+  oumi_transactions_database_data:
+    name: oumi_transactions_database_data
   oumi_pgadmin_data:
     name: oumi_pgadmindata
 
@@ -55,4 +74,7 @@ networks:
     attachable: true
   accounts_database:
     name: oumi_accounts_database
+    attachable: true
+  transactions_database:
+    name: oumi_transactions_database
     attachable: true
