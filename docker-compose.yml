@@ -6,7 +6,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./tools/nginx.conf:/etc/nginx/nginx.conf
+      - ./services/nginx.conf:/etc/nginx/nginx.conf
     networks:
       - oumi_proxy
     command: ["nginx", "-g", "daemon off;"]

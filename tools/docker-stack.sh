@@ -20,8 +20,8 @@ function usage {
     echo "  yarn      Execute yarn"
     echo "  services  Show $APP services"
     echo "  logs      Show $APP service logs"
-    echo "  up        Scale to 0 $APP service"
-    echo "  down      Scale to 1 $APP service"
+    echo "  down        Scale to 0 $APP service"
+    echo "  up      Scale to 1 $APP service"
     exit 1
 }
 
