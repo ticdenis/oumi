@@ -20,7 +20,8 @@ function usage {
     echo "  down       Stop $APP services"
     echo "  stop       Stop $APP service"
     echo "  restart    Restart $APP services"
-    echo "  logs        Log $APP service"
+    echo "  logs       Log $APP service"
+    echo "  proxy      Proxy (start|stop|logs) $APP services"
     exit 0
 }
 
@@ -41,6 +42,17 @@ case $COMMAND in
     $SERVICE/$OPTION run serve:logs;;
   "restart")
     $PM2 restart @oumi-service/$OPTION;;
+  "proxy:start")
+    docker run --rm -d --name $APP-pm2-proxy \
+      -p 3000:3000 \
+      -v $ROOT/services/nginx.conf:/etc/nginx/nginx.conf:delegated \
+      nginx:1.15-alpine \
+      nginx -g 'daemon off;'
+    ;;
+  "proxy:stop")
+    docker rm $APP-pm2-proxy --force;;
+  "proxy:logs")
+    docker logs $APP-pm2-proxy -f;;
   *)
     usage ;;
 esac
