@@ -58,7 +58,9 @@ export const stringVO = (value: string): StringVO => {
   return simpleValueObject<string>(value);
 };
 
-export const nullableStringVO = (value: string | null): NullableStringVO => {
+export const nullableStringVO = (
+  value: string | null = null,
+): NullableStringVO => {
   if (
     fromNullable(t.string)('')
       .decode(value)
@@ -88,7 +90,9 @@ export const numberVO = (value: number): NumberVO => {
   return simpleValueObject<number>(value);
 };
 
-export const nullableNumberVO = (value: number | null): NullableNumberVO => {
+export const nullableNumberVO = (
+  value: number | null = null,
+): NullableNumberVO => {
   if (
     fromNullable(t.number)(0)
       .decode(value)
@@ -108,7 +112,7 @@ export const intVO = (value: number): IntVO => {
   return simpleValueObject<number>(value);
 };
 
-export const nullableIntVO = (value: number | null): NullableIntVO => {
+export const nullableIntVO = (value: number | null = null): NullableIntVO => {
   if (
     // tslint:disable-next-line: deprecation
     fromNullable(t.Integer)(0)
@@ -129,7 +133,9 @@ export const floatVO = (value: number): FloatVO => {
   return simpleValueObject<number>(value);
 };
 
-export const nullableFloatVO = (value: number | null): NullableFloatVO => {
+export const nullableFloatVO = (
+  value: number | null = null,
+): NullableFloatVO => {
   if (value !== null && !isFloat(value)) {
     throw new ValueObjectDomainError('INVALID_NULLABLE_FLOAT', value);
   }

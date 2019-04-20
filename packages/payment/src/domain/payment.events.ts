@@ -4,6 +4,7 @@ export type PaymentEvents = NewPaymentRequested;
 
 export interface NewPaymentRequested {
   debtId: string;
+  id: string;
   message: string | null;
   quantity: number;
 }

@@ -2,7 +2,7 @@
   "all": true,
   "exclude": [
     "lib",
-    "test",
+    "test"
   ],
   "extension": [
     ".ts"

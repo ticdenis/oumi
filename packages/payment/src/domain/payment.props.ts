@@ -8,8 +8,8 @@ import {
   UuidVO,
   uuidVO,
 } from '@oumi-package/shared/lib/core';
-import { DebtId } from '@oumi-package/shared/lib/domain/debt.props';
-import { UserId } from '@oumi-package/shared/lib/domain/user.props';
+import { DebtId, debtIdVO } from '@oumi-package/shared/lib/domain/debt.props';
+import { UserId, userIdVO } from '@oumi-package/shared/lib/domain/user.props';
 
 // Types
 
@@ -20,8 +20,8 @@ export type PaymentDebtUserId = UserId;
 export type PaymentDebtQuantity = FloatVO;
 
 export interface PaymentDebt {
-  id: PaymentDebtId;
   debtorId: PaymentDebtUserId;
+  id: PaymentDebtId;
   loanerId: PaymentDebtUserId;
   quantity: PaymentDebtQuantity;
 }
@@ -36,12 +36,16 @@ export type PaymentOcurredOn = DateVO;
 
 // Impl
 
-export const paymentDebtQuantity = floatVO;
+export const paymentDebtIdVO = debtIdVO;
 
-export const paymentQuantity = floatVO;
+export const paymentDebtUserIdVO = userIdVO;
+
+export const paymentDebtQuantityVO = floatVO;
+
+export const paymentQuantityVO = floatVO;
 
 export const paymentIdVO = uuidVO;
 
 export const paymentMessageVO = nullableStringVO;
 
-export const paymentOcurredOn = dateVO;
+export const paymentOcurredOnVO = dateVO;
