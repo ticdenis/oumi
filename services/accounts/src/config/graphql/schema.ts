@@ -17,6 +17,7 @@ export const typeDefs = gql`
 export const resolvers = {
   Mutation: {
     changePassword: MUTATION_RESOLVER.changePassword,
+    newContactRequest: MUTATION_RESOLVER.newContactRequest,
     updateProfile: MUTATION_RESOLVER.updateProfile,
     userRegistration: MUTATION_RESOLVER.userRegistration,
   },
