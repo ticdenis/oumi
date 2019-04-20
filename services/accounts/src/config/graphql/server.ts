@@ -6,9 +6,7 @@ import { resolvers, typeDefs } from './schema';
 
 export const loadApolloServer = (container: Oumi.Container) =>
   new ApolloServer({
-    context: () => {
-      return { container };
-    },
+    context: () => ({ container }),
     resolvers,
     typeDefs,
   });

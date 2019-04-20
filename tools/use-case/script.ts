@@ -2,7 +2,7 @@ import chalk from "chalk";
 import * as inquirer from "inquirer";
 import * as shell from "shelljs";
 
-const PACKAGED_IGNORED = ["core", "shared"];
+const PACKAGED_IGNORED = ["shared"];
 
 interface UseCase {
   type: "command" | "query";

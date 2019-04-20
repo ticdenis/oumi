@@ -9,6 +9,7 @@
     "packages/user",
     "packages/contact",
     "packages/debt",
+    "packages/payment",
     "services/accounts",
     "services/transactions"
   ],
@@ -25,6 +26,7 @@
     "watch:package-user": "yarn workspace @oumi-package/user run watch",
     "watch:package-contact": "yarn workspace @oumi-package/contact run watch",
     "watch:package-debt": "yarn workspace @oumi-package/debt run watch",
+    "watch:package-payment": "yarn workspace @oumi-package/payment run watch",
     "clean": "yarn workspaces run clean",
     "lint": "yarn workspaces run lint",
     "lint:fix": "yarn workspaces run lint:fix",
@@ -36,6 +38,7 @@
     "test:package-user": "yarn workspace @oumi-package/user run test",
     "test:package-contact": "yarn workspace @oumi-package/contact run test",
     "test:package-debt": "yarn workspace @oumi-package/debt run test",
+    "test:package-payment": "yarn workspace @oumi-package/payment run test",
     "test:services": "concurrently \"yarn:test:service-*\"",
     "test:service-accounts": "yarn workspace @oumi-service/accounts run test",
     "test:service-transactions": "yarn workspace @oumi-service/transactions run test",
