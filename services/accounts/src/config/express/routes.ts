@@ -4,6 +4,7 @@ import express from 'express';
 
 import { changePasswordRouter } from '../../features/change-password';
 import { healthzRouter } from '../../features/healthz';
+import { newContactRequestRouter } from '../../features/new-contact-request';
 import { profileRouter } from '../../features/profile';
 import { rootRouter } from '../../features/root';
 import { updateProfileRouter } from '../../features/update-profile';
@@ -30,4 +31,6 @@ export function loadRoutes(
   app.put('/profile', updateProfileRouter(container));
 
   app.put('/password', changePasswordRouter(container));
+
+  app.post('/contacts/requests', newContactRequestRouter(container));
 }

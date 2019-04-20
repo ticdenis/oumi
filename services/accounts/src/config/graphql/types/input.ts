@@ -26,6 +26,12 @@ export const Input = gql`
     phone: String!
   }
 
+  input NewContactRequestData {
+    nickname: String!
+    message: String
+    requesterId: ID!
+  }
+
   # Query
 
   input ProfileData {

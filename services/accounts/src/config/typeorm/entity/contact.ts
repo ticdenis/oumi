@@ -4,6 +4,8 @@ export interface ContactEntityType {
   contactId: string;
   id: string;
   userId: string;
+  message: string | null;
+  status: string;
 }
 
 // tslint:disable-next-line:variable-name
@@ -16,6 +18,15 @@ export const ContactEntity = new EntitySchema<ContactEntityType>({
     id: {
       generated: 'uuid',
       primary: true,
+      type: String,
+    },
+    message: {
+      name: 'message',
+      nullable: true,
+      type: String,
+    },
+    status: {
+      name: 'status',
       type: String,
     },
     userId: {

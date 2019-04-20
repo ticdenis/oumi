@@ -11,7 +11,7 @@ export class ContactDomainError extends DomainError {
   public static invalidSource(source: any): ContactDomainError {
     return new ContactDomainError(
       'CONTACT_INVALID_SOURCE',
-      `The <${source}> source for contact is not valid`,
+      `The <${JSON.stringify(source)}> source for contact is not valid`,
     );
   }
 

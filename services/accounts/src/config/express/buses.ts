@@ -15,6 +15,10 @@ import {
   CHANGE_PASSWORD_COMMAND,
   CHANGE_PASSWORD_COMMAND_HANDLER,
 } from '../../features/change-password';
+import {
+  NEW_CONTACT_REQUEST_COMMAND,
+  NEW_CONTACT_REQUEST_COMMAND_HANDLER,
+} from '../../features/new-contact-request';
 import { PROFILE_QUERY, PROFILE_QUERY_HANDLER } from '../../features/profile';
 import {
   UPDATE_PROFILE_COMMAND,
@@ -74,6 +78,11 @@ export function loadBuses(container: Oumi.Container) {
     bus.addHandler(
       USER_REGISTRATION_COMMAND,
       USER_REGISTRATION_COMMAND_HANDLER(container),
+    );
+
+    bus.addHandler(
+      NEW_CONTACT_REQUEST_COMMAND,
+      NEW_CONTACT_REQUEST_COMMAND_HANDLER(container),
     );
 
     return bus;

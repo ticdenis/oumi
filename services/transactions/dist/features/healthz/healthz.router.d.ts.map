@@ -1,0 +1,1 @@
+{"version":3,"file":"healthz.router.d.ts","sourceRoot":"","sources":["../../../src/features/healthz/healthz.router.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,IAAI,EAAE,MAAM,+BAA+B,CAAC;AAErD,OAAO,OAAO,MAAM,SAAS,CAAC;AAI9B,eAAO,MAAM,aAAa,EAAE,IAAI,CAAC,MAAM,CACrC,OAAO,CAAC,cAAc,EAAE,CACwB,CAAC"}
