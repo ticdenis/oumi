@@ -1,0 +1,64 @@
+{
+  "extends": [
+    "tslint:latest",
+    "tslint-config-airbnb",
+    "tslint-config-prettier"
+  ],
+  "rules": {
+    "no-duplicate-variable": true,
+    "indent": [
+      true,
+      "spaces",
+      2
+    ],
+    "curly": [
+      true,
+      "ignore-same-line"
+    ],
+    "interface-name": [
+      true,
+      "never-prefix"
+    ],
+    "object-literal-sort-keys": true,
+    "object-shorthand-properties-first": false,
+    "ordered-imports": [
+      true,
+      {
+        "import-sources-order": "case-insensitive",
+        "named-imports-order": "case-insensitive",
+        "grouped-imports": true,
+        "groups": [
+          "^@oumi-package",
+          "^@oumi-service",
+          "^@oumi-application",
+          "^rxjs",
+          "^[^.]",
+          "^[.][.]",
+          "^[.]"
+        ]
+      }
+    ],
+    "semicolon": [
+      true,
+      "always"
+    ],
+    "max-classes-per-file": false,
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-leading-underscore"
+    ],
+    "await-promise": true,
+    "no-implicit-dependencies": [
+      true,
+      "dev"
+    ],
+    "array-type": [
+      true,
+      "array"
+    ],
+    "no-submodule-imports": false,
+    "deprecation": true
+  }
+}
