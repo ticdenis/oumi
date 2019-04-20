@@ -26,6 +26,8 @@ export declare namespace Oumi {
 
   export type Handler<T> = (container: Container) => T;
 
+  export type Router<T> = (container: Container) => T;
+
   export interface Logger {
     log(message: string): void;
   }

@@ -145,7 +145,7 @@ export const dateVO = (value: Date): DateVO => {
   return simpleValueObject<Date>(value);
 };
 
-export const nullableDateVO = (value: Date | null): NullableDateVO => {
+export const nullableDateVO = (value: Date | null = null): NullableDateVO => {
   if (
     fromNullable(date)(new Date())
       .decode(value)

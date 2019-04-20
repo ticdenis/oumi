@@ -3,12 +3,13 @@ import { Oumi } from '@oumi-package/shared/lib/core';
 import { Connection, createConnection } from 'typeorm';
 
 import { Environment } from '..';
+
 import {
   ContactEntity,
   DebtEntity,
   DomainEventEntity,
   UserEntity,
-} from '../../entity/typeorm';
+} from './entity';
 
 export const loadDatabase = (env: Environment): Oumi.Database => {
   let db: Connection = null;

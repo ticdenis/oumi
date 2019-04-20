@@ -2,67 +2,32 @@ import { Oumi } from '@oumi-package/shared/lib/core';
 
 import express from 'express';
 
-import {
-  changePasswordPutController,
-  healthzGetController,
-  profileGetController,
-  rootGetController,
-  updateProfilePutController,
-  userContactsGetController,
-  userRegistrationPostController,
-  userTokenPostController,
-} from '../../controller';
-import {
-  changePasswordValidatorHandler,
-  jwtMiddleware,
-  updateProfileValidatorHandler,
-  userRegistrationValidatorHandler,
-  userTokenValidatorHandler,
-} from '../../middleware';
+import { changePasswordRouter } from '../../features/change-password';
+import { healthzRouter } from '../../features/healthz';
+import { profileRouter } from '../../features/profile';
+import { rootRouter } from '../../features/root';
+import { updateProfileRouter } from '../../features/update-profile';
+import { userContactsRouter } from '../../features/user-contacts';
+import { userRegistrationRouter } from '../../features/user-registration';
+import { userTokenRouter } from '../../features/user-token';
 
 export function loadRoutes(
   app: express.Application,
   container: Oumi.Container,
 ) {
-  app.get('/', rootGetController(container));
+  app.get('/', rootRouter(container));
 
-  app.get('/healthz', healthzGetController(container));
+  app.get('/healthz', healthzRouter(container));
 
-  app.post(
-    '/users',
-    userRegistrationValidatorHandler(container),
-    userRegistrationPostController(container),
-  );
+  app.post('/auth', userTokenRouter(container));
 
-  app.post(
-    '/auth',
-    userTokenValidatorHandler(container),
-    userTokenPostController(container),
-  );
+  app.get('/profile', profileRouter(container));
 
-  app.get(
-    '/profile',
-    jwtMiddleware(container),
-    profileGetController(container),
-  );
+  app.get('/users/contacts', userContactsRouter(container));
 
-  app.put(
-    '/profile',
-    jwtMiddleware(container),
-    updateProfileValidatorHandler(container),
-    updateProfilePutController(container),
-  );
+  app.post('/users', userRegistrationRouter(container));
 
-  app.put(
-    '/password',
-    jwtMiddleware(container),
-    changePasswordValidatorHandler(container),
-    changePasswordPutController(container),
-  );
+  app.put('/profile', updateProfileRouter(container));
 
-  app.get(
-    '/users/contacts',
-    jwtMiddleware(container),
-    userContactsGetController(container),
-  );
+  app.put('/password', changePasswordRouter(container));
 }

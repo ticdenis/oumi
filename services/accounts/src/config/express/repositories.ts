@@ -17,7 +17,7 @@ import {
   TypeORMDomainEventRepository,
   TypeORMUserCommandRepository,
   TypeORMUserQueryRepository,
-} from '../../repository/typeorm';
+} from '../../repositories/typeorm';
 
 export function loadRepositories(container: Oumi.Container) {
   const env = container.get<Environment>(SERVICE_ID.ENV);

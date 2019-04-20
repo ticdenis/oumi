@@ -11,8 +11,10 @@ import {
 } from '@oumi-package/shared/lib/core';
 
 import { SERVICE_ID } from '..';
-import { COMMAND_HANDLERS } from '../command-handler';
-import { QUERY_HANDLERS } from '../query-handler';
+import {
+  NEW_DEBT_REQUEST_COMMAND,
+  NEW_DEBT_REQUEST_COMMAND_HANDLER,
+} from '../../features/new-debt-request';
 
 export function loadBuses(container: Oumi.Container) {
   container.setAsync<EventSubscriber>(SERVICE_ID.EVENT_SUBSCRIBER, () => {
@@ -29,13 +31,17 @@ export function loadBuses(container: Oumi.Container) {
 
   container.setAsync<QueryBus>(SERVICE_ID.BUS.SYNC_QUERY, () => {
     const bus = DomainQueryBus.instance();
-    QUERY_HANDLERS(container).forEach(handler => bus.addHandler(...handler));
     return bus;
   });
 
   container.setAsync<CommandBus>(SERVICE_ID.BUS.SYNC_COMMAND, () => {
     const bus = DomainCommandBus.instance();
-    COMMAND_HANDLERS(container).forEach(handler => bus.addHandler(...handler));
+
+    bus.addHandler(
+      NEW_DEBT_REQUEST_COMMAND,
+      NEW_DEBT_REQUEST_COMMAND_HANDLER(container),
+    );
+
     return bus;
   });
 }

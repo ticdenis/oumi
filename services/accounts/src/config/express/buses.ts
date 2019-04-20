@@ -11,8 +11,27 @@ import {
 } from '@oumi-package/shared/lib/core';
 
 import { SERVICE_ID } from '..';
-import { COMMAND_HANDLERS } from '../command-handler';
-import { QUERY_HANDLERS } from '../query-handler';
+import {
+  CHANGE_PASSWORD_COMMAND,
+  CHANGE_PASSWORD_COMMAND_HANDLER,
+} from '../../features/change-password';
+import { PROFILE_QUERY, PROFILE_QUERY_HANDLER } from '../../features/profile';
+import {
+  UPDATE_PROFILE_COMMAND,
+  UPDATE_PROFILE_COMMAND_HANDLER,
+} from '../../features/update-profile';
+import {
+  USER_CONTACTS_QUERY,
+  USER_CONTACTS_QUERY_HANDLER,
+} from '../../features/user-contacts';
+import {
+  USER_REGISTRATION_COMMAND,
+  USER_REGISTRATION_COMMAND_HANDLER,
+} from '../../features/user-registration';
+import {
+  USER_TOKEN_QUERY,
+  USER_TOKEN_QUERY_HANDLER,
+} from '../../features/user-token';
 
 export function loadBuses(container: Oumi.Container) {
   container.setAsync<EventSubscriber>(SERVICE_ID.EVENT_SUBSCRIBER, () => {
@@ -29,13 +48,34 @@ export function loadBuses(container: Oumi.Container) {
 
   container.setAsync<QueryBus>(SERVICE_ID.BUS.SYNC_QUERY, () => {
     const bus = DomainQueryBus.instance();
-    QUERY_HANDLERS(container).forEach(handler => bus.addHandler(...handler));
+
+    bus.addHandler(PROFILE_QUERY, PROFILE_QUERY_HANDLER(container));
+
+    bus.addHandler(USER_CONTACTS_QUERY, USER_CONTACTS_QUERY_HANDLER(container));
+
+    bus.addHandler(USER_TOKEN_QUERY, USER_TOKEN_QUERY_HANDLER(container));
+
     return bus;
   });
 
   container.setAsync<CommandBus>(SERVICE_ID.BUS.SYNC_COMMAND, () => {
     const bus = DomainCommandBus.instance();
-    COMMAND_HANDLERS(container).forEach(handler => bus.addHandler(...handler));
+
+    bus.addHandler(
+      CHANGE_PASSWORD_COMMAND,
+      CHANGE_PASSWORD_COMMAND_HANDLER(container),
+    );
+
+    bus.addHandler(
+      UPDATE_PROFILE_COMMAND,
+      UPDATE_PROFILE_COMMAND_HANDLER(container),
+    );
+
+    bus.addHandler(
+      USER_REGISTRATION_COMMAND,
+      USER_REGISTRATION_COMMAND_HANDLER(container),
+    );
+
     return bus;
   });
 }

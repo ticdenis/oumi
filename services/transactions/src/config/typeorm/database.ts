@@ -3,7 +3,8 @@ import { Oumi } from '@oumi-package/shared/lib/core';
 import { Connection, createConnection } from 'typeorm';
 
 import { Environment } from '..';
-import { DomainEventEntity } from '../../entity/typeorm';
+
+import { DomainEventEntity } from './entity';
 
 export const loadDatabase = (env: Environment): Oumi.Database => {
   let db: Connection = null;

@@ -4,9 +4,8 @@ import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 
-import { errorHandler, persistDomainEventsHandler } from '../../middleware';
-
-import { loadApolloServer } from './apolloserver/server';
+import { errorHandler, persistDomainEventsHandler } from '../../util';
+import { loadApolloServer } from '../graphql/server';
 
 export function loadBeforeMiddlewares(
   app: express.Application,
