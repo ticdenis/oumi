@@ -15,15 +15,6 @@ export const typeDefs = gql`
 `;
 
 export const resolvers = {
-  Mutation: {
-    changePassword: MUTATION_RESOLVER.changePassword,
-    newContactRequest: MUTATION_RESOLVER.newContactRequest,
-    updateProfile: MUTATION_RESOLVER.updateProfile,
-    userRegistration: MUTATION_RESOLVER.userRegistration,
-  },
-  Query: {
-    profile: QUERY_RESOLVER.profile,
-    userContacts: QUERY_RESOLVER.userContacts,
-    userToken: QUERY_RESOLVER.userToken,
-  },
+  Mutation: MUTATION_RESOLVER,
+  Query: QUERY_RESOLVER,
 };
