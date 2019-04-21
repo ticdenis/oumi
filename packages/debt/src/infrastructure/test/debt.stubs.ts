@@ -15,28 +15,22 @@ import {
   loanerIdVO,
 } from '../../domain';
 
-// tslint:disable-next-line: variable-name
 export const DebtAmountStub = debtAmountVO({
   amount: 100,
   currency: EuroCurrencyStub,
 });
 
-// tslint:disable-next-line: variable-name
 export const DebtConceptStub = debtConceptVO('concept');
 
-// tslint:disable-next-line: variable-name
 export const DebtDebtorStub: DebtDebtor = {
   id: debtorIdVO('00000000-0000-0000-0000-000000000002'),
   status: DEBT_PENDING_STATUS,
 };
 
-// tslint:disable-next-line: variable-name
 export const DebtInitialDateStub = debtInitialDateVO();
 
-// tslint:disable-next-line: variable-name
 export const DebtLimitDateStub = debtInitialDateVO();
 
-// tslint:disable-next-line: variable-name
 export const DebtLoanerStub: DebtLoaner = {
   id: loanerIdVO('00000000-0000-0000-0000-000000000001'),
   status: DEBT_SENDED_STATUS,
@@ -52,7 +46,6 @@ export const generateLoanerStub = (args: Partial<DebtLoaner>) => ({
   status: args.status || DebtLoanerStub.status,
 });
 
-// tslint:disable-next-line: variable-name
 export const DebtStub = new Debt({
   amount: DebtAmountStub,
   concept: DebtConceptStub,

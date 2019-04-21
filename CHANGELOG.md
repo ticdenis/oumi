@@ -1,4 +1,4 @@
-# 0.0.0 (2019-04-20)
+# 0.0.0 (2019-04-21)
 
 
 ### Bug Fixes
@@ -8,20 +8,23 @@
 * dsl container again ([32bdc9c](https://github.com/ticdenis/oumi/commit/32bdc9c))
 * fix profile endpoint. added jwt middleware ([2b9a17c](https://github.com/ticdenis/oumi/commit/2b9a17c))
 * fixed jest account service test ([4842beb](https://github.com/ticdenis/oumi/commit/4842beb))
+* ignored dist folder on all services ([6b18923](https://github.com/ticdenis/oumi/commit/6b18923))
 * improve container ([8809ebb](https://github.com/ticdenis/oumi/commit/8809ebb))
 * minnor changes ([1a86565](https://github.com/ticdenis/oumi/commit/1a86565))
 * missing file ([3690479](https://github.com/ticdenis/oumi/commit/3690479))
+* missing schema Mutation newContactRequest resolver! ([09e5374](https://github.com/ticdenis/oumi/commit/09e5374))
 * next() mandatory on SUCCESS ([5351f4d](https://github.com/ticdenis/oumi/commit/5351f4d))
+* removed some tslint rules and dist transactions folder ([6583c81](https://github.com/ticdenis/oumi/commit/6583c81))
 * typo ([1825192](https://github.com/ticdenis/oumi/commit/1825192))
 * typo ([#31](https://github.com/ticdenis/oumi/issues/31)) ([efc16d4](https://github.com/ticdenis/oumi/commit/efc16d4))
-* use array constants instead duplicated same logic ([f6b4e0d](https://github.com/ticdenis/oumi/commit/f6b4e0d))
+* use array constants instead duplicated same logic ([a6f336c](https://github.com/ticdenis/oumi/commit/a6f336c))
+* use array constants instead duplicated same logic ([77c141b](https://github.com/ticdenis/oumi/commit/77c141b))
 
 
 ### Features
 
-* user contacts (pending service test) ([6335873](https://github.com/ticdenis/oumi/commit/6335873))
-* **user:** added user registration feature, pending api ([0ed955b](https://github.com/ticdenis/oumi/commit/0ed955b))
 * account service graphql update ([4b79b0f](https://github.com/ticdenis/oumi/commit/4b79b0f))
+* **user:** added user registration feature, pending api ([0ed955b](https://github.com/ticdenis/oumi/commit/0ed955b))
 * added nginx-pm2 ([b18d0ba](https://github.com/ticdenis/oumi/commit/b18d0ba))
 * added shared package ([e3f4e78](https://github.com/ticdenis/oumi/commit/e3f4e78))
 * added simple command and query bus ([a948281](https://github.com/ticdenis/oumi/commit/a948281))
@@ -35,10 +38,12 @@
 * deny contact request ([#38](https://github.com/ticdenis/oumi/issues/38)) ([ee3365f](https://github.com/ticdenis/oumi/commit/ee3365f))
 * deny debt request ([#33](https://github.com/ticdenis/oumi/issues/33)) ([b4a2b9a](https://github.com/ticdenis/oumi/commit/b4a2b9a))
 * missing files ([579694c](https://github.com/ticdenis/oumi/commit/579694c))
+* new contact request impl ([99befa6](https://github.com/ticdenis/oumi/commit/99befa6))
 * new debt request ([46193e2](https://github.com/ticdenis/oumi/commit/46193e2))
-* new payment request ([1e2a514](https://github.com/ticdenis/oumi/commit/1e2a514))
+* payments ([#41](https://github.com/ticdenis/oumi/issues/41)) ([967f306](https://github.com/ticdenis/oumi/commit/967f306))
 * profile ([2e3e415](https://github.com/ticdenis/oumi/commit/2e3e415))
 * update profile ([873ebbe](https://github.com/ticdenis/oumi/commit/873ebbe))
+* user contacts (pending service test) ([6335873](https://github.com/ticdenis/oumi/commit/6335873))
 * user contacts domain application ([05a4fb7](https://github.com/ticdenis/oumi/commit/05a4fb7))
 * user token ([a41b04d](https://github.com/ticdenis/oumi/commit/a41b04d))
 

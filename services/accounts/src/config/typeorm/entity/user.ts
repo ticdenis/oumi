@@ -12,7 +12,6 @@ export interface UserEntityType {
   updated_at: Date;
 }
 
-// tslint:disable-next-line:variable-name
 export const UserEntity = new EntitySchema<UserEntityType>({
   columns: {
     created_at: {

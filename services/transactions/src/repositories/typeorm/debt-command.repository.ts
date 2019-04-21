@@ -6,6 +6,7 @@ import { Connection } from 'typeorm';
 import { SERVICE_ID } from '../../config';
 
 export class TypeORMDebtCommandRepository implements DebtCommandRepository {
+  /* tslint:disable:no-unused-variable */
   private readonly _connection: Connection;
 
   public constructor(container: Oumi.Container) {
@@ -15,20 +16,14 @@ export class TypeORMDebtCommandRepository implements DebtCommandRepository {
   }
 
   public confirmDebtRequest(debt: Debt): Promise<void> {
-    // tslint:disable-next-line: no-console
-    console.log(this._connection);
     throw new Error('Method not implemented.');
   }
 
   public create(debt: Debt): Promise<void> {
-    // tslint:disable-next-line: no-console
-    console.log(this._connection);
     throw new Error('Method not implemented.');
   }
 
   public denyDebtRequest(debt: Debt): Promise<void> {
-    // tslint:disable-next-line: no-console
-    console.log(this._connection);
     throw new Error('Method not implemented.');
   }
 }

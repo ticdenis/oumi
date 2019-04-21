@@ -7,12 +7,5 @@
     "**/var": true,
   },
   "editor.formatOnSave": true,
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "sqltools.connections": [
-    {
-      "database": "/Users/dna/Developer/personal/oumi/services/accounts/var/db-accounts.sqlite",
-      "dialect": "SQLite",
-      "name": "accounts"
-    }
-  ]
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

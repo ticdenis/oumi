@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "lib",
+    "rootDir": "./src",
+    "outDir": "./lib",
+    "tsBuildInfoFile": "./lib/tsbuildinfo.json",
     "allowJs": false,
     "composite": true,
     "declaration": true,
@@ -24,11 +25,10 @@
     "noImplicitThis": true,
     "suppressImplicitAnyIndexErrors": false,
     "strictNullChecks": false,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "skipLibCheck": true,
     "target": "esnext",
     "incremental": true,
-    "tsBuildInfoFile": "lib/tsbuildinfo.json"
   },
   "exclude": [
     "lib",
@@ -36,7 +36,5 @@
     "test",
     "tools"
   ],
-  "include": [
-    "src/**/*.ts"
-  ]
+  "include": ["./src/**/*.ts"],
 }

@@ -1,6 +1,5 @@
 import { gql } from 'apollo-server';
 
-// tslint:disable-next-line: variable-name
 export const Input = gql`
   input ChangePasswordData {
     id: ID!
@@ -24,6 +23,12 @@ export const Input = gql`
     nickname: String!
     password: String!
     phone: String!
+  }
+
+  input NewContactRequestData {
+    nickname: String!
+    message: String
+    requesterId: ID!
   }
 
   # Query

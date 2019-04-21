@@ -1,7 +1,6 @@
 {
   "extends": [
     "tslint:latest",
-    "tslint-config-airbnb",
     "tslint-config-prettier"
   ],
   "rules": {
@@ -40,15 +39,11 @@
     ],
     "semicolon": [
       true,
-      "always"
+      "always",
+      "ignore-bound-class-methods"
     ],
     "max-classes-per-file": false,
-    "variable-name": [
-      true,
-      "ban-keywords",
-      "check-format",
-      "allow-leading-underscore"
-    ],
+    "variable-name": [false],
     "await-promise": true,
     "no-implicit-dependencies": [
       true,
@@ -59,6 +54,8 @@
       "array"
     ],
     "no-submodule-imports": false,
+    "function-name": [false],
+    "class-name": [false],
     "deprecation": true
   }
 }

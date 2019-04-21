@@ -48,16 +48,9 @@ export class Contact extends AggregateRoot<ContactEvents> {
   }
 
   public newRequest(contact: Contact, message: ContactMessage): void {
-    const requestExist = contact._requests.find(req =>
-      req.nickname.equalsTo(this._nickname),
-    );
+    this.guardCanNotSendRequestYourself(contact);
 
-    if (requestExist) {
-      throw ContactDomainError.requestAlreadyExists(
-        this._id.value,
-        contact._id.value,
-      );
-    }
+    this.guardRequestAlreadyNotExists(contact);
 
     this._requests.push({
       fullname: contactFullnameVO({
@@ -137,6 +130,34 @@ export class Contact extends AggregateRoot<ContactEvents> {
         requesterId: requester._id.value,
       }),
     );
+  }
+
+  private guardCanNotSendRequestYourself(contact: Contact): void {
+    if (this._id.equalsTo(contact._id)) {
+      throw ContactDomainError.canNotSendRequestYourself(this._id.value);
+    }
+  }
+
+  private guardRequestAlreadyNotExists(contact: Contact): void {
+    const findRequestByNickname = (
+      requests: ContactRequest[],
+      nickname: ContactNickname,
+    ) => requests.find(req => req.nickname.equalsTo(nickname));
+    const requestExist = findRequestByNickname(
+      contact._requests,
+      this._nickname,
+    );
+    const contactExist = findRequestByNickname(
+      this._requests,
+      contact._nickname,
+    );
+
+    if (requestExist || contactExist) {
+      throw ContactDomainError.requestAlreadyExists(
+        this._id.value,
+        contact._id.value,
+      );
+    }
   }
 
   private findContactRequestIndexOrFail(id: ContactId): number {

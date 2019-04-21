@@ -13,19 +13,14 @@ import {
   userPhoneVO,
 } from '../../domain/user.props';
 
-// tslint:disable-next-line: variable-name
 export const UserEmailStub = userEmailVO('test@oumi.com');
 
-// tslint:disable-next-line: variable-name
 export const UserPasswordStub = userPasswordVO('secret');
 
-// tslint:disable-next-line: variable-name
 export const UserPasswordNotEncryptedStub = stringVO('secret');
 
-// tslint:disable-next-line: variable-name
 export const UserPhoneStub = userPhoneVO('612345678');
 
-// tslint:disable-next-line: variable-name
 export const UserStub = new User({
   email: UserEmailStub,
   firstname: UserFirstnameStub,

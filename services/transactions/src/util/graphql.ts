@@ -33,7 +33,6 @@ export type Resolver<A = any, T = any> = (
 ) => T | Promise<T>;
 
 export const mutationResolver = <Data>(
-  // tslint:disable-next-line: variable-name
   CommandClass: new (data: Data) => Command<Data>,
 ): Resolver<{ input: Data }, void> => (_, { input }, { container }) =>
   container
@@ -45,7 +44,6 @@ export const mutationResolver = <Data>(
     });
 
 export const queryResolver = <Data, Response>(
-  // tslint:disable-next-line: variable-name
   QueryClass: new (data: Data) => Query<Data>,
 ): Resolver<{ input: Data }, Response> => (_, { input }, { container }) =>
   container
