@@ -72,10 +72,10 @@ describe('user token POST controller', () => {
 
   test('user token', async done => {
     // Given
-    const fakeQueryRepo = Substitute.for<UserQueryRepository>();
-    fakeQueryRepo.ofEmail(Arg.any()).returns(fromEither(right(UserStub)));
+    const queryRepository = Substitute.for<UserQueryRepository>();
+    queryRepository.ofEmail(Arg.any()).returns(fromEither(right(UserStub)));
     const bus = DomainQueryBus.instance();
-    context.container.set(SERVICE_ID.QUERY_REPOSITORY.USER, fakeQueryRepo);
+    context.container.set(SERVICE_ID.QUERY_REPOSITORY.USER, queryRepository);
     const fakeTokenFactory: TokenFactory = {
       build: _ => fromEither(right('token')),
     };

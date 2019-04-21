@@ -1,28 +1,4 @@
-import {
-  ContactCommandRepository,
-  ContactId,
-  contactIdVO,
-  contactNicknameVO,
-  ContactQueryRepository,
-  ContactRequestData,
-} from '@oumi-package/contact/lib';
-import {
-  ContactIdStub,
-  ContactStub,
-  generateContactStub,
-} from '@oumi-package/contact/lib/infrastructure/test/contact.stubs';
-import {
-  CommandBus,
-  DomainCommandBus,
-  EventPublisher,
-  Oumi,
-  TestDomainError,
-} from '@oumi-package/shared/lib/core';
-import { UserId } from '@oumi-package/shared/lib/domain/user.props';
-import {
-  UserIdStub,
-  UserNicknameStub,
-} from '@oumi-package/shared/lib/infrastructure/test/user.stubs';
+import { ContactRequestData } from '@oumi-package/contact/lib/application';
 
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
 import express from 'express';
@@ -31,12 +7,31 @@ import { fromEither } from 'fp-ts/lib/TaskEither';
 import * as HttpStatus from 'http-status-codes';
 import supertest from 'supertest';
 
-import { loadContainer, SERVICE_ID } from '../../../src/config';
 import {
   NEW_CONTACT_REQUEST_COMMAND,
   NEW_CONTACT_REQUEST_COMMAND_HANDLER,
   newContactRequestPostController,
 } from '../../../src/features/new-contact-request';
+import {
+  CommandBus,
+  ContactCommandRepository,
+  ContactId,
+  ContactIdStub,
+  contactIdVO,
+  contactNicknameVO,
+  ContactQueryRepository,
+  ContactStub,
+  DomainCommandBus,
+  EventPublisher,
+  generateContactStub,
+  loadContainer,
+  Oumi,
+  SERVICE_ID,
+  TestDomainError,
+  UserId,
+  UserIdStub,
+  UserNicknameStub,
+} from '../../helpers/domain-imports';
 
 describe('contact new request POST controller', () => {
   let context: {

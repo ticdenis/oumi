@@ -1,23 +1,4 @@
-import {
-  CommandBus,
-  DomainCommandBus,
-  EventPublisher,
-  Oumi,
-  stringVO,
-  TestDomainError,
-} from '@oumi-package/shared/lib/core';
-import { UserIdStub } from '@oumi-package/shared/lib/infrastructure/test/user.stubs';
-import {
-  ChangePasswordData,
-  User,
-  UserCommandRepository,
-  UserId,
-  UserQueryRepository,
-} from '@oumi-package/user/lib';
-import {
-  UserPasswordNotEncryptedStub,
-  UserStub,
-} from '@oumi-package/user/lib/infrastructure/test/user.stubs';
+import { ChangePasswordData } from '@oumi-package/user/lib/application';
 
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
 import express from 'express';
@@ -26,12 +7,28 @@ import { fromEither } from 'fp-ts/lib/TaskEither';
 import * as HttpStatus from 'http-status-codes';
 import supertest from 'supertest';
 
-import { loadContainer, SERVICE_ID } from '../../../src/config';
 import {
   CHANGE_PASSWORD_COMMAND,
   CHANGE_PASSWORD_COMMAND_HANDLER,
   changePasswordPutController,
 } from '../../../src/features/change-password';
+import {
+  CommandBus,
+  DomainCommandBus,
+  EventPublisher,
+  loadContainer,
+  Oumi,
+  SERVICE_ID,
+  stringVO,
+  TestDomainError,
+  User,
+  UserCommandRepository,
+  UserId,
+  UserIdStub,
+  UserPasswordNotEncryptedStub,
+  UserQueryRepository,
+  UserStub,
+} from '../../helpers/domain-imports';
 
 describe('change password PUT controller', () => {
   let context: {
