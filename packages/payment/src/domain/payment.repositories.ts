@@ -7,5 +7,6 @@ export interface PaymentCommandRepository {
 }
 
 export interface PaymentQueryRepository {
+  allOfId(id: PaymentDebtId): TaskEither<null, Payment[]>;
   ofDebtId(id: PaymentDebtId): TaskEither<null, PaymentDebt>;
 }

@@ -97,7 +97,7 @@
 
   Should send a payment request of and debt of user (given his uuid from token) given a uuid, quantity to pay and optional message.
 
-- **PaymentRequests**
+- **Payments**
 
   Should return a list of pending payments requests of user (given his uuid from token).
 

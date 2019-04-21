@@ -1,4 +1,4 @@
-import { DomainError, EventPublisher } from '@oumi-package/shared/lib/core';
+import { EventPublisher } from '@oumi-package/shared/lib/core';
 
 import { Either, left, right } from 'fp-ts/lib/Either';
 import { constVoid } from 'fp-ts/lib/function';
@@ -20,7 +20,7 @@ export type NewPayService = (input: {
   id: PaymentId;
   message: PaymentMessage;
   quantity: PaymentQuantity;
-}) => Promise<Either<DomainError, void>>;
+}) => Promise<Either<PaymentDomainError, void>>;
 
 export type NewPayBuilder = (options: {
   commandRepository: PaymentCommandRepository;
