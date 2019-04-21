@@ -3,6 +3,7 @@ import {
   DomainCommandBus,
   EventPublisher,
   Oumi,
+  TestDomainError,
 } from '@oumi-package/shared/lib/core';
 import {
   UserFirstnameStub,
@@ -24,7 +25,7 @@ import {
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
 import express from 'express';
 import { right } from 'fp-ts/lib/Either';
-import { fromEither, fromLeft } from 'fp-ts/lib/TaskEither';
+import { fromEither } from 'fp-ts/lib/TaskEither';
 import * as HttpStatus from 'http-status-codes';
 import supertest from 'supertest';
 
@@ -69,24 +70,10 @@ describe('user registration POST controller', () => {
 
   test('user not found', async done => {
     // Given
-    const fakeQueryRepo = Substitute.for<UserQueryRepository>();
-    fakeQueryRepo.ofId(Arg.any()).returns(fromLeft(null));
-    const bus = DomainCommandBus.instance();
-    context.container.set(SERVICE_ID.QUERY_REPOSITORY.USER, fakeQueryRepo);
-    context.container.set(
-      SERVICE_ID.COMMAND_REPOSITORY.USER,
-      Substitute.for<UserCommandRepository>(),
-    );
-    context.container.set(SERVICE_ID.USER_ID, context.id);
-    context.container.set(
-      SERVICE_ID.EVENT_PUBLISHER,
-      Substitute.for<EventPublisher>(),
-    );
-    bus.addHandler(
-      UPDATE_PROFILE_COMMAND,
-      UPDATE_PROFILE_COMMAND_HANDLER(context.container),
-    );
-    context.container.set<CommandBus>(SERVICE_ID.BUS.SYNC_COMMAND, bus);
+    context.container.set<CommandBus>(SERVICE_ID.BUS.SYNC_COMMAND, {
+      dispatch: () => Promise.reject(new TestDomainError('NOT_FOUND', 'error')),
+    });
+    context.container.set<UserId>(SERVICE_ID.USER_ID, context.id);
     // When
     const res = await context.request();
     // Then
@@ -96,20 +83,26 @@ describe('user registration POST controller', () => {
     done();
   });
 
-  test('update profile', async done => {
+  test('profile updated', async done => {
     // Given
-    const fakeQueryRepo = Substitute.for<UserQueryRepository>();
-    fakeQueryRepo.ofId(Arg.any()).returns(fromEither(right(UserStub)));
-    const fakeCommandRepo = Substitute.for<UserCommandRepository>();
-    fakeCommandRepo.updateProfile(Arg.any()).returns(Promise.resolve());
+    const queryRepository = Substitute.for<UserQueryRepository>();
+    queryRepository.ofId(Arg.any()).returns(fromEither(right(UserStub)));
+    const commandRepository = Substitute.for<UserCommandRepository>();
+    commandRepository.updateProfile(Arg.any()).returns(Promise.resolve());
     const bus = DomainCommandBus.instance();
-    context.container.set(SERVICE_ID.QUERY_REPOSITORY.USER, fakeQueryRepo);
-    context.container.set(SERVICE_ID.COMMAND_REPOSITORY.USER, fakeCommandRepo);
-    context.container.set(
+    context.container.set<UserQueryRepository>(
+      SERVICE_ID.QUERY_REPOSITORY.USER,
+      queryRepository,
+    );
+    context.container.set<UserCommandRepository>(
+      SERVICE_ID.COMMAND_REPOSITORY.USER,
+      commandRepository,
+    );
+    context.container.set<EventPublisher>(
       SERVICE_ID.EVENT_PUBLISHER,
       Substitute.for<EventPublisher>(),
     );
-    context.container.set(SERVICE_ID.USER_ID, context.id);
+    context.container.set<UserId>(SERVICE_ID.USER_ID, context.id);
     bus.addHandler(
       UPDATE_PROFILE_COMMAND,
       UPDATE_PROFILE_COMMAND_HANDLER(context.container),

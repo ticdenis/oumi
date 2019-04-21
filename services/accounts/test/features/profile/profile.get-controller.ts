@@ -1,4 +1,9 @@
-import { DomainQueryBus, Oumi, QueryBus } from '@oumi-package/shared/lib/core';
+import {
+  DomainQueryBus,
+  Oumi,
+  QueryBus,
+  TestDomainError,
+} from '@oumi-package/shared/lib/core';
 import { UserIdStub } from '@oumi-package/shared/lib/infrastructure/test/user.stubs';
 import {
   ProfileData,
@@ -10,7 +15,7 @@ import { UserStub } from '@oumi-package/user/lib/infrastructure/test/user.stubs'
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
 import express from 'express';
 import { right } from 'fp-ts/lib/Either';
-import { fromEither, fromLeft } from 'fp-ts/lib/TaskEither';
+import { fromEither } from 'fp-ts/lib/TaskEither';
 import * as HttpStatus from 'http-status-codes';
 import supertest from 'supertest';
 
@@ -44,18 +49,15 @@ describe('profile GET controller', () => {
           .get('/test')
           .send(context.data),
     };
+    context.container.set<UserId>(SERVICE_ID.USER_ID, UserIdStub);
     done();
   });
 
-  test('should throw not found', async done => {
+  test('profile not found', async done => {
     // Given
-    context.container.set<UserId>(SERVICE_ID.USER_ID, UserIdStub);
-    const fakeQueryRepo = Substitute.for<UserQueryRepository>();
-    fakeQueryRepo.ofId(Arg.any()).returns(fromLeft(null));
-    const bus = DomainQueryBus.instance();
-    context.container.set(SERVICE_ID.QUERY_REPOSITORY.USER, fakeQueryRepo);
-    bus.addHandler(PROFILE_QUERY, PROFILE_QUERY_HANDLER(context.container));
-    context.container.set<QueryBus>(SERVICE_ID.BUS.SYNC_QUERY, bus);
+    context.container.set<QueryBus>(SERVICE_ID.BUS.SYNC_QUERY, {
+      ask: () => Promise.reject(new TestDomainError('NOT_FOUND', 'error')),
+    });
     // When
     const res = await context.request();
     // Then
@@ -67,11 +69,10 @@ describe('profile GET controller', () => {
 
   test('profile', async done => {
     // Given
-    context.container.set<UserId>(SERVICE_ID.USER_ID, UserIdStub);
-    const fakeQueryRepo = Substitute.for<UserQueryRepository>();
-    fakeQueryRepo.ofId(Arg.any()).returns(fromEither(right(UserStub)));
+    const queryRepository = Substitute.for<UserQueryRepository>();
+    queryRepository.ofId(Arg.any()).returns(fromEither(right(UserStub)));
     const bus = DomainQueryBus.instance();
-    context.container.set(SERVICE_ID.QUERY_REPOSITORY.USER, fakeQueryRepo);
+    context.container.set(SERVICE_ID.QUERY_REPOSITORY.USER, queryRepository);
     bus.addHandler(PROFILE_QUERY, PROFILE_QUERY_HANDLER(context.container));
     context.container.set<QueryBus>(SERVICE_ID.BUS.SYNC_QUERY, bus);
     // When

@@ -1,12 +1,15 @@
-import { DomainQueryBus, Oumi, QueryBus } from '@oumi-package/shared/lib/core';
+import {
+  DomainQueryBus,
+  Oumi,
+  QueryBus,
+  TestDomainError,
+} from '@oumi-package/shared/lib/core';
 import {
   TokenFactory,
-  userPasswordVO,
   UserQueryRepository,
   UserTokenData,
 } from '@oumi-package/user/lib';
 import {
-  generateUserStub,
   UserEmailStub,
   UserPasswordNotEncryptedStub,
   UserStub,
@@ -15,7 +18,7 @@ import {
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
 import express from 'express';
 import { right } from 'fp-ts/lib/Either';
-import { fromEither, fromLeft } from 'fp-ts/lib/TaskEither';
+import { fromEither } from 'fp-ts/lib/TaskEither';
 import * as HttpStatus from 'http-status-codes';
 import supertest from 'supertest';
 
@@ -53,53 +56,11 @@ describe('user token POST controller', () => {
     done();
   });
 
-  test('user email not exists', async done => {
+  test('user email not exists or user password not match', async done => {
     // Given
-    const fakeQueryRepo = Substitute.for<UserQueryRepository>();
-    fakeQueryRepo.ofEmail(Arg.any()).returns(fromLeft(null));
-    const bus = DomainQueryBus.instance();
-    context.container.set(SERVICE_ID.QUERY_REPOSITORY.USER, fakeQueryRepo);
-    context.container.set(
-      SERVICE_ID.TOKEN_FACTORY,
-      Substitute.for<TokenFactory>(),
-    );
-    bus.addHandler(
-      USER_TOKEN_QUERY,
-      USER_TOKEN_QUERY_HANDLER(context.container),
-    );
-    context.container.set<QueryBus>(SERVICE_ID.BUS.SYNC_QUERY, bus);
-    // When
-    const res = await context.request();
-    // Then
-    expect(res.status).toBe(HttpStatus.NOT_FOUND);
-    expect(res.body.data).toBeNull();
-    expect(res.body.errors).not.toBeNull();
-    done();
-  });
-
-  test('user password not match', async done => {
-    // Given
-    const fakeQueryRepo = Substitute.for<UserQueryRepository>();
-    fakeQueryRepo.ofEmail(Arg.any()).returns(
-      fromEither(
-        right(
-          generateUserStub({
-            password: userPasswordVO('another-password'),
-          }),
-        ),
-      ),
-    );
-    const bus = DomainQueryBus.instance();
-    context.container.set(SERVICE_ID.QUERY_REPOSITORY.USER, fakeQueryRepo);
-    context.container.set(
-      SERVICE_ID.TOKEN_FACTORY,
-      Substitute.for<TokenFactory>(),
-    );
-    bus.addHandler(
-      USER_TOKEN_QUERY,
-      USER_TOKEN_QUERY_HANDLER(context.container),
-    );
-    context.container.set<QueryBus>(SERVICE_ID.BUS.SYNC_QUERY, bus);
+    context.container.set<QueryBus>(SERVICE_ID.BUS.SYNC_QUERY, {
+      ask: () => Promise.reject(new TestDomainError('NOT_EXISTS', 'error')),
+    });
     // When
     const res = await context.request();
     // Then

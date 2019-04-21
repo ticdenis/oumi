@@ -1,10 +1,10 @@
+import { ContactNicknameStub } from '@oumi-package/contact/lib/infrastructure/test/contact.stubs';
 import { Oumi } from '@oumi-package/shared/lib/core';
 
 import { Substitute } from '@fluffy-spoon/substitute';
 import express from 'express';
 import * as HttpStatus from 'http-status-codes';
 
-import { ContactNicknameStub } from '../../../../../packages/contact/src/infrastructure/test/contact.stubs';
 import { newContactRequestValidatorHandler } from '../../../src/features/new-contact-request';
 
 describe('new contact request POST validator handler', () => {

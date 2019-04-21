@@ -14,10 +14,11 @@ import {
 import {
   CommandBus,
   DomainCommandBus,
-  DomainError,
   EventPublisher,
   Oumi,
+  TestDomainError,
 } from '@oumi-package/shared/lib/core';
+import { UserId } from '@oumi-package/shared/lib/domain/user.props';
 import {
   UserIdStub,
   UserNicknameStub,
@@ -38,8 +39,6 @@ import {
 } from '../../../src/features/new-contact-request';
 
 describe('contact new request POST controller', () => {
-  class TestDomainError extends DomainError {}
-
   let context: {
     app: () => express.Application;
     container: Oumi.Container;
@@ -69,15 +68,12 @@ describe('contact new request POST controller', () => {
     done();
   });
 
-  test('not found', async done => {
+  test('contact not found', async done => {
     // Given
-    context.container.set<any>(SERVICE_ID.BUS.SYNC_COMMAND, {
-      dispatch: () =>
-        new Promise(() => {
-          throw new TestDomainError('NOT_FOUND', 'Fake Message');
-        }),
+    context.container.set<CommandBus>(SERVICE_ID.BUS.SYNC_COMMAND, {
+      dispatch: () => Promise.reject(new TestDomainError('NOT_FOUND', 'error')),
     });
-    context.container.set(SERVICE_ID.USER_ID, context.id);
+    context.container.set<UserId>(SERVICE_ID.USER_ID, context.id);
     // When
     const res = await context.request();
     // Then
@@ -87,15 +83,12 @@ describe('contact new request POST controller', () => {
     done();
   });
 
-  test('conflict', async done => {
+  test('repo error', async done => {
     // Given
-    context.container.set<any>(SERVICE_ID.BUS.SYNC_COMMAND, {
-      dispatch: () =>
-        new Promise(() => {
-          throw new TestDomainError('ERROR', 'Fake Message');
-        }),
+    context.container.set<CommandBus>(SERVICE_ID.BUS.SYNC_COMMAND, {
+      dispatch: () => Promise.reject(new TestDomainError('UNKNOWN', 'error')),
     });
-    context.container.set(SERVICE_ID.USER_ID, context.id);
+    context.container.set<UserId>(SERVICE_ID.USER_ID, context.id);
     // When
     const res = await context.request();
     // Then
@@ -105,11 +98,11 @@ describe('contact new request POST controller', () => {
     done();
   });
 
-  test('created', async done => {
+  test('contact request sended', async done => {
     // Given
-    const fakeQueryRepo = Substitute.for<ContactQueryRepository>();
-    fakeQueryRepo.ofId(Arg.any()).returns(fromEither(right(ContactStub)));
-    fakeQueryRepo.ofNickname(Arg.any()).returns(
+    const queryRepository = Substitute.for<ContactQueryRepository>();
+    queryRepository.ofId(Arg.any()).returns(fromEither(right(ContactStub)));
+    queryRepository.ofNickname(Arg.any()).returns(
       fromEither(
         right(
           generateContactStub({
@@ -121,15 +114,18 @@ describe('contact new request POST controller', () => {
       ),
     );
     const bus = DomainCommandBus.instance();
-    context.container.set(SERVICE_ID.QUERY_REPOSITORY.CONTACT, fakeQueryRepo);
-    const fakeCommandRepo = Substitute.for<ContactCommandRepository>();
-    fakeCommandRepo.newRequest(Arg.any()).returns(Promise.resolve());
-    context.container.set(
-      SERVICE_ID.COMMAND_REPOSITORY.CONTACT,
-      fakeCommandRepo,
+    context.container.set<ContactQueryRepository>(
+      SERVICE_ID.QUERY_REPOSITORY.CONTACT,
+      queryRepository,
     );
-    context.container.set(SERVICE_ID.USER_ID, context.id);
-    context.container.set(
+    const commandRepository = Substitute.for<ContactCommandRepository>();
+    commandRepository.newRequest(Arg.any()).returns(Promise.resolve());
+    context.container.set<ContactCommandRepository>(
+      SERVICE_ID.COMMAND_REPOSITORY.CONTACT,
+      commandRepository,
+    );
+    context.container.set<UserId>(SERVICE_ID.USER_ID, context.id);
+    context.container.set<EventPublisher>(
       SERVICE_ID.EVENT_PUBLISHER,
       Substitute.for<EventPublisher>(),
     );

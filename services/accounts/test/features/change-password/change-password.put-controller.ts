@@ -4,6 +4,7 @@ import {
   EventPublisher,
   Oumi,
   stringVO,
+  TestDomainError,
 } from '@oumi-package/shared/lib/core';
 import { UserIdStub } from '@oumi-package/shared/lib/infrastructure/test/user.stubs';
 import {
@@ -21,7 +22,7 @@ import {
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
 import express from 'express';
 import { right } from 'fp-ts/lib/Either';
-import { fromEither, fromLeft } from 'fp-ts/lib/TaskEither';
+import { fromEither } from 'fp-ts/lib/TaskEither';
 import * as HttpStatus from 'http-status-codes';
 import supertest from 'supertest';
 
@@ -66,24 +67,10 @@ describe('change password PUT controller', () => {
 
   test('user not found', async done => {
     // Given
-    const fakeQueryRepo = Substitute.for<UserQueryRepository>();
-    fakeQueryRepo.ofId(Arg.any()).returns(fromLeft(null));
-    const bus = DomainCommandBus.instance();
-    context.container.set(SERVICE_ID.QUERY_REPOSITORY.USER, fakeQueryRepo);
-    context.container.set(
-      SERVICE_ID.COMMAND_REPOSITORY.USER,
-      Substitute.for<UserCommandRepository>(),
-    );
-    context.container.set(SERVICE_ID.USER_ID, context.id);
-    context.container.set(
-      SERVICE_ID.EVENT_PUBLISHER,
-      Substitute.for<EventPublisher>(),
-    );
-    bus.addHandler(
-      CHANGE_PASSWORD_COMMAND,
-      CHANGE_PASSWORD_COMMAND_HANDLER(context.container),
-    );
-    context.container.set<CommandBus>(SERVICE_ID.BUS.SYNC_COMMAND, bus);
+    context.container.set<CommandBus>(SERVICE_ID.BUS.SYNC_COMMAND, {
+      dispatch: () => Promise.reject(new TestDomainError('NOT_FOUND', 'error')),
+    });
+    context.container.set<UserId>(SERVICE_ID.USER_ID, context.id);
     // When
     const res = await context.request();
     // Then
@@ -95,25 +82,10 @@ describe('change password PUT controller', () => {
 
   test('password not match', async done => {
     // Given
-    const fakeQueryRepo = Substitute.for<UserQueryRepository>();
-    fakeQueryRepo.ofId(Arg.any()).returns(fromEither(right(context.user)));
-    const bus = DomainCommandBus.instance();
-    context.container.set(SERVICE_ID.QUERY_REPOSITORY.USER, fakeQueryRepo);
-    context.container.set(
-      SERVICE_ID.COMMAND_REPOSITORY.USER,
-      Substitute.for<UserCommandRepository>(),
-    );
-    context.container.set(SERVICE_ID.USER_ID, context.id);
-    context.container.set(
-      SERVICE_ID.EVENT_PUBLISHER,
-      Substitute.for<EventPublisher>(),
-    );
-    context.data.oldPassword = stringVO('password-error').value;
-    bus.addHandler(
-      CHANGE_PASSWORD_COMMAND,
-      CHANGE_PASSWORD_COMMAND_HANDLER(context.container),
-    );
-    context.container.set<CommandBus>(SERVICE_ID.BUS.SYNC_COMMAND, bus);
+    context.container.set<CommandBus>(SERVICE_ID.BUS.SYNC_COMMAND, {
+      dispatch: () => Promise.reject(new TestDomainError('UNKNOWN', 'error')),
+    });
+    context.container.set<UserId>(SERVICE_ID.USER_ID, context.id);
     // When
     const res = await context.request();
     // Then
@@ -123,20 +95,23 @@ describe('change password PUT controller', () => {
     done();
   });
 
-  test('should be password change', async done => {
+  test('password changed', async done => {
     // Given
-    const fakeQueryRepo = Substitute.for<UserQueryRepository>();
-    const fakeCommandRepository = Substitute.for<UserCommandRepository>();
-    fakeQueryRepo.ofId(Arg.any()).returns(fromEither(right(context.user)));
-    fakeCommandRepository.updatePassword(Arg.any()).returns(Promise.resolve());
+    const queryRepository = Substitute.for<UserQueryRepository>();
+    const commandRepository = Substitute.for<UserCommandRepository>();
+    queryRepository.ofId(Arg.any()).returns(fromEither(right(context.user)));
+    commandRepository.updatePassword(Arg.any()).returns(Promise.resolve());
     const bus = DomainCommandBus.instance();
-    context.container.set(SERVICE_ID.QUERY_REPOSITORY.USER, fakeQueryRepo);
-    context.container.set(
-      SERVICE_ID.COMMAND_REPOSITORY.USER,
-      fakeCommandRepository,
+    context.container.set<UserQueryRepository>(
+      SERVICE_ID.QUERY_REPOSITORY.USER,
+      queryRepository,
     );
-    context.container.set(SERVICE_ID.USER_ID, context.id);
-    context.container.set(
+    context.container.set<UserCommandRepository>(
+      SERVICE_ID.COMMAND_REPOSITORY.USER,
+      commandRepository,
+    );
+    context.container.set<UserId>(SERVICE_ID.USER_ID, context.id);
+    context.container.set<EventPublisher>(
       SERVICE_ID.EVENT_PUBLISHER,
       Substitute.for<EventPublisher>(),
     );

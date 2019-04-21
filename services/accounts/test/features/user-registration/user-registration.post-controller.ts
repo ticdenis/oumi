@@ -3,6 +3,7 @@ import {
   DomainCommandBus,
   EventPublisher,
   Oumi,
+  TestDomainError,
 } from '@oumi-package/shared/lib/core';
 import {
   UserFirstnameStub,
@@ -12,6 +13,7 @@ import {
 } from '@oumi-package/shared/lib/infrastructure/test/user.stubs';
 import {
   UserCommandRepository,
+  UserId,
   UserQueryRepository,
   UserRegistrationData,
 } from '@oumi-package/user/lib';
@@ -19,13 +21,11 @@ import {
   UserEmailStub,
   UserPasswordNotEncryptedStub,
   UserPhoneStub,
-  UserStub,
 } from '@oumi-package/user/lib/infrastructure/test/user.stubs';
 
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
 import express from 'express';
-import { right } from 'fp-ts/lib/Either';
-import { fromEither, fromLeft } from 'fp-ts/lib/TaskEither';
+import { fromLeft } from 'fp-ts/lib/TaskEither';
 import * as HttpStatus from 'http-status-codes';
 import supertest from 'supertest';
 
@@ -70,23 +70,10 @@ describe('user registration POST controller', () => {
 
   test('user email already exists', async done => {
     // Given
-    const fakeQueryRepo = Substitute.for<UserQueryRepository>();
-    fakeQueryRepo.ofEmail(Arg.any()).returns(fromEither(right(UserStub)));
-    const bus = DomainCommandBus.instance();
-    context.container.set(SERVICE_ID.QUERY_REPOSITORY.USER, fakeQueryRepo);
-    context.container.set(
-      SERVICE_ID.COMMAND_REPOSITORY.USER,
-      Substitute.for<UserCommandRepository>(),
-    );
-    context.container.set(
-      SERVICE_ID.EVENT_PUBLISHER,
-      Substitute.for<EventPublisher>(),
-    );
-    bus.addHandler(
-      USER_REGISTRATION_COMMAND,
-      USER_REGISTRATION_COMMAND_HANDLER(context.container),
-    );
-    context.container.set<CommandBus>(SERVICE_ID.BUS.SYNC_COMMAND, bus);
+    context.container.set<CommandBus>(SERVICE_ID.BUS.SYNC_COMMAND, {
+      dispatch: () => Promise.reject(new TestDomainError('UNKNOWN', 'error')),
+    });
+    context.container.set<UserId>(SERVICE_ID.USER_ID, UserIdStub);
     // When
     const res = await context.request();
     // Then
@@ -98,13 +85,16 @@ describe('user registration POST controller', () => {
 
   test('register an user', async done => {
     // Given
-    const fakeQueryRepo = Substitute.for<UserQueryRepository>();
-    fakeQueryRepo.ofEmail(Arg.any()).returns(fromLeft(null));
-    const fakeCommandRepo = Substitute.for<UserCommandRepository>();
-    fakeCommandRepo.create(Arg.any()).returns(Promise.resolve());
+    const queryRepository = Substitute.for<UserQueryRepository>();
+    queryRepository.ofEmail(Arg.any()).returns(fromLeft(null));
+    const commandRepository = Substitute.for<UserCommandRepository>();
+    commandRepository.create(Arg.any()).returns(Promise.resolve());
     const bus = DomainCommandBus.instance();
-    context.container.set(SERVICE_ID.QUERY_REPOSITORY.USER, fakeQueryRepo);
-    context.container.set(SERVICE_ID.COMMAND_REPOSITORY.USER, fakeCommandRepo);
+    context.container.set(SERVICE_ID.QUERY_REPOSITORY.USER, queryRepository);
+    context.container.set(
+      SERVICE_ID.COMMAND_REPOSITORY.USER,
+      commandRepository,
+    );
     context.container.set(
       SERVICE_ID.EVENT_PUBLISHER,
       Substitute.for<EventPublisher>(),

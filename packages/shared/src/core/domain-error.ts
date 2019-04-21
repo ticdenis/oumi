@@ -14,3 +14,5 @@ export class MessageDomainError extends DomainError {}
 export class QueryDomainError extends DomainError {}
 
 export class ValueObjectDomainError extends DomainError {}
+
+export class TestDomainError extends DomainError {}
