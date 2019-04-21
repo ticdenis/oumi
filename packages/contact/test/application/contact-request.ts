@@ -47,6 +47,7 @@ const helper = {
 
 const test = ava as TestInterface<{
   contact: Contact;
+  anotherContact: Contact;
   data: ContactRequestData;
 }>;
 
@@ -54,6 +55,11 @@ test.beforeEach(t => {
   t.context.contact = generateContactStub({
     id: contactIdVO(),
     nickname: contactNicknameVO('contactA'),
+    requests: [],
+  });
+  t.context.anotherContact = generateContactStub({
+    id: contactIdVO(),
+    nickname: contactNicknameVO('contactB'),
     requests: [],
   });
   t.context.data = {
@@ -69,7 +75,7 @@ test('should create new request', async t => {
   queryRepository.ofId(Arg.any()).returns(fromEither(right(t.context.contact)));
   queryRepository
     .ofNickname(Arg.any())
-    .returns(fromEither(right(t.context.contact)));
+    .returns(fromEither(right(t.context.anotherContact)));
   const handler = helper.handler({ queryRepository });
   const command = helper.command(t.context.data);
   // When

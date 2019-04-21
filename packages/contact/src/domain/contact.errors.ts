@@ -1,6 +1,12 @@
 import { DomainError } from '@oumi-package/shared/lib/core';
 
 export class ContactDomainError extends DomainError {
+  public static canNotSendRequestYourself(id: string) {
+    return new ContactDomainError(
+      'CONTACT_NOT_SEND_REQUEST_YOURSELF',
+      `The <${id}> contact id not sended request himself`,
+    );
+  }
   public static notFound(key: string, value: any): ContactDomainError {
     return new ContactDomainError(
       'CONTACT_NOT_FOUND',

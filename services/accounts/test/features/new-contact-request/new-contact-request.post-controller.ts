@@ -1,0 +1,149 @@
+import {
+  ContactCommandRepository,
+  ContactId,
+  contactIdVO,
+  contactNicknameVO,
+  ContactQueryRepository,
+  ContactRequestData,
+} from '@oumi-package/contact/lib';
+import {
+  ContactIdStub,
+  ContactStub,
+  generateContactStub,
+} from '@oumi-package/contact/lib/infrastructure/test/contact.stubs';
+import {
+  CommandBus,
+  DomainCommandBus,
+  DomainError,
+  EventPublisher,
+  Oumi,
+} from '@oumi-package/shared/lib/core';
+import {
+  UserIdStub,
+  UserNicknameStub,
+} from '@oumi-package/shared/lib/infrastructure/test/user.stubs';
+
+import { Arg, Substitute } from '@fluffy-spoon/substitute';
+import express from 'express';
+import { right } from 'fp-ts/lib/Either';
+import { fromEither } from 'fp-ts/lib/TaskEither';
+import * as HttpStatus from 'http-status-codes';
+import supertest from 'supertest';
+
+import { loadContainer, SERVICE_ID } from '../../../src/config';
+import {
+  NEW_CONTACT_REQUEST_COMMAND,
+  NEW_CONTACT_REQUEST_COMMAND_HANDLER,
+  newContactRequestPostController,
+} from '../../../src/features/new-contact-request';
+
+describe('contact new request POST controller', () => {
+  class TestDomainError extends DomainError {}
+
+  let context: {
+    app: () => express.Application;
+    container: Oumi.Container;
+    data: ContactRequestData;
+    id: ContactId;
+    request: () => supertest.Test;
+  };
+
+  beforeEach(done => {
+    context = {
+      app: () =>
+        express()
+          .use(express.json())
+          .post('/test', newContactRequestPostController(context.container)),
+      container: loadContainer(),
+      data: {
+        message: 'Hola',
+        nickname: UserNicknameStub.value,
+        requesterId: ContactIdStub.value,
+      },
+      id: UserIdStub,
+      request: () =>
+        supertest(context.app())
+          .post('/test')
+          .send(context.data),
+    };
+    done();
+  });
+
+  test('not found', async done => {
+    // Given
+    context.container.set<any>(SERVICE_ID.BUS.SYNC_COMMAND, {
+      dispatch: () =>
+        new Promise(() => {
+          throw new TestDomainError('NOT_FOUND', 'Fake Message');
+        }),
+    });
+    context.container.set(SERVICE_ID.USER_ID, context.id);
+    // When
+    const res = await context.request();
+    // Then
+    expect(res.status).toBe(HttpStatus.NOT_FOUND);
+    expect(res.body.data).toBeNull();
+    expect(res.body.errors).not.toBeNull();
+    done();
+  });
+
+  test('conflict', async done => {
+    // Given
+    context.container.set<any>(SERVICE_ID.BUS.SYNC_COMMAND, {
+      dispatch: () =>
+        new Promise(() => {
+          throw new TestDomainError('ERROR', 'Fake Message');
+        }),
+    });
+    context.container.set(SERVICE_ID.USER_ID, context.id);
+    // When
+    const res = await context.request();
+    // Then
+    expect(res.status).toBe(HttpStatus.CONFLICT);
+    expect(res.body.data).toBeNull();
+    expect(res.body.errors).not.toBeNull();
+    done();
+  });
+
+  test('created', async done => {
+    // Given
+    const fakeQueryRepo = Substitute.for<ContactQueryRepository>();
+    fakeQueryRepo.ofId(Arg.any()).returns(fromEither(right(ContactStub)));
+    fakeQueryRepo.ofNickname(Arg.any()).returns(
+      fromEither(
+        right(
+          generateContactStub({
+            id: contactIdVO(),
+            nickname: contactNicknameVO('other'),
+            requests: [],
+          }),
+        ),
+      ),
+    );
+    const bus = DomainCommandBus.instance();
+    context.container.set(SERVICE_ID.QUERY_REPOSITORY.CONTACT, fakeQueryRepo);
+    const fakeCommandRepo = Substitute.for<ContactCommandRepository>();
+    fakeCommandRepo.newRequest(Arg.any()).returns(Promise.resolve());
+    context.container.set(
+      SERVICE_ID.COMMAND_REPOSITORY.CONTACT,
+      fakeCommandRepo,
+    );
+    context.container.set(SERVICE_ID.USER_ID, context.id);
+    context.container.set(
+      SERVICE_ID.EVENT_PUBLISHER,
+      Substitute.for<EventPublisher>(),
+    );
+    bus.addHandler(
+      NEW_CONTACT_REQUEST_COMMAND,
+      NEW_CONTACT_REQUEST_COMMAND_HANDLER(context.container),
+    );
+    context.container.set<CommandBus>(SERVICE_ID.BUS.SYNC_COMMAND, bus);
+    // When
+    const res = await context.request();
+    // Then
+    expect(res.status).toBe(HttpStatus.CREATED);
+    expect(res.body.data).toBeNull();
+    expect(res.body.errors).toBeNull();
+    done();
+  });
+});
