@@ -15,20 +15,14 @@ export class TypeORMDebtCommandRepository implements DebtCommandRepository {
   }
 
   public confirmDebtRequest(debt: Debt): Promise<void> {
-    // tslint:disable-next-line: no-console
-    console.log(this._connection);
     throw new Error('Method not implemented.');
   }
 
   public create(debt: Debt): Promise<void> {
-    // tslint:disable-next-line: no-console
-    console.log(this._connection);
     throw new Error('Method not implemented.');
   }
 
   public denyDebtRequest(debt: Debt): Promise<void> {
-    // tslint:disable-next-line: no-console
-    console.log(this._connection);
     throw new Error('Method not implemented.');
   }
 }

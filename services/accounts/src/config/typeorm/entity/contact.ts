@@ -8,7 +8,6 @@ export interface ContactEntityType {
   status: string;
 }
 
-// tslint:disable-next-line:variable-name
 export const ContactEntity = new EntitySchema<ContactEntityType>({
   columns: {
     contactId: {

@@ -51,11 +51,7 @@ export class TypeORMContactQueryRepository implements ContactQueryRepository {
           contact.requests = await this._getContactRequest(contact.id);
           return contact;
         }),
-        R.then(contact => {
-          // tslint:disable-next-line: no-console
-          console.log(contact);
-          return jsonContactMapper.item(contact);
-        }),
+        R.then(jsonContactMapper.item),
       ),
       () => null,
     );
@@ -76,7 +72,6 @@ export class TypeORMContactQueryRepository implements ContactQueryRepository {
     );
   }
 
-  // tslint:disable-next-line: function-name
   private _getContactRequest(userId: string): Promise<_Request[]> {
     return this._connection
       .createQueryBuilder()
@@ -108,7 +103,6 @@ export class TypeORMContactQueryRepository implements ContactQueryRepository {
         ),
       ) as any;
   }
-  // tslint:disable-next-line: function-name
   private _getUserContacts(id: string): Promise<_Contact[]> {
     return this._connection
       .createQueryBuilder()
@@ -124,7 +118,6 @@ export class TypeORMContactQueryRepository implements ContactQueryRepository {
       .execute();
   }
 
-  // tslint:disable-next-line: function-name
   private _getContactOfId(id: string): Promise<_Contact> {
     return this._connection
       .createQueryBuilder()
@@ -141,7 +134,6 @@ export class TypeORMContactQueryRepository implements ContactQueryRepository {
       .then(contacts => contacts[0]);
   }
 
-  // tslint:disable-next-line: function-name
   private _getContactOfNickname(nickname: string): Promise<_Contact> {
     return this._connection
       .createQueryBuilder()
@@ -158,7 +150,6 @@ export class TypeORMContactQueryRepository implements ContactQueryRepository {
       .then(contacts => contacts[0]);
   }
 
-  // tslint:disable-next-line: function-name
   private async _getUserContactDebts(
     userId: string,
     contactId: string,
@@ -182,7 +173,6 @@ export class TypeORMContactQueryRepository implements ContactQueryRepository {
     return debts.map(this._mapContactDebt(userId));
   }
 
-  // tslint:disable-next-line: function-name
   private _mapContactDebt = (userId: string) => (debt: any) => {
     return {
       amount: {
@@ -196,7 +186,6 @@ export class TypeORMContactQueryRepository implements ContactQueryRepository {
     };
   };
 
-  // tslint:disable-next-line: function-name
   private async _getContactDebts(userId: string): Promise<_Debt[]> {
     const debts: any[] = await this._connection
       .createQueryBuilder()
@@ -215,7 +204,6 @@ export class TypeORMContactQueryRepository implements ContactQueryRepository {
   }
 }
 
-// tslint:disable-next-line: class-name
 interface _Debt {
   amount: {
     amount: number;
@@ -227,7 +215,6 @@ interface _Debt {
   id: string;
 }
 
-// tslint:disable-next-line: class-name
 interface _Request {
   id: string;
   fullname: string;
@@ -236,7 +223,6 @@ interface _Request {
   status: string;
 }
 
-// tslint:disable-next-line: class-name
 interface _Contact {
   debts: _Debt[];
   requests: _Request[];

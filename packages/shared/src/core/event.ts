@@ -39,7 +39,6 @@ export const publisher = (eventPublisher: EventPublisher) => async <T>(
   await eventPublisher.publish(...events);
 };
 
-// tslint:disable-next-line:no-shadowed-variable
-export const notifier = (eventBus: EventBus) => async <T>(event: Event<T>) => {
-  await eventBus.notify(event);
+export const notifier = (eventBus: EventBus) => async <T>(e: Event<T>) => {
+  await eventBus.notify(e);
 };

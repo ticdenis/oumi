@@ -19,10 +19,9 @@ import {
   ContactQueryRepository,
 } from '../../src/domain';
 import { ContactId } from '../../src/domain/contact.props';
-import { ContactRequestStatusRefusedStub } from '../../src/infrastructure/test/contact.stubs';
 import {
   ContactRequestStatusPendingStub,
-  // ContactRequestStatusRefusedStub,
+  ContactRequestStatusRefusedStub,
   generateContactRequestStub,
   generateContactStub,
 } from '../../src/infrastructure/test/contact.stubs';

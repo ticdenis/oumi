@@ -1,6 +1,5 @@
 import { EntitySchema } from 'typeorm';
 
-// tslint:disable-next-line:variable-name
 export const DomainEventEntity = new EntitySchema({
   columns: {
     data: {

@@ -8,7 +8,6 @@ export interface DebtEntityType {
   userId: string;
 }
 
-// tslint:disable-next-line:variable-name
 export const DebtEntity = new EntitySchema<DebtEntityType & { id: string }>({
   columns: {
     amount: {
