@@ -1,4 +1,4 @@
-# 0.0.0 (2019-04-19)
+# 0.0.0 (2019-04-20)
 
 
 ### Bug Fixes
@@ -14,6 +14,7 @@
 * next() mandatory on SUCCESS ([5351f4d](https://github.com/ticdenis/oumi/commit/5351f4d))
 * typo ([1825192](https://github.com/ticdenis/oumi/commit/1825192))
 * typo ([#31](https://github.com/ticdenis/oumi/issues/31)) ([efc16d4](https://github.com/ticdenis/oumi/commit/efc16d4))
+* use array constants instead duplicated same logic ([f6b4e0d](https://github.com/ticdenis/oumi/commit/f6b4e0d))
 
 
 ### Features
@@ -35,6 +36,7 @@
 * deny debt request ([#33](https://github.com/ticdenis/oumi/issues/33)) ([b4a2b9a](https://github.com/ticdenis/oumi/commit/b4a2b9a))
 * missing files ([579694c](https://github.com/ticdenis/oumi/commit/579694c))
 * new debt request ([46193e2](https://github.com/ticdenis/oumi/commit/46193e2))
+* new payment request ([1e2a514](https://github.com/ticdenis/oumi/commit/1e2a514))
 * profile ([2e3e415](https://github.com/ticdenis/oumi/commit/2e3e415))
 * update profile ([873ebbe](https://github.com/ticdenis/oumi/commit/873ebbe))
 * user contacts domain application ([05a4fb7](https://github.com/ticdenis/oumi/commit/05a4fb7))
@@ -45,6 +47,7 @@
 
 * faster subsequent builds with incrementals typescript flag ([506d8ae](https://github.com/ticdenis/oumi/commit/506d8ae))
 * improve use case script ([113d737](https://github.com/ticdenis/oumi/commit/113d737))
+* simplify services ([bb54647](https://github.com/ticdenis/oumi/commit/bb54647))
 * test packages helpers ([#37](https://github.com/ticdenis/oumi/issues/37)) ([a4c4cd3](https://github.com/ticdenis/oumi/commit/a4c4cd3))
 * upgrade to TSLint ([366588f](https://github.com/ticdenis/oumi/commit/366588f))
 * upgrade to TypeScript 3.4.4 ([8048146](https://github.com/ticdenis/oumi/commit/8048146))

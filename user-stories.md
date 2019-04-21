@@ -93,22 +93,12 @@
 
   Should deny a debt request from contact the requester it'll receive a notification.
 
-- **NewPaymentRequest**
+- **NewPay**
 
   Should send a payment request of and debt of user (given his uuid from token) given a uuid, quantity to pay and optional message.
 
-  The contact will receive a notification for confirm or deny payment.
-
-- **PaymentRequests**
+- **Payments**
 
   Should return a list of pending payments requests of user (given his uuid from token).
 
   In this list each item contains a payment debt request payload and each debt relationed.
-
-- **ConfirmPaymentRequest**
-
-  Should confirm a payment request from contact this payment it'll be added into _UserContactHistory list_ and contact requester it'll receive a notification and his _UserContactHistory list_ it'll update too.
-
-- **DenyPaymentRequest**
-
-  Should deny a payment request from contact the requester it'll receive a notification.
