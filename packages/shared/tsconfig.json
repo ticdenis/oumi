@@ -24,7 +24,7 @@
     "noImplicitThis": true,
     "suppressImplicitAnyIndexErrors": false,
     "strictNullChecks": false,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "skipLibCheck": true,
     "target": "esnext",
     "incremental": true,

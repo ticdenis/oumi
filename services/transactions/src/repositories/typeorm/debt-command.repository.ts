@@ -6,6 +6,7 @@ import { Connection } from 'typeorm';
 import { SERVICE_ID } from '../../config';
 
 export class TypeORMDebtCommandRepository implements DebtCommandRepository {
+  /* tslint:disable:no-unused-variable */
   private readonly _connection: Connection;
 
   public constructor(container: Oumi.Container) {

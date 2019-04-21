@@ -1,1 +1,0 @@
-{"version":3,"file":"aggregate.d.ts","sourceRoot":"","sources":["../../src/domain/aggregate.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,KAAK,EAAE,MAAM,GAAG,CAAC;AAE1B,8BAAsB,aAAa,CAAC,eAAe;IACjD,OAAO,CAAC,aAAa,CAAgC;IAE9C,gBAAgB,IAAI,KAAK,CAAC,eAAe,CAAC,EAAE;IAQnD,SAAS,CAAC,iBAAiB,CAAC,WAAW,EAAE,KAAK,CAAC,eAAe,CAAC,GAAG,IAAI;CAGvE;AAED,8BAAsB,SAAS;CAAG"}
