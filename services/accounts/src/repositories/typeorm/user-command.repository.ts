@@ -1,10 +1,10 @@
-import { Oumi } from "@oumi-package/shared/lib/core";
-import { User, UserCommandRepository } from "@oumi-package/user/lib";
+import { Oumi } from '@oumi-package/shared/lib/core';
+import { User, UserCommandRepository } from '@oumi-package/user/lib';
 
-import { Connection } from "typeorm";
+import { Connection } from 'typeorm';
 
-import { SERVICE_ID } from "../../config";
-import { UserEntity } from "../../config/typeorm/entity";
+import { SERVICE_ID } from '../../config';
+import { UserEntity } from '../../config/typeorm/entity';
 
 export class TypeORMUserCommandRepository implements UserCommandRepository {
   private readonly _connection: Connection;
@@ -27,7 +27,7 @@ export class TypeORMUserCommandRepository implements UserCommandRepository {
         lastname: user.lastname.value,
         nickname: user.nickname.value,
         password: user.password.value,
-        phone: user.phone.value
+        phone: user.phone.value,
       })
       .execute();
   }
@@ -37,10 +37,10 @@ export class TypeORMUserCommandRepository implements UserCommandRepository {
       .createQueryBuilder()
       .update(UserEntity)
       .set({
-        password: user.password.value
+        password: user.password.value,
       })
-      .where("id = :id", {
-        id: user.id.value
+      .where('id = :id', {
+        id: user.id.value,
       })
       .execute();
   }
@@ -53,10 +53,10 @@ export class TypeORMUserCommandRepository implements UserCommandRepository {
         firstname: user.firstname.value,
         lastname: user.lastname.value,
         nickname: user.nickname.value,
-        phone: user.phone.value
+        phone: user.phone.value,
       })
-      .where("id = :id", {
-        id: user.id.value
+      .where('id = :id', {
+        id: user.id.value,
       })
       .execute();
   }

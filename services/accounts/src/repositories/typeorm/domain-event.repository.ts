@@ -1,9 +1,9 @@
-import { Event, EventPublisher, Oumi } from "@oumi-package/shared/lib/core";
+import { Event, EventPublisher, Oumi } from '@oumi-package/shared/lib/core';
 
-import { Connection } from "typeorm";
+import { Connection } from 'typeorm';
 
-import { SERVICE_ID } from "../../config";
-import { DomainEventEntity } from "../../config/typeorm/entity";
+import { SERVICE_ID } from '../../config';
+import { DomainEventEntity } from '../../config/typeorm/entity';
 
 export class TypeORMDomainEventRepository implements EventPublisher {
   private readonly _connection: Connection;
@@ -23,9 +23,9 @@ export class TypeORMDomainEventRepository implements EventPublisher {
           data: JSON.stringify(event.data),
           id: event.id,
           occurredOn: event.occurredOn,
-          type: event.type
-        })
-      )
+          type: event.type,
+        }),
+      ),
     );
   }
 }
