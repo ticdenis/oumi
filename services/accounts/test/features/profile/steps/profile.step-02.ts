@@ -13,7 +13,7 @@ import {
   TokenReader,
   UserDomainError,
 } from '../../../helpers/domain-imports';
-import { Context } from '../profile';
+import { Context } from '../profile.test';
 
 export const step2 = (context: Context) => ({
   given,

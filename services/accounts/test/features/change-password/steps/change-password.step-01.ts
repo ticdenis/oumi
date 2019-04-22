@@ -22,7 +22,7 @@ import {
   UserCommandRepository,
   UserQueryRepository,
 } from '../../../helpers/domain-imports';
-import { Context } from '../change-password';
+import { Context } from '../change-password.test';
 
 export const step1 = (context: Context) => ({
   given,

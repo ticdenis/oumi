@@ -21,7 +21,7 @@ import {
   TokenReader,
   UserQueryRepository,
 } from '../../../helpers/domain-imports';
-import { Context } from '../profile';
+import { Context } from '../profile.test';
 
 export const step1 = (context: Context) => ({
   given,
