@@ -20,5 +20,5 @@ module.exports = {
   testPathIgnorePatterns: ["/dist/", "/node_modules/", "/tools/",
     "/test/helpers/"
   ],
-  testRegex: './test/.*.ts$',
+  testRegex: './test/.*.test.ts$',
 };
