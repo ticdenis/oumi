@@ -16,6 +16,10 @@ import {
   CHANGE_PASSWORD_COMMAND_HANDLER,
 } from '../../features/change-password';
 import {
+  CONFIRM_CONTACT_REQUEST_COMMAND,
+  CONFIRM_CONTACT_REQUEST_COMMAND_HANDLER,
+} from '../../features/confirm-contact-request';
+import {
   NEW_CONTACT_REQUEST_COMMAND,
   NEW_CONTACT_REQUEST_COMMAND_HANDLER,
 } from '../../features/new-contact-request';
@@ -83,6 +87,11 @@ export function loadBuses(container: Oumi.Container) {
     bus.addHandler(
       NEW_CONTACT_REQUEST_COMMAND,
       NEW_CONTACT_REQUEST_COMMAND_HANDLER(container),
+    );
+
+    bus.addHandler(
+      CONFIRM_CONTACT_REQUEST_COMMAND,
+      CONFIRM_CONTACT_REQUEST_COMMAND_HANDLER(container),
     );
 
     return bus;

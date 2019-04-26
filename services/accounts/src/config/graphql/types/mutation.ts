@@ -6,5 +6,6 @@ export const Mutation = gql`
     updateProfile(input: UpdateProfileData!): Boolean
     userRegistration(input: UserRegistrationData!): Boolean
     newContactRequest(input: NewContactRequestData!): Boolean
+    confirmContactRequest(input: ConfirmContactRequestData!): Boolean
   }
 `;
