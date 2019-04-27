@@ -31,6 +31,11 @@ export const Input = gql`
     requesterId: ID!
   }
 
+  input ConfirmContactRequestData {
+    contactId: String!
+    contactRequestId: String!
+  }
+
   # Query
 
   input ProfileData {

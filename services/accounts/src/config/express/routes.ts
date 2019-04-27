@@ -3,6 +3,7 @@ import { Oumi } from '@oumi-package/shared/lib/core';
 import express from 'express';
 
 import { changePasswordRouter } from '../../features/change-password';
+import { confirmContactRequestRouter } from '../../features/confirm-contact-request';
 import { healthzRouter } from '../../features/healthz';
 import { newContactRequestRouter } from '../../features/new-contact-request';
 import { profileRouter } from '../../features/profile';
@@ -33,4 +34,6 @@ export function loadRoutes(
   app.put('/password', changePasswordRouter(container));
 
   app.post('/contacts/requests', newContactRequestRouter(container));
+
+  app.put('/contacts/request/confirm', confirmContactRequestRouter(container));
 }
