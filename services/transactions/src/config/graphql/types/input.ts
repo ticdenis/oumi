@@ -7,8 +7,8 @@ export const Input = gql`
     currency: String!
     debtorId: String!
     id: ID!
-    initialDate: String;
-    limitDate: String;
+    initialDate: String!
+    limitDate: String!
     loanerId: String!
   }
 
