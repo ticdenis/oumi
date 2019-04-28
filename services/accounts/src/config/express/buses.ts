@@ -20,6 +20,10 @@ import {
   CONFIRM_CONTACT_REQUEST_COMMAND_HANDLER,
 } from '../../cases/confirm-contact-request';
 import {
+  CONTACT_REQUESTS_QUERY,
+  CONTACT_REQUESTS_QUERY_HANDLER,
+} from '../../cases/contact-requests';
+import {
   DENY_CONTACT_REQUEST_COMMAND,
   DENY_CONTACT_REQUEST_COMMAND_HANDLER,
 } from '../../cases/deny-contact-request';
@@ -66,6 +70,11 @@ export function loadBuses(container: Oumi.Container) {
     bus.addHandler(USER_CONTACTS_QUERY, USER_CONTACTS_QUERY_HANDLER(container));
 
     bus.addHandler(USER_TOKEN_QUERY, USER_TOKEN_QUERY_HANDLER(container));
+
+    bus.addHandler(
+      CONTACT_REQUESTS_QUERY,
+      CONTACT_REQUESTS_QUERY_HANDLER(container),
+    );
 
     return bus;
   });

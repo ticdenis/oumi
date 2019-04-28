@@ -22,4 +22,8 @@ export const Type = gql`
     lastname: String!
     nickname: String!
   }
+
+  type ContactRequestResponse {
+    id: ID!
+  }
 `;
