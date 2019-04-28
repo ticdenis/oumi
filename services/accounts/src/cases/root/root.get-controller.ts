@@ -7,5 +7,5 @@ export const rootGetController: Oumi.Controller<express.Handler> = () => (
   _,
   res,
 ) => {
-  res.status(HttpStatus.OK).json(okResponse('Account service'));
+  res.status(HttpStatus.OK).json(okResponse('Accounts service'));
 };

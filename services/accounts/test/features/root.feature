@@ -6,7 +6,7 @@ Feature: Root
     And I expect response to match:
       """
       {
-      "data": "Account service",
+      "data": "Accounts service",
       "errors": null
       }
       """

@@ -3,6 +3,8 @@ export * from '@oumi-package/shared/lib/domain/user.props';
 export * from '@oumi-package/shared/lib/infrastructure/test/user.stubs';
 export * from '@oumi-package/shared/lib/infrastructure/test/amount.stubs';
 export * from '@oumi-package/shared/lib/infrastructure/test/currency.stubs';
+export * from '@oumi-package/shared/lib/infrastructure/test/debt.stubs';
+export * from '@oumi-package/shared/lib/domain/debt.props';
 export * from '@oumi-package/shared/lib/domain/amount.props';
 export * from '@oumi-package/shared/lib/domain/currency.props';
 
