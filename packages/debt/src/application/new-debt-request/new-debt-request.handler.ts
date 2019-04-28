@@ -22,8 +22,8 @@ export const newDebtRequestHandler: NewDebtRequestCommandHandler = service => as
       debtorId: userIdVO(command.data.debtorId),
       id: debtIdVO(command.data.id),
       intervalDate: debtIntervalDateVO({
-        end: command.data.limitDate,
-        start: command.data.initialDate,
+        end: command.data.limitDate || new Date(),
+        start: command.data.initialDate || new Date(),
       }),
       loanerId: userIdVO(command.data.loanerId),
     }),

@@ -1,4 +1,4 @@
-Feature: Confirm Deny Request
+Feature: Deny Debt Request
 
   As an user I would like to deny a debt request with expected values.
 
@@ -10,7 +10,7 @@ Feature: Confirm Deny Request
       "id": "7C90A92A-4EA8-4EB3-86E6-7B52A3722A64"
       }
       """
-    Then I request PUT method at "/debts/requests/confirm" url
+    Then I request PUT method at "/debts/requests/deny" url
     And I expect response to have status as "200"
 
   Scenario: Should throw a debt error not found
@@ -21,5 +21,5 @@ Feature: Confirm Deny Request
       "id": "7C90A92A-4EA8-4EB3-86E6-7B52A3722A64"
       }
       """
-    Then I request PUT method at "/debts/requests/confirm" url
+    Then I request PUT method at "/debts/requests/deny" url
     And I expect response to have status as "404"
