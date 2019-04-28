@@ -2,7 +2,6 @@ import { Oumi } from '@oumi-package/shared/lib/core';
 
 import { Either } from 'fp-ts/lib/Either';
 import * as t from 'io-ts';
-import { date } from 'io-ts-types/lib/Date/date';
 
 import { simpleBodyValidatorHandler } from '../../shared';
 
