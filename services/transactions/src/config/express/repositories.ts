@@ -2,6 +2,10 @@ import {
   DebtCommandRepository,
   DebtQueryRepository,
 } from '@oumi-package/debt/lib/domain';
+import {
+  PaymentCommandRepository,
+  PaymentQueryRepository,
+} from '@oumi-package/payment/lib/domain';
 import { EventPublisher, Oumi } from '@oumi-package/shared/lib/core';
 import {
   simpleJWTFactory,
@@ -17,6 +21,8 @@ import {
   TypeORMDebtCommandRepository,
   TypeORMDebtQueryRepository,
   TypeORMDomainEventRepository,
+  TypeORMPaymentCommandRepository,
+  TypeORMPaymentQueryRepository,
 } from '../../repositories/typeorm';
 
 export function loadRepositories(container: Oumi.Container) {
@@ -51,5 +57,15 @@ export function loadRepositories(container: Oumi.Container) {
   container.set<DebtCommandRepository>(
     SERVICE_ID.COMMAND_REPOSITORY.DEBT,
     new TypeORMDebtCommandRepository(container),
+  );
+
+  container.set<PaymentQueryRepository>(
+    SERVICE_ID.QUERY_REPOSITORY.PAYMENT,
+    new TypeORMPaymentQueryRepository(container),
+  );
+
+  container.set<PaymentCommandRepository>(
+    SERVICE_ID.COMMAND_REPOSITORY.PAYMENT,
+    new TypeORMPaymentCommandRepository(container),
   );
 }

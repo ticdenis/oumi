@@ -5,5 +5,6 @@ export const Mutation = gql`
     confirmDebtRequest(input: ConfirmDebtRequestData!): Boolean
     denyDebtRequest(input: DenyDebtRequestData!): Boolean
     newDebtRequest(input: NewDebtRequestData!): Boolean
+    newPay(input: NewPayData!): Boolean
   }
 `;

@@ -25,4 +25,11 @@ export const Input = gql`
   input DebtRequestsData {
     debtorId: ID!
   }
+
+  input NewPayData {
+    debtId: String!
+    id: ID!
+    message: String
+    quantity: Float!
+  }
 `;

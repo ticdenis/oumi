@@ -27,6 +27,8 @@ import {
   NEW_DEBT_REQUEST_COMMAND,
   NEW_DEBT_REQUEST_COMMAND_HANDLER,
 } from '../../cases/new-debt-request';
+import { NEW_PAY_COMMAND, NEW_PAY_COMMAND_HANDLER } from '../../cases/new-pay';
+import { PAYMENTS_QUERY, PAYMENTS_QUERY_HANDLER } from '../../cases/payments';
 
 export function loadBuses(container: Oumi.Container) {
   container.setAsync<EventSubscriber>(SERVICE_ID.EVENT_SUBSCRIBER, () => {
@@ -45,6 +47,8 @@ export function loadBuses(container: Oumi.Container) {
     const bus = DomainQueryBus.instance();
 
     bus.addHandler(DEBT_REQUESTS_QUERY, DEBT_REQUESTS_QUERY_HANDLER(container));
+
+    bus.addHandler(PAYMENTS_QUERY, PAYMENTS_QUERY_HANDLER(container));
 
     return bus;
   });
@@ -66,6 +70,8 @@ export function loadBuses(container: Oumi.Container) {
       DENY_DEBT_REQUEST_COMMAND,
       DENY_DEBT_REQUEST_COMMAND_HANDLER(container),
     );
+
+    bus.addHandler(NEW_PAY_COMMAND, NEW_PAY_COMMAND_HANDLER(container));
 
     return bus;
   });

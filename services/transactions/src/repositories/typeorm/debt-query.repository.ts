@@ -13,6 +13,7 @@ import { Connection } from 'typeorm';
 import { SERVICE_ID } from '../../config';
 
 export class TypeORMDebtQueryRepository implements DebtQueryRepository {
+  /* tslint:disable:no-unused-variable */
   private readonly _connection: Connection;
 
   public constructor(container: Oumi.Container) {
@@ -22,26 +23,18 @@ export class TypeORMDebtQueryRepository implements DebtQueryRepository {
   }
 
   public debtorExists(id: DebtorId): Promise<boolean> {
-    // tslint:disable-next-line: no-console
-    console.log(this._connection);
     throw new Error('Method not implemented.');
   }
 
   public loanerExists(id: LoanerId): Promise<boolean> {
-    // tslint:disable-next-line: no-console
-    console.log(this._connection);
     throw new Error('Method not implemented.');
   }
 
   public ofId(id: DebtId): TaskEither<null, Debt> {
-    // tslint:disable-next-line: no-console
-    console.log(this._connection);
     throw new Error('Method not implemented.');
   }
 
   public pendingRequestsOfDebtorId(id: DebtorId): Promise<Debt[]> {
-    // tslint:disable-next-line: no-console
-    console.log(this._connection);
     throw new Error('Method not implemented.');
   }
 }
