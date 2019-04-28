@@ -4,6 +4,7 @@ import express from 'express';
 
 import { changePasswordRouter } from '../../cases/change-password';
 import { confirmContactRequestRouter } from '../../cases/confirm-contact-request';
+import { denyContactRequestRouter } from '../../cases/deny-contact-request';
 import { healthzRouter } from '../../cases/healthz';
 import { newContactRequestRouter } from '../../cases/new-contact-request';
 import { profileRouter } from '../../cases/profile';
@@ -36,4 +37,6 @@ export function loadRoutes(
   app.post('/contacts/requests', newContactRequestRouter(container));
 
   app.put('/contacts/requests/confirm', confirmContactRequestRouter(container));
+
+  app.put('/contacts/requests/deny', denyContactRequestRouter(container));
 }

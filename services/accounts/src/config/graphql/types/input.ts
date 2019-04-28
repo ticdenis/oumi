@@ -36,7 +36,10 @@ export const Input = gql`
     contactRequestId: String!
   }
 
-  # Query
+  input DenyContactRequestData {
+    contactId: String!
+    contactRequestId: String!
+  }
 
   input ProfileData {
     id: ID!

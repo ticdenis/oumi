@@ -7,5 +7,6 @@ export const Mutation = gql`
     userRegistration(input: UserRegistrationData!): Boolean
     newContactRequest(input: NewContactRequestData!): Boolean
     confirmContactRequest(input: ConfirmContactRequestData!): Boolean
+    denyContactRequest(input: DenyContactRequestData!): Boolean
   }
 `;
