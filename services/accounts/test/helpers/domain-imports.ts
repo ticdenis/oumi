@@ -1,5 +1,4 @@
 export * from '@oumi-package/shared/lib/core';
-
 export * from '@oumi-package/shared/lib/domain/user.props';
 export * from '@oumi-package/shared/lib/infrastructure/test/user.stubs';
 export * from '@oumi-package/shared/lib/infrastructure/test/amount.stubs';

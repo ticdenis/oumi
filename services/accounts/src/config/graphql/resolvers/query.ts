@@ -1,6 +1,6 @@
-import { profileQueryResolver } from '../../../features/profile';
-import { userContactsQueryResolver } from '../../../features/user-contacts';
-import { userTokenQueryResolver } from '../../../features/user-token';
+import { profileQueryResolver } from '../../../cases/profile';
+import { userContactsQueryResolver } from '../../../cases/user-contacts';
+import { userTokenQueryResolver } from '../../../cases/user-token';
 
 export const QUERY_RESOLVER = {
   profile: profileQueryResolver,

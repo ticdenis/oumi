@@ -14,32 +14,32 @@ import { SERVICE_ID } from '..';
 import {
   CHANGE_PASSWORD_COMMAND,
   CHANGE_PASSWORD_COMMAND_HANDLER,
-} from '../../features/change-password';
+} from '../../cases/change-password';
 import {
   CONFIRM_CONTACT_REQUEST_COMMAND,
   CONFIRM_CONTACT_REQUEST_COMMAND_HANDLER,
-} from '../../features/confirm-contact-request';
+} from '../../cases/confirm-contact-request';
 import {
   NEW_CONTACT_REQUEST_COMMAND,
   NEW_CONTACT_REQUEST_COMMAND_HANDLER,
-} from '../../features/new-contact-request';
-import { PROFILE_QUERY, PROFILE_QUERY_HANDLER } from '../../features/profile';
+} from '../../cases/new-contact-request';
+import { PROFILE_QUERY, PROFILE_QUERY_HANDLER } from '../../cases/profile';
 import {
   UPDATE_PROFILE_COMMAND,
   UPDATE_PROFILE_COMMAND_HANDLER,
-} from '../../features/update-profile';
+} from '../../cases/update-profile';
 import {
   USER_CONTACTS_QUERY,
   USER_CONTACTS_QUERY_HANDLER,
-} from '../../features/user-contacts';
+} from '../../cases/user-contacts';
 import {
   USER_REGISTRATION_COMMAND,
   USER_REGISTRATION_COMMAND_HANDLER,
-} from '../../features/user-registration';
+} from '../../cases/user-registration';
 import {
   USER_TOKEN_QUERY,
   USER_TOKEN_QUERY_HANDLER,
-} from '../../features/user-token';
+} from '../../cases/user-token';
 
 export function loadBuses(container: Oumi.Container) {
   container.setAsync<EventSubscriber>(SERVICE_ID.EVENT_SUBSCRIBER, () => {

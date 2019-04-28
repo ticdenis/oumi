@@ -1,8 +1,8 @@
-import { changePasswordMutationResolver } from '../../../features/change-password';
-import { confirmContactRequestMutationResolver } from '../../../features/confirm-contact-request';
-import { newContactRequestMutationResolver } from '../../../features/new-contact-request';
-import { updateProfileMutationResolver } from '../../../features/update-profile';
-import { userRegistrationMutationResolver } from '../../../features/user-registration';
+import { changePasswordMutationResolver } from '../../../cases/change-password';
+import { confirmContactRequestMutationResolver } from '../../../cases/confirm-contact-request';
+import { newContactRequestMutationResolver } from '../../../cases/new-contact-request';
+import { updateProfileMutationResolver } from '../../../cases/update-profile';
+import { userRegistrationMutationResolver } from '../../../cases/user-registration';
 
 export const MUTATION_RESOLVER = {
   changePassword: changePasswordMutationResolver,

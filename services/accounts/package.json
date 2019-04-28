@@ -33,6 +33,7 @@
     "@oumi-package/user": "0.0.0",
     "apollo-server": "^2.4.8",
     "apollo-server-express": "^2.4.8",
+    "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
@@ -53,6 +54,7 @@
   },
   "devDependencies": {
     "@fluffy-spoon/substitute": "^1.87.0",
+    "@types/compression": "^0.0.36",
     "@types/cucumber": "^4.0.5",
     "@types/jest": "^24.0.11",
     "@types/node": "^11.13.0",

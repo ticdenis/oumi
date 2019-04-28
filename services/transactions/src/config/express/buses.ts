@@ -14,7 +14,7 @@ import { SERVICE_ID } from '..';
 import {
   NEW_DEBT_REQUEST_COMMAND,
   NEW_DEBT_REQUEST_COMMAND_HANDLER,
-} from '../../features/new-debt-request';
+} from '../../cases/new-debt-request';
 
 export function loadBuses(container: Oumi.Container) {
   container.setAsync<EventSubscriber>(SERVICE_ID.EVENT_SUBSCRIBER, () => {

@@ -1,23 +1,26 @@
 import { Oumi } from '@oumi-package/shared/lib/core';
 
+import compression from 'compression';
 import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 
-import { errorHandler, persistDomainEventsHandler } from '../../util';
+import { errorHandler, persistDomainEventsHandler } from '../../shared';
 // import { loadApolloServer } from '../graphql/server';
 
 export function loadBeforeMiddlewares(
   app: express.Application,
   container: Oumi.Container,
 ) {
-  app.use(helmet());
+  app.use(compression()); // enable gzip
 
-  app.use(morgan('combined'));
+  app.use(helmet()); // secure HTTP headers
 
-  app.use(express.json());
+  app.use(morgan('combined')); // log formatter HTTP requests
 
-  // loadApolloServer(container).applyMiddleware({ app });
+  app.use(express.json()); // parses incoming requests with JSON payloads
+
+  // loadApolloServer(container).applyMiddleware({ app }); // graphQL
 }
 
 export function loadAfterMiddlewares(

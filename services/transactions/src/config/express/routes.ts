@@ -2,9 +2,9 @@ import { Oumi } from '@oumi-package/shared/lib/core';
 
 import express from 'express';
 
-import { healthzRouter } from '../../features/healthz';
-import { newDebtRequestRouter } from '../../features/new-debt-request';
-import { rootRouter } from '../../features/root';
+import { healthzRouter } from '../../cases/healthz';
+import { newDebtRequestRouter } from '../../cases/new-debt-request';
+import { rootRouter } from '../../cases/root';
 
 export function loadRoutes(
   app: express.Application,

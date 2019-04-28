@@ -2,16 +2,16 @@ import { Oumi } from '@oumi-package/shared/lib/core';
 
 import express from 'express';
 
-import { changePasswordRouter } from '../../features/change-password';
-import { confirmContactRequestRouter } from '../../features/confirm-contact-request';
-import { healthzRouter } from '../../features/healthz';
-import { newContactRequestRouter } from '../../features/new-contact-request';
-import { profileRouter } from '../../features/profile';
-import { rootRouter } from '../../features/root';
-import { updateProfileRouter } from '../../features/update-profile';
-import { userContactsRouter } from '../../features/user-contacts';
-import { userRegistrationRouter } from '../../features/user-registration';
-import { userTokenRouter } from '../../features/user-token';
+import { changePasswordRouter } from '../../cases/change-password';
+import { confirmContactRequestRouter } from '../../cases/confirm-contact-request';
+import { healthzRouter } from '../../cases/healthz';
+import { newContactRequestRouter } from '../../cases/new-contact-request';
+import { profileRouter } from '../../cases/profile';
+import { rootRouter } from '../../cases/root';
+import { updateProfileRouter } from '../../cases/update-profile';
+import { userContactsRouter } from '../../cases/user-contacts';
+import { userRegistrationRouter } from '../../cases/user-registration';
+import { userTokenRouter } from '../../cases/user-token';
 
 export function loadRoutes(
   app: express.Application,
@@ -35,5 +35,5 @@ export function loadRoutes(
 
   app.post('/contacts/requests', newContactRequestRouter(container));
 
-  app.put('/contacts/request/confirm', confirmContactRequestRouter(container));
+  app.put('/contacts/requests/confirm', confirmContactRequestRouter(container));
 }

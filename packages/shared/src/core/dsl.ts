@@ -94,7 +94,7 @@ export const koResponse = (
 
 export const validationReporter = (errors: Errors): Oumi.ErrorFormat[] =>
   errors.map(error => ({
-    code: 'validation_error',
+    code: 'VALIDATION_ERROR',
     message: `Expected type '${
       error.context[error.context.length - 1].type.name
     }' on '${

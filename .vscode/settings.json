@@ -4,15 +4,19 @@
     "**/node_modules": true,
     "**/lib": true,
     "**/dist": true,
-    "**/var": true,
+    "**/var": true
   },
   "editor.formatOnSave": true,
   "typescript.tsdk": "node_modules/typescript/lib",
-  "sqltools.connections": [
-    {
-      "database": "/Users/yasti/Documents/Developer/Personal/oumi/services/accounts/var/db-accounts.sqlite",
+  "sqltools.connections": [{
+      "database": "${workspaceFolder}/services/accounts/var/db-accounts.sqlite",
       "dialect": "SQLite",
-      "name": "oumi"
+      "name": "oumi-accounts"
+    },
+    {
+      "database": "${workspaceFolder}/services/transactions/var/db-transactions.sqlite",
+      "dialect": "SQLite",
+      "name": "oumi-transactions"
     }
   ]
 }
