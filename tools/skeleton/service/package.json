@@ -38,13 +38,13 @@
     "jest": "^24.7.1",
     "nodemon": "^1.18.11",
     "pm2": "^3.5.0",
-    "prettier": "^1.16.4",
+    "prettier": "^1.17.0",
     "rimraf": "^2.6.3",
     "supertest": "^4.0.2",
     "ts-jest": "^24.0.2",
     "ts-node": "^8.1.0",
     "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.4.4"
+    "typescript": "^3.4.5"
   }
 }

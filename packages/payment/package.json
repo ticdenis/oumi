@@ -20,9 +20,9 @@
     "report": "nyc report -r=text-lcov > coverage.lcov"
   },
   "dependencies": {
-    "@oumi-package/shared": "0.0.0",
     "@oumi-package/debt": "0.0.0",
-    "fp-ts": "^1.15.1",
+    "@oumi-package/shared": "0.0.0",
+    "fp-ts": "^1.17.1",
     "io-ts": "^1.8.5",
     "ramda": "^0.26.1"
   },
@@ -31,14 +31,14 @@
     "@types/node": "^11.13.0",
     "@types/sinon": "^7.0.11",
     "ava": "^1.4.1",
-    "nyc": "^13.3.0",
-    "prettier": "^1.16.4",
+    "nyc": "^14.0.0",
+    "prettier": "^1.17.0",
     "rimraf": "^2.6.3",
     "sinon": "^7.3.1",
     "supertest": "^4.0.2",
     "ts-node": "^8.1.0",
     "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.4.4"
+    "typescript": "^3.4.5"
   }
 }
