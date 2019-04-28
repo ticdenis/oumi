@@ -32,24 +32,28 @@ export type Resolver<A = any, T = any> = (
   context: { container: Oumi.Container },
 ) => T | Promise<T>;
 
-export const mutationResolver = <Data>(
+export function mutationResolver<Data>(
   CommandClass: new (data: Data) => Command<Data>,
-): Resolver<{ input: Data }, void> => (_, { input }, { container }) =>
-  container
-    .get<CommandBus>(SERVICE_ID.BUS.SYNC_COMMAND)
-    .dispatch(new CommandClass(input))
-    .then(async response => {
-      await runDomainEventsJob(container);
-      return response;
-    });
+): Resolver<{ input: Data }, void> {
+  return (_, { input }, { container }) =>
+    container
+      .get<CommandBus>(SERVICE_ID.BUS.SYNC_COMMAND)
+      .dispatch(new CommandClass(input))
+      .then(async response => {
+        await runDomainEventsJob(container);
+        return response;
+      });
+}
 
-export const queryResolver = <Data, Response>(
+export function queryResolver<Data, Response>(
   QueryClass: new (data: Data) => Query<Data>,
-): Resolver<{ input: Data }, Response> => (_, { input }, { container }) =>
-  container
-    .get<QueryBus>(SERVICE_ID.BUS.SYNC_QUERY)
-    .ask<Data, Response>(new QueryClass(input))
-    .then(async response => {
-      await runDomainEventsJob(container);
-      return response;
-    });
+): Resolver<{ input: Data }, Response> {
+  return (_, { input }, { container }) =>
+    container
+      .get<QueryBus>(SERVICE_ID.BUS.SYNC_QUERY)
+      .ask<Data, Response>(new QueryClass(input))
+      .then(async response => {
+        await runDomainEventsJob(container);
+        return response;
+      });
+}

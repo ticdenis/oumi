@@ -3,7 +3,7 @@ import {
   ConfirmDebtRequestData,
 } from '@oumi-package/debt/lib/application';
 
-import { mutationResolver } from '../../shared';
+import { mutationResolver } from '../../shared/';
 
 export const confirmDebtRequestMutationResolver = mutationResolver<
   ConfirmDebtRequestData
