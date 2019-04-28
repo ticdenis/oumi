@@ -11,4 +11,18 @@ export const Input = gql`
     limitDate: String;
     loanerId: String!
   }
+
+  input ConfirmDebtRequestData {
+    # DebtId
+    id: ID!
+  }
+
+  input DenyDebtRequestData {
+    # DebtId
+    id: ID!
+  }
+
+  input DebtRequestsData {
+    debtorId: ID!
+  }
 `;

@@ -1,5 +1,9 @@
-// import { mutationResolver } from './util';
+import { confirmDebtRequestMutationResolver } from '../../../cases/confirm-debt-request';
+import { denyDebtRequestMutationResolver } from '../../../cases/deny-debt-request';
+import { newDebtRequestMutationResolver } from '../../../cases/new-debt-request';
 
 export const MUTATION_RESOLVER = {
-  // ?: mutationResolver<?>(?),
+  confirmDebtRequest: confirmDebtRequestMutationResolver,
+  denyDebtRequest: denyDebtRequestMutationResolver,
+  newDebtRequest: newDebtRequestMutationResolver,
 };

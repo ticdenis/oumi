@@ -1,5 +1,5 @@
-// import { queryResolver } from './util';
+import { debtRequestsQueryResolver } from '../../../cases/debt-requests';
 
 export const QUERY_RESOLVER = {
-  // ?: queryResolver<?, ?>(?),
+  debtRequests: debtRequestsQueryResolver,
 };

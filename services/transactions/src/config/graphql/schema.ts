@@ -1,7 +1,7 @@
 import { gql } from 'apollo-server';
 
-// import { MUTATION_RESOLVER } from './resolvers/mutation';
-// import { QUERY_RESOLVER } from './resolvers/query';
+import { MUTATION_RESOLVER } from './resolvers/mutation';
+import { QUERY_RESOLVER } from './resolvers/query';
 import { Input } from './types/input';
 import { Mutation } from './types/mutation';
 import { Query } from './types/query';
@@ -15,10 +15,6 @@ export const typeDefs = gql`
 `;
 
 export const resolvers = {
-  Mutation: {
-    // ?: MUTATION_RESOLVER.?,
-  },
-  Query: {
-    // ?: QUERY_RESOLVER.?,
-  },
+  Mutation: MUTATION_RESOLVER,
+  Query: QUERY_RESOLVER,
 };

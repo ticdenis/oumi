@@ -12,6 +12,18 @@ import {
 
 import { SERVICE_ID } from '..';
 import {
+  CONFIRM_DEBT_REQUEST_COMMAND,
+  CONFIRM_DEBT_REQUEST_COMMAND_HANDLER,
+} from '../../cases/confirm-debt-request';
+import {
+  DEBT_REQUESTS_QUERY,
+  DEBT_REQUESTS_QUERY_HANDLER,
+} from '../../cases/debt-requests';
+import {
+  DENY_DEBT_REQUEST_COMMAND,
+  DENY_DEBT_REQUEST_COMMAND_HANDLER,
+} from '../../cases/deny-debt-request';
+import {
   NEW_DEBT_REQUEST_COMMAND,
   NEW_DEBT_REQUEST_COMMAND_HANDLER,
 } from '../../cases/new-debt-request';
@@ -31,6 +43,9 @@ export function loadBuses(container: Oumi.Container) {
 
   container.setAsync<QueryBus>(SERVICE_ID.BUS.SYNC_QUERY, () => {
     const bus = DomainQueryBus.instance();
+
+    bus.addHandler(DEBT_REQUESTS_QUERY, DEBT_REQUESTS_QUERY_HANDLER(container));
+
     return bus;
   });
 
@@ -40,6 +55,16 @@ export function loadBuses(container: Oumi.Container) {
     bus.addHandler(
       NEW_DEBT_REQUEST_COMMAND,
       NEW_DEBT_REQUEST_COMMAND_HANDLER(container),
+    );
+
+    bus.addHandler(
+      CONFIRM_DEBT_REQUEST_COMMAND,
+      CONFIRM_DEBT_REQUEST_COMMAND_HANDLER(container),
+    );
+
+    bus.addHandler(
+      DENY_DEBT_REQUEST_COMMAND,
+      DENY_DEBT_REQUEST_COMMAND_HANDLER(container),
     );
 
     return bus;

@@ -6,7 +6,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 
 import { errorHandler, persistDomainEventsHandler } from '../../shared';
-// import { loadApolloServer } from '../graphql/server';
+import { loadApolloServer } from '../graphql/server';
 
 export function loadBeforeMiddlewares(
   app: express.Application,
@@ -20,7 +20,7 @@ export function loadBeforeMiddlewares(
 
   app.use(express.json()); // parses incoming requests with JSON payloads
 
-  // loadApolloServer(container).applyMiddleware({ app }); // graphQL
+  loadApolloServer(container).applyMiddleware({ app }); // graphQL
 }
 
 export function loadAfterMiddlewares(
