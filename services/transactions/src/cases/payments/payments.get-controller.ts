@@ -1,5 +1,6 @@
 import { PaymentsQuery } from '@oumi-package/payment/lib/application';
 import { okResponse, Oumi, QueryBus } from '@oumi-package/shared/lib/core';
+import { UserId } from '@oumi-package/shared/lib/domain/user.props';
 
 import express from 'express';
 import * as HttpStatus from 'http-status-codes';
@@ -12,7 +13,11 @@ export const paymentsGetController: Oumi.Controller<
 > = container => (req, res, next) =>
   container
     .get<QueryBus>(SERVICE_ID.BUS.SYNC_QUERY)
-    .ask(new PaymentsQuery(req.body))
+    .ask(
+      new PaymentsQuery({
+        debtorId: container.get<UserId>(SERVICE_ID.USER_ID).value,
+      }),
+    )
     .then(response => {
       res.status(HttpStatus.OK).json(okResponse(response));
       next();

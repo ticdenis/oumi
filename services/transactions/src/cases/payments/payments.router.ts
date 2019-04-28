@@ -4,12 +4,8 @@ import express from 'express';
 
 import { jwtMiddleware } from '../../shared';
 
-import { paymentsGetController, paymentsValidatorHandler } from '.';
+import { paymentsGetController } from '.';
 
 export const paymentsRouter: Oumi.Router<
   express.RequestHandler[]
-> = container => [
-  jwtMiddleware(container),
-  paymentsValidatorHandler(container),
-  paymentsGetController(container),
-];
+> = container => [jwtMiddleware(container), paymentsGetController(container)];
