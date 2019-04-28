@@ -1,5 +1,6 @@
 import {
   CommandBus,
+  DomainAsyncCommandBus,
   DomainCommandBus,
   DomainEventPublisher,
   DomainEventSubscriber,
@@ -57,6 +58,14 @@ export function loadBuses(container: Oumi.Container) {
     return bus;
   });
 
+  container.setAsync<CommandBus>(SERVICE_ID.BUS.ASYNC_COMMAND, () => {
+    const bus = DomainAsyncCommandBus.instance();
+
+    bus.addHandler(END_DEBT_COMMAND, END_DEBT_COMMAND_HANDLER(container));
+
+    return bus;
+  });
+
   container.setAsync<CommandBus>(SERVICE_ID.BUS.SYNC_COMMAND, () => {
     const bus = DomainCommandBus.instance();
 
@@ -74,8 +83,6 @@ export function loadBuses(container: Oumi.Container) {
       DENY_DEBT_REQUEST_COMMAND,
       DENY_DEBT_REQUEST_COMMAND_HANDLER(container),
     );
-
-    bus.addHandler(END_DEBT_COMMAND, END_DEBT_COMMAND_HANDLER(container));
 
     bus.addHandler(NEW_PAY_COMMAND, NEW_PAY_COMMAND_HANDLER(container));
 

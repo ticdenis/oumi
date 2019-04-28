@@ -1,11 +1,12 @@
 import {
   Command,
   CommandHandler,
+  DomainAsyncCommandBus,
   DomainCommandBus,
+  DomainQueryBus,
   Query,
   QueryHandler,
 } from './';
-import { DomainQueryBus } from './domain-query-bus';
 
 export class DomainBus {
   public static instance(): DomainBus {
@@ -31,9 +32,12 @@ export class DomainBus {
 
   public async run<T, R>(
     commandOrQuery: Command<T> | Query<T>,
+    asynchronous: boolean = false,
   ): Promise<R | void> {
     if (commandOrQuery instanceof Command) {
-      const bus = DomainCommandBus.instance();
+      const bus = asynchronous
+        ? DomainAsyncCommandBus.instance()
+        : DomainCommandBus.instance();
 
       bus.addHandler(
         commandOrQuery.name,

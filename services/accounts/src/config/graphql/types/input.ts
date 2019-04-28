@@ -53,4 +53,8 @@ export const Input = gql`
     email: String!
     password: String!
   }
+
+  input ContactRequestsData {
+    id: ID!
+  }
 `;

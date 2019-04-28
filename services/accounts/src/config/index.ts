@@ -18,6 +18,7 @@ export interface Environment extends Oumi.Environment {
 
 export const SERVICE_ID = {
   BUS: {
+    ASYNC_COMMAND: Symbol.for('ASYNC_COMMAND_BUS_SERVICE_ID'),
     SYNC_COMMAND: Symbol.for('SYNC_COMMAND_BUS_SERVICE_ID'),
     SYNC_QUERY: Symbol.for('SYNC_QUERY_BUS_SERVICE_ID'),
   },

@@ -1,5 +1,6 @@
 import {
   CommandBus,
+  DomainAsyncCommandBus,
   DomainCommandBus,
   DomainEventPublisher,
   DomainEventSubscriber,
@@ -75,6 +76,12 @@ export function loadBuses(container: Oumi.Container) {
       CONTACT_REQUESTS_QUERY,
       CONTACT_REQUESTS_QUERY_HANDLER(container),
     );
+
+    return bus;
+  });
+
+  container.setAsync<CommandBus>(SERVICE_ID.BUS.ASYNC_COMMAND, () => {
+    const bus = DomainAsyncCommandBus.instance();
 
     return bus;
   });

@@ -18,6 +18,12 @@ export class DomainEventPublisher implements EventPublisher {
     this.id = 0;
   }
 
+  public clear(): void {
+    this.subscribers.clear();
+
+    this.id = 0;
+  }
+
   public subscribe(subscriber: EventSubscriber): number {
     const id = this.id;
     this.subscribers.set(id, subscriber);
