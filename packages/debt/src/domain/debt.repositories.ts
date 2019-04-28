@@ -8,6 +8,7 @@ export interface DebtCommandRepository {
   confirmDebtRequest(debt: Debt): Promise<void>;
   create(debt: Debt): Promise<void>;
   denyDebtRequest(debt: Debt): Promise<void>;
+  endDebt(debt: Debt): Promise<void>;
 }
 
 export interface DebtQueryRepository {

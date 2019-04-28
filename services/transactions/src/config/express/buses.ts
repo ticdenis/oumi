@@ -24,6 +24,10 @@ import {
   DENY_DEBT_REQUEST_COMMAND_HANDLER,
 } from '../../cases/deny-debt-request';
 import {
+  END_DEBT_COMMAND,
+  END_DEBT_COMMAND_HANDLER,
+} from '../../cases/end-debt';
+import {
   NEW_DEBT_REQUEST_COMMAND,
   NEW_DEBT_REQUEST_COMMAND_HANDLER,
 } from '../../cases/new-debt-request';
@@ -70,6 +74,8 @@ export function loadBuses(container: Oumi.Container) {
       DENY_DEBT_REQUEST_COMMAND,
       DENY_DEBT_REQUEST_COMMAND_HANDLER(container),
     );
+
+    bus.addHandler(END_DEBT_COMMAND, END_DEBT_COMMAND_HANDLER(container));
 
     bus.addHandler(NEW_PAY_COMMAND, NEW_PAY_COMMAND_HANDLER(container));
 

@@ -8,6 +8,13 @@ export class DebtDomainError extends DomainError {
     );
   }
 
+  public static debtRequestAlreadyCompleted(id: string) {
+    return new DebtDomainError(
+      'DEBT_REQUEST_ALREADY_COMPLETED',
+      `The <${id}> debt id request already completed`,
+    );
+  }
+
   public static debtRequestAlreadyConfirmed(id: string) {
     return new DebtDomainError(
       'DEBT_REQUEST_ALREADY_CONFIRMED',

@@ -26,4 +26,8 @@ export class TypeORMDebtCommandRepository implements DebtCommandRepository {
   public denyDebtRequest(debt: Debt): Promise<void> {
     throw new Error('Method not implemented.');
   }
+
+  public endDebt(debt: Debt): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
 }
