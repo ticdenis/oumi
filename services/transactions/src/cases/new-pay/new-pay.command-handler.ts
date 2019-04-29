@@ -2,11 +2,11 @@ import {
   newPayBuilderService,
   NewPayCommand,
   newPayHandler,
-} from '@oumi-package/payment/lib/application';
+} from '@oumi-package/movement/lib/application';
 import {
   PaymentCommandRepository,
   PaymentQueryRepository,
-} from '@oumi-package/payment/lib/domain';
+} from '@oumi-package/movement/lib/domain';
 import { EventPublisher, Oumi } from '@oumi-package/shared/lib/core';
 
 import { SERVICE_ID } from '../../config';

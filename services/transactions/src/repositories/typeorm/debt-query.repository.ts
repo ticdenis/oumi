@@ -3,7 +3,7 @@ import {
   DebtorId,
   DebtQueryRepository,
   LoanerId,
-} from '@oumi-package/debt/lib/domain';
+} from '@oumi-package/movement/lib/domain';
 import { Oumi } from '@oumi-package/shared/lib/core';
 import { DebtId } from '@oumi-package/shared/lib/domain/debt.props';
 

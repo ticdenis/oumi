@@ -2,8 +2,8 @@ import {
   paymentsBuilderService,
   paymentsHandler,
   PaymentsQuery,
-} from '@oumi-package/payment/lib/application';
-import { PaymentQueryRepository } from '@oumi-package/payment/lib/domain';
+} from '@oumi-package/movement/lib/application';
+import { PaymentQueryRepository } from '@oumi-package/movement/lib/domain';
 import { Oumi } from '@oumi-package/shared/lib/core';
 
 import { SERVICE_ID } from '../../config';

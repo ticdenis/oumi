@@ -8,8 +8,7 @@
     "packages/shared",
     "packages/user",
     "packages/contact",
-    "packages/debt",
-    "packages/payment",
+    "packages/movement",
     "services/accounts",
     "services/transactions"
   ],

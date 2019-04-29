@@ -1,11 +1,9 @@
 import {
   DebtCommandRepository,
   DebtQueryRepository,
-} from '@oumi-package/debt/lib/domain';
-import {
   PaymentCommandRepository,
   PaymentQueryRepository,
-} from '@oumi-package/payment/lib/domain';
+} from '@oumi-package/movement/lib/domain';
 import { EventPublisher, Oumi } from '@oumi-package/shared/lib/core';
 import {
   simpleJWTFactory,

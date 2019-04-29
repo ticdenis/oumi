@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "@oumi-package/shared": "0.0.0",
-    "@types/ramda": "^0.26.7",
     "bcrypt": "^3.0.4",
     "fp-ts": " ^1.15.1",
     "io-ts": "^1.8.3",
@@ -37,6 +36,7 @@
     "@types/helmet": "^0.0.43",
     "@types/morgan": "^1.7.35",
     "@types/node": "^11.13.0",
+    "@types/ramda": "^0.26.8",
     "@types/sinon": "^7.0.11",
     "ava": "^1.4.1",
     "nyc": "^14.0.0",

@@ -14,10 +14,8 @@ export * from '@oumi-package/user/lib/infrastructure/token.interfaces';
 export * from '@oumi-package/user/lib/infrastructure/test/token.stubs';
 export * from '@oumi-package/user/lib/infrastructure/test/user.stubs';
 
-export * from '@oumi-package/debt/lib/domain';
-export * from '@oumi-package/debt/lib/infrastructure/test/debt.stubs';
-
-export * from '@oumi-package/payment/lib/domain';
-export * from '@oumi-package/payment/lib/infrastructure/test/payment.stubs';
+export * from '@oumi-package/movement/lib/domain';
+export * from '@oumi-package/movement/lib/infrastructure/test/debt.stubs';
+export * from '@oumi-package/movement/lib/infrastructure/test/payment.stubs';
 
 export { loadContainer, SERVICE_ID } from '../../src/config';

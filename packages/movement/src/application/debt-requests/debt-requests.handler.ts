@@ -1,5 +1,5 @@
 import { eitherToPromise, QueryHandler } from '@oumi-package/shared/lib/core';
-import { userIdVO } from '@oumi-package/user/lib';
+import { userIdVO } from '@oumi-package/shared/lib/domain/user.props';
 
 import {
   DebtRequestsQuery,
