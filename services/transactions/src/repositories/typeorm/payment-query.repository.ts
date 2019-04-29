@@ -3,7 +3,7 @@ import {
   PaymentDebt,
   PaymentDebtId,
   PaymentQueryRepository,
-} from '@oumi-package/payment/lib/domain';
+} from '@oumi-package/movement/lib/domain';
 import { Oumi } from '@oumi-package/shared/lib/core';
 
 import { TaskEither } from 'fp-ts/lib/TaskEither';

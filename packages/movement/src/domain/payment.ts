@@ -9,7 +9,7 @@ import {
   PaymentMessage,
   PaymentOcurredOn,
   PaymentQuantity,
-} from '.';
+} from './';
 
 export interface PaymentConstructor {
   debt: PaymentDebt;

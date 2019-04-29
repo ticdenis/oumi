@@ -12,7 +12,7 @@ import {
   amountVO,
 } from '@oumi-package/shared/lib/domain/amount.props';
 import { CurrencyVO } from '@oumi-package/shared/lib/domain/currency.props';
-import { UserId, userIdVO } from '@oumi-package/user/lib';
+import { UserId, userIdVO } from '@oumi-package/shared/lib/domain/user.props';
 
 import moment from 'moment';
 

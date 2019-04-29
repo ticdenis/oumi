@@ -2,7 +2,7 @@ import {
   DebtRequestsData,
   DebtRequestsQuery,
   DebtRequestsResponse,
-} from '@oumi-package/debt/lib/application';
+} from '@oumi-package/movement/lib/application';
 
 import { queryResolver } from '../../shared';
 

@@ -1,4 +1,4 @@
-import { Debt, DebtCommandRepository } from '@oumi-package/debt/lib/domain';
+import { Debt, DebtCommandRepository } from '@oumi-package/movement/lib/domain';
 import { Oumi } from '@oumi-package/shared/lib/core';
 
 import { Connection } from 'typeorm';

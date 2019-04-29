@@ -2,7 +2,7 @@ import {
   PaymentsData,
   PaymentsQuery,
   PaymentsResponse,
-} from '@oumi-package/payment/lib/application';
+} from '@oumi-package/movement/lib/application';
 
 import { queryResolver } from '../../shared';
 

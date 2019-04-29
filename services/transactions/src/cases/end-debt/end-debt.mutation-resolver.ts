@@ -1,7 +1,7 @@
 import {
   EndDebtCommand,
   EndDebtData,
-} from '@oumi-package/debt/lib/application';
+} from '@oumi-package/movement/lib/application';
 
 import { mutationResolver } from '../../shared';
 

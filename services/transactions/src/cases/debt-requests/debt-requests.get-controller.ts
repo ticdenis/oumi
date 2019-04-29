@@ -1,4 +1,4 @@
-import { DebtRequestsQuery } from '@oumi-package/debt/lib/application';
+import { DebtRequestsQuery } from '@oumi-package/movement/lib/application';
 import { okResponse, Oumi, QueryBus } from '@oumi-package/shared/lib/core';
 import { UserId } from '@oumi-package/shared/lib/domain/user.props';
 

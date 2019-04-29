@@ -1,4 +1,4 @@
-import { ConfirmDebtRequestCommand } from '@oumi-package/debt/lib/application';
+import { ConfirmDebtRequestCommand } from '@oumi-package/movement/lib/application';
 import { CommandBus, okResponse, Oumi } from '@oumi-package/shared/lib/core';
 
 import express from 'express';

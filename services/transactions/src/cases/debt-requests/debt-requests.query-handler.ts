@@ -2,8 +2,8 @@ import {
   debtRequestsBuilderService,
   debtRequestsHandler,
   DebtRequestsQuery,
-} from '@oumi-package/debt/lib/application';
-import { DebtQueryRepository } from '@oumi-package/debt/lib/domain';
+} from '@oumi-package/movement/lib/application';
+import { DebtQueryRepository } from '@oumi-package/movement/lib/domain';
 import { Oumi } from '@oumi-package/shared/lib/core';
 
 import { SERVICE_ID } from '../../config';

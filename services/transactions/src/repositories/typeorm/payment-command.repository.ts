@@ -1,7 +1,7 @@
 import {
   Payment,
   PaymentCommandRepository,
-} from '@oumi-package/payment/lib/domain';
+} from '@oumi-package/movement/lib/domain';
 import { Oumi } from '@oumi-package/shared/lib/core';
 
 import { Connection } from 'typeorm';

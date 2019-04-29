@@ -1,4 +1,4 @@
-import { PaymentsQuery } from '@oumi-package/payment/lib/application';
+import { PaymentsQuery } from '@oumi-package/movement/lib/application';
 import { okResponse, Oumi, QueryBus } from '@oumi-package/shared/lib/core';
 import { UserId } from '@oumi-package/shared/lib/domain/user.props';
 

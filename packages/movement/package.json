@@ -1,6 +1,6 @@
 {
-  "name": "@oumi-package/payment",
-  "description": "This package provide the way to operate with Oumi debts.",
+  "name": "@oumi-package/movement",
+  "description": "This package provides the way to operate with debts and payments.",
   "version": "0.0.0",
   "private": true,
   "license": "UNLICENSED",
@@ -14,16 +14,16 @@
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "lint:fix": "tslint -c tslint.json -p tsconfig.json --fix",
     "prettier": "prettier --config .prettierrc --write \"./**/*.ts\"",
+    "upgrade": "yarn upgrade --latest",
     "test": "ava --verbose",
     "test:watch": "ava --verbose --watch",
     "coverage": "nyc ava --verbose",
     "report": "nyc report -r=text-lcov > coverage.lcov"
   },
   "dependencies": {
-    "@oumi-package/debt": "0.0.0",
     "@oumi-package/shared": "0.0.0",
     "fp-ts": "^1.17.1",
-    "io-ts": "^1.8.5",
+    "moment": "^2.24.0",
     "ramda": "^0.26.1"
   },
   "devDependencies": {
