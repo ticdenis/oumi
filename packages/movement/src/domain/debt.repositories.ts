@@ -12,6 +12,7 @@ export interface DebtCommandRepository {
 }
 
 export interface DebtQueryRepository {
+  allOfIds(ids: DebtId[]): TaskEither<null, Debt[]>;
   debtorExists(id: DebtorId): Promise<boolean>;
   loanerExists(id: LoanerId): Promise<boolean>;
   ofId(id: DebtId): TaskEither<null, Debt>;
