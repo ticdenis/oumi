@@ -5,7 +5,12 @@
   "private": true,
   "license": "UNLICENSED",
   "main": "./dist/main.js",
+  "copyFiles": [{
+    "from": ".env.sample",
+    "to": ".env"
+  }],
   "scripts": {
+    "prepare-env": "copy-files-from-to --config package.json",
     "clean": "rimraf dist",
     "start": "node dist/main.js",
     "serve": "pm2 start --name '@oumi-service/transactions' ts-node -- -P tsconfig.json ./src/main.ts --watch",
@@ -63,6 +68,7 @@
     "@types/supertest": "^2.0.7",
     "apollo-server-testing": "^2.4.8",
     "concurrently": "^4.1.0",
+    "copy-files-from-to": "^1.2.0",
     "jest": "^24.7.1",
     "jest-cucumber": "^2.0.11",
     "nodemon": "^1.18.11",

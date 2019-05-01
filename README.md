@@ -5,7 +5,7 @@
 
 Oumi is a platform to control the state of your debts.
 
-### Before Dev
+### Before Development
 
 ```bash
 yarn install
@@ -13,6 +13,8 @@ yarn install
 yarn build
 
 yarn lint
+
+yarn prepare-envs
 
 yarn test
 ```

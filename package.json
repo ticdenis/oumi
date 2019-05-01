@@ -14,7 +14,6 @@
   ],
   "scripts": {
     "preinstall": "node -e 'if(!/yarn\\.js$/.test(process.env.npm_execpath))throw new Error(\"Use yarn\")'",
-    "prepare-envs": "cp services/accounts/.env.sample .env && cp services/transactions/.env.sample .env",
     "commit": "git-cz",
     "cli": "./tools/cli.ts",
     "docker": "./tools/docker-stack.sh",
@@ -46,7 +45,10 @@
     "migrator-migrate-transactions": "yarn workspace @oumi-service/transactions run migrator migrate",
     "migrator:rollback": "concurrently \"yarn:migrator-rollback*\"",
     "migrator-rollback-accounts": "yarn workspace @oumi-service/accounts run migrator rollback",
-    "migrator-rollback-transactions": "yarn workspace @oumi-service/transactions run migrator rollback"
+    "migrator-rollback-transactions": "yarn workspace @oumi-service/transactions run migrator rollback",
+    "prepare-env": "concurrently \"yarn:prepare-env-*\"",
+    "prepare-env-accounts": "yarn workspace @oumi-service/accounts run prepare-env",
+    "prepare-env-transactions": "yarn workspace @oumi-service/transactions run prepare-env"
   },
   "devDependencies": {
     "@types/inquirer": "^6.0.0",
