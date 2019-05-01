@@ -39,7 +39,13 @@
     "test:services": "concurrently \"yarn:test:service-*\"",
     "test:service-accounts": "yarn workspace @oumi-service/accounts run test",
     "test:service-transactions": "yarn workspace @oumi-service/transactions run test",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
+    "migrator:migrate": "concurrently \"yarn:migrator-migrate*\"",
+    "migrator-migrate-accounts": "yarn workspace @oumi-service/accounts run migrator migrate",
+    "migrator-migrate-transactions": "yarn workspace @oumi-service/transactions run migrator migrate",
+    "migrator:rollback": "concurrently \"yarn:migrator-rollback*\"",
+    "migrator-rollback-accounts": "yarn workspace @oumi-service/accounts run migrator rollback",
+    "migrator-rollback-transactions": "yarn workspace @oumi-service/transactions run migrator rollback"
   },
   "devDependencies": {
     "@types/inquirer": "^6.0.0",

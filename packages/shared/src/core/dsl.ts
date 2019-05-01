@@ -45,6 +45,7 @@ export declare namespace Oumi {
 
   export interface Migration<T> {
     down: (queryRunner: T) => Promise<void>;
+    name: string;
     up: (queryRunner: T) => Promise<void>;
   }
 

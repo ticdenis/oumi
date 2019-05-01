@@ -4,7 +4,16 @@ import { Connection, createConnection } from 'typeorm';
 
 import { Environment } from '..';
 
-import { DomainEventEntity } from './entity';
+import {
+  CurrencyEntity,
+  DebtDebtorEntity,
+  DebtEntity,
+  DebtLoanerEntity,
+  DebtStatusEntity,
+  DomainEventEntity,
+  PaymentEntity,
+  UserEntity,
+} from './entity';
 
 export const loadDatabase = (env: Environment): Oumi.Database => {
   let db: Connection = null;
@@ -14,7 +23,16 @@ export const loadDatabase = (env: Environment): Oumi.Database => {
       if (!db) {
         db = await createConnection({
           database: env.DATABASE_DATABASE,
-          entities: [DomainEventEntity],
+          entities: [
+            CurrencyEntity,
+            DebtDebtorEntity,
+            DebtLoanerEntity,
+            DebtStatusEntity,
+            DebtEntity,
+            DomainEventEntity,
+            PaymentEntity,
+            UserEntity,
+          ],
           host: env.DATABASE_HOST,
           logging: true,
           password: env.DATABASE_PASSWORD,

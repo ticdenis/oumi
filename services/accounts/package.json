@@ -23,7 +23,7 @@
     "test:watch": "jest --verbose --watch",
     "coverage": "jest --coverage",
     "report": "jest --coverage",
-    "migrate": "./tools/migrate.ts",
+    "migrator": "./tools/migrator.ts",
     "pm2": "pm2"
   },
   "dependencies": {

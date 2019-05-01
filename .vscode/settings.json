@@ -7,16 +7,5 @@
     "**/var": true
   },
   "editor.formatOnSave": true,
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "sqltools.connections": [{
-      "database": "${workspaceFolder}/services/accounts/var/db-accounts.sqlite",
-      "dialect": "SQLite",
-      "name": "oumi-accounts"
-    },
-    {
-      "database": "${workspaceFolder}/services/transactions/var/db-transactions.sqlite",
-      "dialect": "SQLite",
-      "name": "oumi-transactions"
-    }
-  ]
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

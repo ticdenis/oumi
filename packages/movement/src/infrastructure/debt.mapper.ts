@@ -1,4 +1,5 @@
 import { stringVO } from '@oumi-package/shared/lib/core';
+import { currencyVO } from '@oumi-package/shared/lib/domain/currency.props';
 import { debtIdVO } from '@oumi-package/shared/lib/domain/debt.props';
 import { userIdVO } from '@oumi-package/shared/lib/domain/user.props';
 
@@ -18,7 +19,13 @@ const item = R.ifElse(
   R.has('id'),
   source =>
     new Debt({
-      amount: debtAmountVO(source.amount),
+      amount: debtAmountVO({
+        amount: source.amount,
+        currency: currencyVO({
+          code: source.currency.code,
+          symbol: source.currency.symbol,
+        }),
+      }),
       concept: debtConceptVO(source.concept),
       debtor: {
         id: userIdVO(source.debtor ? source.debtor.id : source.debtorId),

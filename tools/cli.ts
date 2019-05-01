@@ -6,15 +6,7 @@ import createProjectScript from "./skeleton/script";
 import createUseCaseScript from "./use-case/script";
 import chalk from "chalk";
 
-const options = [
-  "New Project",
-  "New Use Case",
-  // "New Aggregate (Entity)",
-  // "New Value Object",
-  // "New Domain Error",
-  // "New Domain Event",
-  "exit"
-];
+const options = ["New Project", "New Use Case", "exit"];
 
 inquirer
   .prompt({

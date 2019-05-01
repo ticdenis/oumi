@@ -31,6 +31,10 @@ export const Input = gql`
     debtorId: ID!
   }
 
+  input PaymentsData {
+    debtorId: ID!
+  }
+
   input NewPayData {
     debtId: String!
     id: ID!

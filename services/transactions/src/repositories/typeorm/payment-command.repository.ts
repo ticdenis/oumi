@@ -7,10 +7,10 @@ import { Oumi } from '@oumi-package/shared/lib/core';
 import { Connection } from 'typeorm';
 
 import { SERVICE_ID } from '../../config';
+import { PaymentEntity } from '../../config/typeorm/entity/payment';
 
 export class TypeORMPaymentCommandRepository
   implements PaymentCommandRepository {
-  /* tslint:disable:no-unused-variable */
   private readonly _connection: Connection;
 
   public constructor(container: Oumi.Container) {
@@ -19,7 +19,17 @@ export class TypeORMPaymentCommandRepository
       .connection<Connection>();
   }
 
-  public create(payment: Payment): Promise<void> {
-    throw new Error('Method not implemented.');
+  public async create(payment: Payment): Promise<void> {
+    await this._connection
+      .createQueryBuilder()
+      .insert()
+      .into(PaymentEntity)
+      .values({
+        debtId: payment.debt.id.value,
+        message: payment.message.value,
+        occurredOn: payment.occurredOn.value,
+        quantity: payment.quantity.value,
+      })
+      .execute();
   }
 }
