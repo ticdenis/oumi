@@ -78,7 +78,7 @@ const step1 = (context: Context) => ({
         queryRepository,
       );
 
-      const queryBus = DomainQueryBus.instance();
+      const queryBus = new DomainQueryBus();
       queryBus.addHandler(
         PROFILE_QUERY,
         PROFILE_QUERY_HANDLER(context.container),

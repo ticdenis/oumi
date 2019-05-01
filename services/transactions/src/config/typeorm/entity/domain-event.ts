@@ -12,6 +12,7 @@ export const DomainEventEntity = new EntitySchema({
     },
     occurredOn: {
       createDate: true,
+      name: 'occurred_on',
       type: Date,
     },
     type: {

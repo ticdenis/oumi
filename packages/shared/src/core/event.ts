@@ -26,11 +26,18 @@ export interface EventBus {
 
 // Helpers
 
-export const event = <T>(data: T): Event<T> =>
+export const eventType = (
+  service: string,
+  version: number,
+  entity: string,
+  eventName: string,
+) => `oumi.${service}.${version}.event.${entity}.${eventName}`;
+
+export const event = (type: string) => <T>(data: T): Event<T> =>
   R.merge(message(), {
     data,
     occurredOn: new Date(),
-    type: stringVO('event').value,
+    type,
   });
 
 export const publisher = (eventPublisher: EventPublisher) => async <T>(

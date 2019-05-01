@@ -14,8 +14,8 @@ import {
   ContactNickname,
   ContactRequest,
   contactRequestStatusVO,
-  newRequested,
   requestConfirmed,
+  requestCreated,
   requestDenied,
 } from '.';
 
@@ -75,7 +75,7 @@ export class Contact extends AggregateRoot<ContactEvents> {
     });
 
     this.recordDomainEvent(
-      newRequested({
+      requestCreated({
         contactId: contact._id.value,
         message: message.value,
         requesterId: this._id.value,

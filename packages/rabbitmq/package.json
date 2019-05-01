@@ -9,7 +9,6 @@
   "scripts": {
     "preinstall": "node -e 'if(!/yarn\\.js$/.test(process.env.npm_execpath))throw new Error(\"Use yarn\")'",
     "clean": "rimraf lib",
-    "prueba": "ts-node src/main.ts",
     "build": "tsc --declaration",
     "watch": "tsc --declaration -w",
     "lint": "tslint -c tslint.json -p tsconfig.json",

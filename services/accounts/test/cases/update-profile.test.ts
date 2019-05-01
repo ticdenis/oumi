@@ -83,7 +83,7 @@ const step1 = (context: Context) => ({
       const commandRepository = Substitute.for<UserCommandRepository>();
       commandRepository.updateProfile(Arg.any()).returns(Promise.resolve());
 
-      const bus = DomainCommandBus.instance();
+      const bus = new DomainCommandBus();
 
       context.container.set<UserQueryRepository>(
         SERVICE_ID.QUERY_REPOSITORY.USER,
@@ -123,7 +123,7 @@ const step1 = (context: Context) => ({
       commandRepository,
     );
 
-    const commandBus = DomainCommandBus.instance();
+    const commandBus = new DomainCommandBus();
     commandBus.addHandler(
       UPDATE_PROFILE_COMMAND,
       UPDATE_PROFILE_COMMAND_HANDLER(context.container),

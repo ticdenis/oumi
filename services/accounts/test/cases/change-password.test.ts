@@ -89,7 +89,7 @@ const step1 = (context: Context) => ({
         commandRepository,
       );
 
-      const commandBus = DomainCommandBus.instance();
+      const commandBus = new DomainCommandBus();
       commandBus.addHandler(
         CHANGE_PASSWORD_COMMAND,
         CHANGE_PASSWORD_COMMAND_HANDLER(context.container),

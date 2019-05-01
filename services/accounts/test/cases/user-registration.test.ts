@@ -53,7 +53,7 @@ const step1 = (context: Context) => ({
       commandRepository,
     );
 
-    const commandBus = DomainCommandBus.instance();
+    const commandBus = new DomainCommandBus();
     commandBus.addHandler(
       USER_REGISTRATION_COMMAND,
       USER_REGISTRATION_COMMAND_HANDLER(context.container),

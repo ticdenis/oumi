@@ -1,15 +1,6 @@
 import { Query, QueryBus, QueryDomainError, QueryHandler } from './';
 
 export class DomainQueryBus implements QueryBus {
-  public static instance(): DomainQueryBus {
-    if (null === DomainQueryBus._instance) {
-      DomainQueryBus._instance = new this();
-    }
-
-    return DomainQueryBus._instance;
-  }
-
-  private static _instance: DomainQueryBus = null;
   private _queryHandlers: Map<string, QueryHandler<any, any>> = new Map();
 
   public addHandler(

@@ -1,5 +1,5 @@
 const DEFAULTS = {
-  HOST: '127.0.0.1',
+  HOST: 'localhost',
   PASSWORD: 'guest',
   PORT: 5672,
   QUEUE: 'all',

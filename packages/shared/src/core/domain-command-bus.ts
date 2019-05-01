@@ -3,18 +3,7 @@ import { EventEmitter } from 'events';
 import { Command, CommandBus, CommandDomainError, CommandHandler } from './';
 
 export class DomainCommandBus implements CommandBus {
-  public static instance(): DomainCommandBus {
-    if (null === DomainCommandBus._instance) {
-      DomainCommandBus._instance = new this();
-    }
-
-    return DomainCommandBus._instance;
-  }
-
-  private static _instance: DomainCommandBus = null;
   private _commandHandlers: Map<string, CommandHandler<any>> = new Map();
-
-  private constructor() {}
 
   public addHandler(
     commandName: string,
@@ -47,19 +36,8 @@ export class DomainCommandBus implements CommandBus {
 }
 
 export class DomainAsyncCommandBus implements CommandBus {
-  public static instance(): DomainAsyncCommandBus {
-    if (null === DomainAsyncCommandBus._instance) {
-      DomainAsyncCommandBus._instance = new this();
-    }
-
-    return DomainAsyncCommandBus._instance;
-  }
-
-  private static _instance: DomainAsyncCommandBus = null;
   private _emitter = new EventEmitter();
   private _commandHandlers: Map<string, CommandHandler<any>> = new Map();
-
-  private constructor() {}
 
   public addHandler(
     commandName: string,

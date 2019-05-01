@@ -1,25 +1,24 @@
 import { Event, EventSubscriber } from '@oumi-package/shared/lib/core';
 
-import { RabbitMQProducer } from './';
+import { RabbitMQConfig, RabbitMQProducer } from '.';
 
-export class RabbitMQSubscriber implements EventSubscriber {
-  private _events: Event<any>[] = [];
+export class RabbitMQEventSubscriber implements EventSubscriber {
+  private readonly _publisher: RabbitMQProducer;
 
-  constructor(protected readonly producer: RabbitMQProducer) {}
+  public constructor(config: RabbitMQConfig) {
+    this._publisher = new RabbitMQProducer(config);
+  }
 
   public clear(): void {
-    this._events = [];
+    // Nothing
   }
 
   public events<T>(): Event<T>[] {
-    return this._events;
+    return [];
   }
 
-  public async handle<T>(event: Event<T>) {
-    this._events.push(event);
-
-    // tslint:disable-next-line: no-console
-    console.log('Evento recibido: ', event);
+  public handle<T>(event: Event<T>): void {
+    this._publisher.publish(event).then();
   }
 
   public isSubscribedTo<T>(event: Event<T>): boolean {

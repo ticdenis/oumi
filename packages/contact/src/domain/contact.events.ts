@@ -1,8 +1,8 @@
-import { event } from '@oumi-package/shared/lib/core';
+import { event, eventType } from '@oumi-package/shared/lib/core';
 
-export type ContactEvents = NewRequested | RequestConfirmed | RequestDenied;
+export type ContactEvents = RequestCreated | RequestConfirmed | RequestDenied;
 
-export interface NewRequested {
+export interface RequestCreated {
   contactId: string;
   message: string | null;
   requesterId: string;
@@ -18,8 +18,11 @@ export interface RequestDenied {
   requesterId: string;
 }
 
-export const newRequested = (data: NewRequested) => event(data);
+export const requestCreated = (data: RequestCreated) =>
+  event(eventType('contact', 1, 'contact', 'request-created'))(data);
 
-export const requestConfirmed = (data: RequestConfirmed) => event(data);
+export const requestConfirmed = (data: RequestConfirmed) =>
+  event(eventType('contact', 1, 'contact', 'request-confirmed'))(data);
 
-export const requestDenied = (data: RequestDenied) => event(data);
+export const requestDenied = (data: RequestDenied) =>
+  event(eventType('contact', 1, 'contact', 'request-denied'))(data);

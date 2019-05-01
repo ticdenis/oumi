@@ -11,6 +11,7 @@ export interface Environment extends Oumi.Environment {
   DATABASE_PORT: string;
   DATABASE_SYNCHRONIZE: string;
   DATABASE_USERNAME: string;
+  QUEUES_ENABLED: string;
   TOKEN_SECRET: string;
   TOKEN_ISSUER: string;
   TOKEN_EXPIRATION_DAYS: string;

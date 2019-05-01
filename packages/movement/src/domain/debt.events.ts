@@ -1,4 +1,4 @@
-import { event } from '@oumi-package/shared/lib/core';
+import { event, eventType } from '@oumi-package/shared/lib/core';
 
 export type DebtEvents =
   | DebtNewRequested
@@ -32,10 +32,14 @@ export interface DebtCompleted {
   loanerId: string;
 }
 
-export const debtNewRequested = (data: DebtNewRequested) => event(data);
+export const debtNewRequested = (data: DebtNewRequested) =>
+  event(eventType('movement', 1, 'debt', 'debt-new-requested'))(data);
 
-export const debtRequestConfirmed = (data: DebtRequestConfirmed) => event(data);
+export const debtRequestConfirmed = (data: DebtRequestConfirmed) =>
+  event(eventType('movement', 1, 'debt', 'debt-request-confirmed'))(data);
 
-export const debRequestDenied = (data: DebRequestDenied) => event(data);
+export const debRequestDenied = (data: DebRequestDenied) =>
+  event(eventType('movement', 1, 'debt', 'debt-request-denied'))(data);
 
-export const debtCompleted = (data: DebtCompleted) => event(data);
+export const debtCompleted = (data: DebtCompleted) =>
+  event(eventType('movement', 1, 'debt', 'debt-completed'))(data);

@@ -98,7 +98,7 @@ const step1 = (context: Context) => ({
         debtQueryRepository,
       );
 
-      const queryBus = DomainQueryBus.instance();
+      const queryBus = new DomainQueryBus();
       queryBus.addHandler(
         MOVEMENTS_QUERY,
         MOVEMENTS_QUERY_HANDLER(context.container),

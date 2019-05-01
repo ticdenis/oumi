@@ -10,6 +10,7 @@ import { loadBuses } from './buses';
 import { loadAfterMiddlewares, loadBeforeMiddlewares } from './middlewares';
 import { loadRepositories } from './repositories';
 import { loadRoutes } from './routes';
+import { loadSubscribers } from './subscribers';
 
 export const loadApplication = (
   container: Oumi.Container,
@@ -19,6 +20,8 @@ export const loadApplication = (
   loadRepositories(container);
 
   loadBuses(container);
+
+  loadSubscribers(container);
 
   const app = express();
 

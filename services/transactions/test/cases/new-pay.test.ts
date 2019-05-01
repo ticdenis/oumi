@@ -96,7 +96,7 @@ const step1 = (context: Context) => ({
       commandRepository,
     );
 
-    const bus = DomainCommandBus.instance();
+    const bus = new DomainCommandBus();
     bus.addHandler(NEW_PAY_COMMAND, NEW_PAY_COMMAND_HANDLER(context.container));
     context.container.set<CommandBus>(SERVICE_ID.BUS.SYNC_COMMAND, bus);
   });

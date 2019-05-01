@@ -1,4 +1,8 @@
 import {
+  RabbitMQConfig,
+  RabbitMQEventSubscriber,
+} from '@oumi-package/rabbitmq/lib';
+import {
   CommandBus,
   DomainAsyncCommandBus,
   DomainCommandBus,
@@ -11,7 +15,7 @@ import {
   QueryBus,
 } from '@oumi-package/shared/lib/core';
 
-import { SERVICE_ID } from '..';
+import { Environment, SERVICE_ID } from '..';
 import {
   CONFIRM_DEBT_REQUEST_COMMAND,
   CONFIRM_DEBT_REQUEST_COMMAND_HANDLER,
@@ -40,20 +44,28 @@ import { NEW_PAY_COMMAND, NEW_PAY_COMMAND_HANDLER } from '../../cases/new-pay';
 import { PAYMENTS_QUERY, PAYMENTS_QUERY_HANDLER } from '../../cases/payments';
 
 export function loadBuses(container: Oumi.Container) {
+  const env = container.get<Environment>(SERVICE_ID.ENV);
+
   container.setAsync<EventSubscriber>(SERVICE_ID.EVENT_SUBSCRIBER, () => {
-    return DomainEventSubscriber.instance();
+    return new DomainEventSubscriber();
   });
 
   container.setAsync<EventPublisher>(SERVICE_ID.EVENT_PUBLISHER, () => {
-    const publisher = DomainEventPublisher.instance();
+    const publisher = new DomainEventPublisher();
+
     publisher.subscribe(
       container.get<EventSubscriber>(SERVICE_ID.EVENT_SUBSCRIBER),
     );
+
+    if (env.QUEUES_ENABLED === 'true') {
+      publisher.subscribe(new RabbitMQEventSubscriber(new RabbitMQConfig()));
+    }
+
     return publisher;
   });
 
   container.setAsync<QueryBus>(SERVICE_ID.BUS.SYNC_QUERY, () => {
-    const bus = DomainQueryBus.instance();
+    const bus = new DomainQueryBus();
 
     bus.addHandler(DEBT_REQUESTS_QUERY, DEBT_REQUESTS_QUERY_HANDLER(container));
 
@@ -65,7 +77,7 @@ export function loadBuses(container: Oumi.Container) {
   });
 
   container.setAsync<CommandBus>(SERVICE_ID.BUS.ASYNC_COMMAND, () => {
-    const bus = DomainAsyncCommandBus.instance();
+    const bus = new DomainAsyncCommandBus();
 
     bus.addHandler(END_DEBT_COMMAND, END_DEBT_COMMAND_HANDLER(container));
 
@@ -73,7 +85,7 @@ export function loadBuses(container: Oumi.Container) {
   });
 
   container.setAsync<CommandBus>(SERVICE_ID.BUS.SYNC_COMMAND, () => {
-    const bus = DomainCommandBus.instance();
+    const bus = new DomainCommandBus();
 
     bus.addHandler(
       NEW_DEBT_REQUEST_COMMAND,

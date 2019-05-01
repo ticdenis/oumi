@@ -1,23 +1,23 @@
-import {
-  EventPublisher,
-  EventSubscriber,
-  Oumi,
-} from '@oumi-package/shared/lib/core';
+import { RabbitMQConfig, RabbitMQConsumer } from '@oumi-package/rabbitmq/lib';
+import { Event, eventType, Oumi } from '@oumi-package/shared/lib/core';
 
-import express from 'express';
+import { newUserTask } from './';
 
-import { SERVICE_ID } from '../../config';
+export class NewUserSubscriber extends RabbitMQConsumer {
+  public constructor(
+    config: RabbitMQConfig,
+    private readonly container: Oumi.Container,
+  ) {
+    super(config);
+  }
 
-export const persistDomainEventsHandler: Oumi.Handler<
-  express.RequestHandler
-> = container => async (req, res, next) => {
-  await container
-    .get<EventPublisher>(SERVICE_ID.DOMAIN_EVENT_REPOSITORY)
-    .publish(
-      ...container.get<EventSubscriber>(SERVICE_ID.EVENT_SUBSCRIBER).events(),
-    );
+  public handle<T>(event: Event<T>): void {
+    if (this.isSubscribedTo(event)) {
+      newUserTask(this.container)(event as any).then();
+    }
+  }
 
-  container.get<EventSubscriber>(SERVICE_ID.EVENT_SUBSCRIBER).clear();
-
-  next();
-};
+  public isSubscribedTo<T>(event: Event<T>): boolean {
+    return event.type === eventType('user', 1, 'user', 'user-registered');
+  }
+}

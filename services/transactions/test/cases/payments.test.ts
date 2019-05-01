@@ -77,7 +77,7 @@ const step1 = (context: Context) => ({
         queryRepository,
       );
 
-      const queryBus = DomainQueryBus.instance();
+      const queryBus = new DomainQueryBus();
       queryBus.addHandler(
         PAYMENTS_QUERY,
         PAYMENTS_QUERY_HANDLER(context.container),

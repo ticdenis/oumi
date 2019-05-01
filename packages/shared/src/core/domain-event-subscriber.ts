@@ -1,15 +1,6 @@
 import { Event, EventSubscriber } from './';
 
 export class DomainEventSubscriber implements EventSubscriber {
-  public static instance(): DomainEventSubscriber {
-    if (null === DomainEventSubscriber._instance) {
-      DomainEventSubscriber._instance = new this();
-    }
-
-    return DomainEventSubscriber._instance;
-  }
-
-  private static _instance: DomainEventSubscriber = null;
   protected _events = new Map<string, Event<any>>();
 
   public clear(): void {

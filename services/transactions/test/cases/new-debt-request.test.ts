@@ -91,7 +91,7 @@ const step1 = (context: Context) => ({
       commandRepository,
     );
 
-    const bus = DomainCommandBus.instance();
+    const bus = new DomainCommandBus();
     bus.addHandler(
       NEW_DEBT_REQUEST_COMMAND,
       NEW_DEBT_REQUEST_COMMAND_HANDLER(context.container),
