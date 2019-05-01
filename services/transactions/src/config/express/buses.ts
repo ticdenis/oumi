@@ -29,6 +29,10 @@ import {
   END_DEBT_COMMAND_HANDLER,
 } from '../../cases/end-debt';
 import {
+  MOVEMENTS_QUERY,
+  MOVEMENTS_QUERY_HANDLER,
+} from '../../cases/movements';
+import {
   NEW_DEBT_REQUEST_COMMAND,
   NEW_DEBT_REQUEST_COMMAND_HANDLER,
 } from '../../cases/new-debt-request';
@@ -54,6 +58,8 @@ export function loadBuses(container: Oumi.Container) {
     bus.addHandler(DEBT_REQUESTS_QUERY, DEBT_REQUESTS_QUERY_HANDLER(container));
 
     bus.addHandler(PAYMENTS_QUERY, PAYMENTS_QUERY_HANDLER(container));
+
+    bus.addHandler(MOVEMENTS_QUERY, MOVEMENTS_QUERY_HANDLER(container));
 
     return bus;
   });

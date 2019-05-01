@@ -7,6 +7,7 @@ import { debtRequestsRouter } from '../../cases/debt-requests';
 import { denyDebtRequestRouter } from '../../cases/deny-debt-request';
 import { endDebtRouter } from '../../cases/end-debt';
 import { healthzRouter } from '../../cases/healthz';
+import { movementsRouter } from '../../cases/movements';
 import { newDebtRequestRouter } from '../../cases/new-debt-request';
 import { newPayRouter } from '../../cases/new-pay';
 import { paymentsRouter } from '../../cases/payments';
@@ -23,6 +24,8 @@ export function loadRoutes(
   app.get('/debts/requests', debtRequestsRouter(container));
 
   app.get('/payments', paymentsRouter(container));
+
+  app.get('/movements', movementsRouter(container));
 
   app.post('/debts/requests', newDebtRequestRouter(container));
 

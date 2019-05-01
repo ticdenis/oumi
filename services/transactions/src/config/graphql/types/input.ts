@@ -41,4 +41,8 @@ export const Input = gql`
     message: String
     quantity: Float!
   }
+
+  input MovementsData {
+    debtorId: ID!
+  }
 `;

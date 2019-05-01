@@ -24,4 +24,13 @@ export const Type = gql`
     occurredOn: String!
     quantity: Float!
   }
+
+  type MovementResponse {
+    amount: Float!
+    concept: String!
+    date: String!
+    debtId: ID!
+    message: String
+    type: String!
+  }
 `;
