@@ -1,0 +1,41 @@
+{
+  "name": "@oumi-package/rabbitmq",
+  "description": "Message broker",
+  "version": "0.0.0",
+  "private": true,
+  "license": "UNLICENSED",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "preinstall": "node -e 'if(!/yarn\\.js$/.test(process.env.npm_execpath))throw new Error(\"Use yarn\")'",
+    "clean": "rimraf lib",
+    "prueba": "ts-node src/main.ts",
+    "build": "tsc --declaration",
+    "watch": "tsc --declaration -w",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "lint:fix": "tslint -c tslint.json -p tsconfig.json --fix",
+    "prettier": "prettier --config .prettierrc --write \"./**/*.ts\"",
+    "test": "ava --verbose",
+    "test:watch": "ava --verbose --watch",
+    "coverage": "nyc ava --verbose",
+    "report": "nyc report -r=text-lcov > coverage.lcov"
+  },
+  "dependencies": {
+    "@oumi-package/shared": "0.0.0",
+    "amqplib": "^0.5.3"
+  },
+  "devDependencies": {
+    "@fluffy-spoon/substitute": "^1.87.0",
+    "@types/amqplib": "^0.5.11",
+    "@types/node": "^11.13.0",
+    "@types/sinon": "^7.0.11",
+    "ava": "^1.4.1",
+    "nyc": "^14.0.0",
+    "prettier": "^1.17.0",
+    "rimraf": "^2.6.3",
+    "ts-node": "^8.1.0",
+    "tslint": "^5.16.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.4.5"
+  }
+}

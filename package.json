@@ -9,6 +9,7 @@
     "packages/user",
     "packages/contact",
     "packages/movement",
+    "packages/rabbitmq",
     "services/accounts",
     "services/transactions"
   ],
