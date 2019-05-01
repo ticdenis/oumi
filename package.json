@@ -14,6 +14,7 @@
   ],
   "scripts": {
     "preinstall": "node -e 'if(!/yarn\\.js$/.test(process.env.npm_execpath))throw new Error(\"Use yarn\")'",
+    "prepare-envs": "cp services/accounts/.env.sample .env && cp services/transactions/.env.sample .env",
     "commit": "git-cz",
     "cli": "./tools/cli.ts",
     "docker": "./tools/docker-stack.sh",

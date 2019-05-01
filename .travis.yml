@@ -20,5 +20,8 @@ script:
   - yarn clean
   - yarn build
   - yarn lint
+  - yarn prepare-envs
+  - yarn migrator:migrate
+  - yarn migrator:rollback
   - yarn test:packages
   - yarn test:services
