@@ -80,7 +80,7 @@ test.beforeEach(t => {
   ];
 });
 
-test.skip('should throw debtor of payments not found', async t => {
+test('should throw debtor of payments not found', async t => {
   // Given
   const paymentQueryRepository = Substitute.for<PaymentQueryRepository>();
   paymentQueryRepository.allOfId(Arg.any()).returns(fromLeft(null));
@@ -94,7 +94,7 @@ test.skip('should throw debtor of payments not found', async t => {
   await t.throwsAsync(fn);
 });
 
-test.skip('should throw debtor of charges not found', async t => {
+test('should throw debtor of charges not found', async t => {
   // Given
   const paymentQueryRepository = Substitute.for<PaymentQueryRepository>();
   paymentQueryRepository
@@ -111,7 +111,7 @@ test.skip('should throw debtor of charges not found', async t => {
   await t.throwsAsync(fn);
 });
 
-test.skip('should throw some any debt from charges and payments not found', async t => {
+test('should throw some any debt from charges and payments not found', async t => {
   // Given
   const paymentQueryRepository = Substitute.for<PaymentQueryRepository>();
   paymentQueryRepository
