@@ -2,6 +2,7 @@ import {
   Payment,
   PaymentDebt,
   PaymentDebtId,
+  PaymentDebtUserId,
   PaymentQueryRepository,
 } from '@oumi-package/movement/lib/domain';
 import { Oumi } from '@oumi-package/shared/lib/core';
@@ -21,11 +22,15 @@ export class TypeORMPaymentQueryRepository implements PaymentQueryRepository {
       .connection<Connection>();
   }
 
-  public allOfId(id: PaymentDebtId): TaskEither<null, Payment[]> {
+  public ofDebtId(id: PaymentDebtId): TaskEither<null, PaymentDebt> {
     throw new Error('Method not implemented.');
   }
 
-  public ofDebtId(id: PaymentDebtId): TaskEither<null, PaymentDebt> {
+  public allChargesOfId(id: PaymentDebtUserId): TaskEither<null, Payment[]> {
+    throw new Error('Method not implemented.');
+  }
+
+  public allOfId(id: PaymentDebtUserId): TaskEither<null, Payment[]> {
     throw new Error('Method not implemented.');
   }
 }

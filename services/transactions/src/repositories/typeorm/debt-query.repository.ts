@@ -22,6 +22,10 @@ export class TypeORMDebtQueryRepository implements DebtQueryRepository {
       .connection<Connection>();
   }
 
+  public allOfIds(ids: DebtId[]): TaskEither<null, Debt[]> {
+    throw new Error('Method not implemented.');
+  }
+
   public debtorExists(id: DebtorId): Promise<boolean> {
     throw new Error('Method not implemented.');
   }
