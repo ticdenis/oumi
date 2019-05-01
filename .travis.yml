@@ -20,7 +20,7 @@ script:
   - yarn clean
   - yarn build
   - yarn lint
-  - yarn prepare-envs
+  - yarn prepare-env
   - yarn migrator:migrate
   - yarn migrator:rollback
   - yarn test:packages
