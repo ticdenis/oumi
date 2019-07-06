@@ -1,5 +1,16 @@
 # Oumi services
 
-An Oumi service is a small application that represents a Bounded Context.
+A service of Oumi is the set in use of Oumi packages and third parties.
 
-An Oumi package is a set of components shared among several Oumi services.
+> Flow
+
+- Route
+- Middleware (optional)
+- Validator (optional)
+- Controller
+- Associate Handler (Query / Command) using handler and builder service of package
+- Message (Query / Command) with request validated
+- Bus
+- Response and optional next()
+- ...
+- Finish

@@ -1,0 +1,45 @@
+{
+  "name": "@oumi-service/{{name}}",
+  "description": "{{description}}",
+  "version": "0.0.0",
+  "private": true,
+  "license": "UNLICENSED",
+  "main": "./dist/main.js",
+  "scripts": {
+    "preinstall": "node -e 'if(!/yarn\\.js$/.test(process.env.npm_execpath))throw new Error(\"Use yarn\")'",
+    "clean": "rimraf dist",
+    "start": "node dist/main.js",
+    "build": "tsc --declaration",
+    "watch": "tsc --declaration -w",
+    "debug": "nodemon --delay 3 --watch ./dist --legacy-watch ./dist/main.js",
+    "dev": "concurrently --kill-others \"yarn debug\" \"yarn watch\"",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "lint:fix": "tslint -c tslint.json -p tsconfig.json --fix",
+    "prettier": "prettier --config .prettierrc --write \"./**/*.ts\"",
+    "upgrade": "yarn upgrade --latest",
+    "test": "jest --verbose",
+    "test:watch": "jest --verbose --watch",
+    "coverage": "jest --coverage",
+    "report": "jest --coverage"
+  },
+  "dependencies": {
+    "reflect-metadata": "^0.1.13"
+  },
+  "devDependencies": {
+    "@fluffy-spoon/substitute": "^1.87.0",
+    "@types/jest": "^24.0.11",
+    "@types/node": "^11.13.0",
+    "@types/supertest": "^2.0.7",
+    "concurrently": "^4.1.0",
+    "jest": "^24.7.1",
+    "nodemon": "^1.18.11",
+    "prettier": "^1.17.0",
+    "rimraf": "^2.6.3",
+    "supertest": "^4.0.2",
+    "ts-jest": "^24.0.2",
+    "ts-node": "^8.1.0",
+    "tslint": "^5.16.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.4.5"
+  }
+}

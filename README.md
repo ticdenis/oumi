@@ -5,32 +5,20 @@
 
 Oumi is a platform to control the state of your debts.
 
-## Packages
-
-> **@oumi-package/shared**: This package share the components between services.
-
-> **@oumi-service/user**: This service provides the way to operate with Oumi users.
-
-> **@oumi-application/api**: This application providers the Oumi API REST.
-
-### Scripts
+### Before Development
 
 ```bash
-yarn install
+make vagrant-up
 
-yarn commit
+make vagrant-ssh
 
-yarn cli
+make docker-yarn COMMAND="lint"
 
-yarn clean
+make docker-yarn COMMAND="test"
+```
 
-yarn build
+### Dev
 
-yarn lint
-
-yarn lint:fix
-
-yarn prettier
-
-yarn test
+```bash
+make docker-compose-up COMMAND="..."
 ```

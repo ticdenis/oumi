@@ -1,7 +1,9 @@
 .cache
 .env
 .git
+/.vagrant
 node_modules
 config
 npm-debug
 tools
+.env.sample

@@ -1,0 +1,9 @@
+{
+  "extends": "../../packages/shared/tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "tsBuildInfoFile": "./dist/tsbuildinfo.json",
+  },
+  "include": ["./src/**/*.ts"],
+}

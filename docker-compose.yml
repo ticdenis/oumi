@@ -1,0 +1,136 @@
+version: "3.7"
+
+services:
+  proxy:
+    hostname: proxy
+    image: nginx:1.15-alpine
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./services/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - oumi_proxy
+    depends_on:
+      - accounts_service
+      - transactions_service
+    deploy:
+      replicas: 0
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+    command: ["nginx", "-g", "daemon off;"]
+  watch_packages:
+    image: oumi/node
+    volumes:
+      - .:/app:delegated
+    command: ["yarn", "run", "watch:packages"]
+    deploy:
+      replicas: 0
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+  watch_package_contact:
+    image: oumi/node
+    volumes:
+      - .:/app:delegated
+    command: ["yarn", "run", "watch:package-contact"]
+    deploy:
+      replicas: 0
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+  watch_package_rabbitmq:
+    image: oumi/node
+    volumes:
+      - .:/app:delegated
+    command: ["yarn", "run", "watch:package-rabbitmq"]
+    deploy:
+      replicas: 0
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+  watch_package_shared:
+    image: oumi/node
+    volumes:
+      - .:/app:delegated
+    command: ["yarn", "run", "watch:package-shared"]
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+  watch_package_user:
+    image: oumi/node
+    volumes:
+      - .:/app:delegated
+    command: ["yarn", "run", "watch:package-user"]
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+  rabbitmq:
+    image: rabbitmq:3.6-management-alpine
+    ports:
+      - "${RABBITMQ__CLIENT_PORT}:5672"
+      - "${RABBITMQ__SERVER_PORT}:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ__USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ__PASSWORD}
+    networks:
+      - oumi_queue
+  postgres:
+    image: postgres:11-alpine
+    ports:
+        - "${POSTGRES__PORT}:5432"
+    environment:
+      - POSTGRES_DB=${POSTGRES__DB}
+      - POSTGRES_USER=${POSTGRES__USER}
+      - POSTGRES_PASSWORD=${POSTGRES__PASSWORD}
+    volumes:
+      - oumi_database_data:/var/lib/postgresql/data
+    networks:
+      - oumi_database
+  accounts_service:
+    hostname: accounts_service
+    image: oumi/node
+    volumes:
+      - .:/app:delegated
+    ports:
+      - "${ACCOUNTS_SERVICE__PORT}:3001"
+    networks:
+      - oumi_proxy
+      - oumi_queue
+      - oumi_database
+    depends_on:
+      - postgres
+      - rabbitmq
+    command: ["yarn", "workspace", "@oumi-service/accounts", "dev"]
+  transactions_service:
+    hostname: transactions_service
+    image: oumi/node
+    volumes:
+      - .:/app:delegated
+    ports:
+      - "${TRANSACTIONS_SERVICE__PORT}:3002"
+    networks:
+      - oumi_proxy
+      - oumi_queue
+      - oumi_database
+    depends_on:
+      - postgres
+      - rabbitmq
+    command: ["yarn", "workspace", "@oumi-service/transactions", "dev"]
+
+volumes:
+  oumi_database_data:
+    name: oumi_database_data
+
+networks:
+  oumi_proxy:
+    name: oumi_proxy
+    attachable: true
+  oumi_queue:
+    name: oumi_queue
+    attachable: true
+  oumi_database:
+    name: oumi_database
+    attachable: true

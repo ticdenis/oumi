@@ -19,3 +19,8 @@ build/Release
 .yarn-integrity
 .env
 .cache
+draft.md
+node_modules
+/.vagrant
+
+.vscode/settings.json

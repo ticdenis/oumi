@@ -1,3 +1,0 @@
-# @oumi-{{projectType}}/{{projectName}}
-
-{{projectDescription}}
