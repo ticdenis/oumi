@@ -14,12 +14,17 @@ import { SERVICE_ID } from '../../config';
 import { UserEntity, UserEntityType } from '../../config/typeorm/entity';
 
 export class TypeORMUserQueryRepository implements UserQueryRepository {
+  private readonly _connection: Connection;
   private readonly _repository: Repository<UserEntityType>;
 
   public constructor(container: Oumi.Container) {
-    this._repository = container
+    this._connection = container
       .get<Oumi.Database>(SERVICE_ID.DB)
-      .connection<Connection>()
+      .connection<Connection>();
+
+    (this._connection.options as any).schema = 'accounts';
+
+    this._repository = this._connection
       .getRepository(UserEntity);
   }
 

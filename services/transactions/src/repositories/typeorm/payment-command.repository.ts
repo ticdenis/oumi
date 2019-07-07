@@ -17,6 +17,7 @@ export class TypeORMPaymentCommandRepository
     this._connection = container
       .get<Oumi.Database>(SERVICE_ID.DB)
       .connection<Connection>();
+    (this._connection.options as any).schema = 'transactions';
   }
 
   public async create(payment: Payment): Promise<void> {

@@ -45,6 +45,7 @@ export class TypeORMPaymentQueryRepository implements PaymentQueryRepository {
     this._connection = container
       .get<Oumi.Database>(SERVICE_ID.DB)
       .connection<Connection>();
+    (this._connection.options as any).schema = 'transactions';
   }
 
   public ofDebtId(id: PaymentDebtId): TaskEither<null, PaymentDebt> {

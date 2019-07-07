@@ -12,6 +12,8 @@ export class TypeORMDomainEventRepository implements EventPublisher {
     this._connection = container
       .get<Oumi.Database>(SERVICE_ID.DB)
       .connection<Connection>();
+
+    (this._connection.options as any).schema = 'accounts';
   }
 
   public async publish<T>(...events: Event<T>[]): Promise<void> {

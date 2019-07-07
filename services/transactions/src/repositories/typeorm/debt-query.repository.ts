@@ -58,6 +58,7 @@ export class TypeORMDebtQueryRepository implements DebtQueryRepository {
     this._connection = container
       .get<Oumi.Database>(SERVICE_ID.DB)
       .connection<Connection>();
+    (this._connection.options as any).schema = 'transactions';
   }
 
   public allOfIds(ids: DebtId[]): TaskEither<null, Debt[]> {

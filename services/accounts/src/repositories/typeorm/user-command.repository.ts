@@ -13,6 +13,8 @@ export class TypeORMUserCommandRepository implements UserCommandRepository {
     this._connection = container
       .get<Oumi.Database>(SERVICE_ID.DB)
       .connection<Connection>();
+
+    (this._connection.options as any).schema = 'accounts';
   }
 
   public async create(user: User): Promise<void> {
@@ -21,6 +23,7 @@ export class TypeORMUserCommandRepository implements UserCommandRepository {
       .insert()
       .into(UserEntity)
       .values({
+        created_at: new Date(),
         email: user.email.value,
         firstname: user.firstname.value,
         id: user.id.value,
@@ -28,6 +31,7 @@ export class TypeORMUserCommandRepository implements UserCommandRepository {
         nickname: user.nickname.value,
         password: user.password.value,
         phone: user.phone.value,
+        updated_at: new Date()
       })
       .execute();
   }
@@ -37,7 +41,7 @@ export class TypeORMUserCommandRepository implements UserCommandRepository {
       .createQueryBuilder()
       .update(UserEntity)
       .set({
-        password: user.password.value,
+        password: user.password.value
       })
       .where('id = :id', {
         id: user.id.value,
@@ -53,7 +57,7 @@ export class TypeORMUserCommandRepository implements UserCommandRepository {
         firstname: user.firstname.value,
         lastname: user.lastname.value,
         nickname: user.nickname.value,
-        phone: user.phone.value,
+        phone: user.phone.value
       })
       .where('id = :id', {
         id: user.id.value,
