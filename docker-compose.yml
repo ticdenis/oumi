@@ -13,60 +13,32 @@ services:
     depends_on:
       - accounts_service
       - transactions_service
-    deploy:
-      replicas: 0
-      restart_policy:
-        condition: on-failure
-        delay: 5s
     command: ["nginx", "-g", "daemon off;"]
   watch_packages:
     image: oumi/node
     volumes:
       - .:/app:delegated
     command: ["yarn", "run", "watch:packages"]
-    deploy:
-      replicas: 0
-      restart_policy:
-        condition: on-failure
-        delay: 5s
   watch_package_contact:
     image: oumi/node
     volumes:
       - .:/app:delegated
     command: ["yarn", "run", "watch:package-contact"]
-    deploy:
-      replicas: 0
-      restart_policy:
-        condition: on-failure
-        delay: 5s
   watch_package_rabbitmq:
     image: oumi/node
     volumes:
       - .:/app:delegated
     command: ["yarn", "run", "watch:package-rabbitmq"]
-    deploy:
-      replicas: 0
-      restart_policy:
-        condition: on-failure
-        delay: 5s
   watch_package_shared:
     image: oumi/node
     volumes:
       - .:/app:delegated
     command: ["yarn", "run", "watch:package-shared"]
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
   watch_package_user:
     image: oumi/node
     volumes:
       - .:/app:delegated
     command: ["yarn", "run", "watch:package-user"]
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
   rabbitmq:
     image: rabbitmq:3.6-management-alpine
     ports:
@@ -90,7 +62,6 @@ services:
     networks:
       - oumi_database
   watch_service_accounts:
-    hostname: accounts_service
     image: oumi/node
     volumes:
       - .:/app:delegated
@@ -110,7 +81,6 @@ services:
       - postgres
     command: ["yarn", "workspace", "@oumi-service/accounts", "debug"]
   watch_service_transactions:
-    hostname: transactions_service
     image: oumi/node
     volumes:
       - .:/app:delegated
