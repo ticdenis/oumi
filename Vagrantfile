@@ -7,7 +7,9 @@ Vagrant.configure(2) do |config|
   config.vm.hostname = "oumi"
   config.vm.network "private_network", type: "dhcp"
   config.vm.synced_folder ".", "/vagrant", type: "nfs"
-  config.vm.network "forwarded_port", guest: 3000, host: 3000
+  config.vm.network "forwarded_port", guest: 3000, host: 3000 # Nginx
+  config.vm.network "forwarded_port", guest: 5432, host: 5432 # PostgreSQL
+  config.vm.network "forwarded_port", guest: 15672, host: 15672 # RabbitMQ
   config.vm.provision "shell", inline: <<-SHELL
     # Install Git
     sudo yum install -y git

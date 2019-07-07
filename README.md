@@ -15,6 +15,10 @@ make vagrant-ssh
 make docker-yarn COMMAND="lint"
 
 make docker-yarn COMMAND="test"
+
+make docker-yarn COMMAND="workspace @oumi-service/accounts run migrator migrate"
+
+make docker-yarn COMMAND="workspace @oumi-service/transactions run migrator migrate"
 ```
 
 ### Dev

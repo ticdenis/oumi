@@ -20,7 +20,7 @@ docker-compose-down:
 	docker-compose -f $(PWD)/docker-compose.yml down $(COMMAND)
 
 docker-bash:
-	docker run --rm -it $(IMAGE) bash
+	docker run --rm -w /app --volume $(PWD)/:/app:delegated -it $(IMAGE) bash
 
 docker-exec:
 	docker exec -it $(CONTAINER) $(COMMAND)
