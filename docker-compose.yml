@@ -89,6 +89,12 @@ services:
       - oumi_database_data:/var/lib/postgresql/data
     networks:
       - oumi_database
+  watch_service_accounts:
+    hostname: accounts_service
+    image: oumi/node
+    volumes:
+      - .:/app:delegated
+    command: ["yarn", "workspace", "@oumi-service/accounts", "watch"]
   accounts_service:
     hostname: accounts_service
     image: oumi/node
@@ -102,8 +108,13 @@ services:
       - oumi_database
     depends_on:
       - postgres
-      - rabbitmq
-    command: ["yarn", "workspace", "@oumi-service/accounts", "dev"]
+    command: ["yarn", "workspace", "@oumi-service/accounts", "debug"]
+  watch_service_transactions:
+    hostname: transactions_service
+    image: oumi/node
+    volumes:
+      - .:/app:delegated
+    command: ["yarn", "workspace", "@oumi-service/transactions", "watch"]
   transactions_service:
     hostname: transactions_service
     image: oumi/node
@@ -117,8 +128,7 @@ services:
       - oumi_database
     depends_on:
       - postgres
-      - rabbitmq
-    command: ["yarn", "workspace", "@oumi-service/transactions", "dev"]
+    command: ["yarn", "workspace", "@oumi-service/transactions", "debug"]
 
 volumes:
   oumi_database_data:
