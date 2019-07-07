@@ -2,9 +2,10 @@ import { Oumi } from '@oumi-package/shared/lib/core';
 
 import { QueryRunner, Table } from 'typeorm';
 
-export class Users_002 implements Oumi.Migration<QueryRunner> {
-  public name = Users_002.name;
+export class Users_003 implements Oumi.Migration<QueryRunner> {
+  public name = Users_003.name;
 
+  private readonly SCHEMA_NAME = 'accounts';
   private readonly TABLE_NAME = 'users';
 
   public up(queryRunner: QueryRunner): Promise<any> {
@@ -18,11 +19,11 @@ export class Users_002 implements Oumi.Migration<QueryRunner> {
           {
             isUnique: true,
             name: 'email',
-            type: 'string',
+            type: 'VARCHAR',
           },
           {
             name: 'firstname',
-            type: 'string',
+            type: 'VARCHAR',
           },
           {
             isPrimary: true,
@@ -31,27 +32,27 @@ export class Users_002 implements Oumi.Migration<QueryRunner> {
           },
           {
             name: 'lastname',
-            type: 'string',
+            type: 'VARCHAR',
           },
           {
             isUnique: true,
             name: 'nickname',
-            type: 'string',
+            type: 'VARCHAR',
           },
           {
             name: 'password',
-            type: 'string',
+            type: 'VARCHAR',
           },
           {
             name: 'phone',
-            type: 'string',
+            type: 'VARCHAR',
           },
           {
             name: 'updated_at',
             type: 'date',
           },
         ],
-        name: this.TABLE_NAME,
+        name: `${this.SCHEMA_NAME}.${this.TABLE_NAME}`,
       }),
     );
   }

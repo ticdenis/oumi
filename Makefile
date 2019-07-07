@@ -5,13 +5,17 @@ export $(shell sed 's/=.*//' .env)
 
 IMAGE = oumi/node
 
+ifndef NETWORK
+override NETWORK = default
+endif
+
 # Docker Commands
 
 docker-build:
 	docker build -f $(PWD)/Dockerfile -t $(IMAGE) .
 
 docker-yarn:
-	docker run --rm -w /app --volume $(PWD)/:/app:delegated $(IMAGE) yarn $(COMMAND)
+	docker run --rm --network $(NETWORK) -w /app --volume $(PWD)/:/app:delegated $(IMAGE) yarn $(COMMAND)
 
 docker-compose-up:
 	docker-compose -f $(PWD)/docker-compose.yml up $(COMMAND)

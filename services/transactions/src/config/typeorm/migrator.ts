@@ -2,12 +2,15 @@ import { Oumi } from '@oumi-package/shared/lib/core';
 
 import { Connection, QueryRunner } from 'typeorm';
 
-import { Migrations_000 } from './migration/000-migrations';
+import { Schema_000 } from './migration/000-schema';
+import { Migrations_001 } from './migration/001-migrations';
 
 export const migrator: Oumi.Migrator<Connection, QueryRunner> = {
   migrate: conn => async migrations => {
+    await new Schema_000().up(conn.createQueryRunner());
+
     if (!(await migrationsTableExists(conn))) {
-      await new Migrations_000().up(conn.createQueryRunner());
+      await new Migrations_001().up(conn.createQueryRunner());
     }
 
     const newBatch = (await lastBatch(conn)) + 1;
@@ -57,13 +60,13 @@ export const migrator: Oumi.Migrator<Connection, QueryRunner> = {
 };
 
 const migrationsTableExists = (connection: Connection): Promise<boolean> =>
-  connection.createQueryRunner().hasTable('migrations');
+  connection.createQueryRunner().hasTable(`${Schema_000.SCHEMA_NAME}.migrations`);
 
 const lastBatch = async (connection: Connection): Promise<number> => {
   const lastMigration = await connection
     .createQueryBuilder()
     .select(['m.batch'])
-    .from('migrations', 'm')
+    .from(`${Schema_000.SCHEMA_NAME}.migrations`, 'm')
     .orderBy('m.batch', 'DESC')
     .limit(1)
     .execute();
@@ -78,7 +81,7 @@ const insertMigration = (connection: Connection) => (
   return connection
     .createQueryBuilder()
     .insert()
-    .into('migrations')
+    .into(`${Schema_000.SCHEMA_NAME}.migrations`)
     .values({
       batch,
       classname,
@@ -92,7 +95,7 @@ const deleteMigration = (connection: Connection) => (classname: string) => {
   return connection
     .createQueryBuilder()
     .delete()
-    .from('migrations')
+    .from(`${Schema_000.SCHEMA_NAME}.migrations`)
     .where('classname = :classname', { classname })
     .execute();
 };
@@ -103,7 +106,7 @@ const getMigrationsOfBatch = (connection: Connection) => (
   return connection
     .createQueryBuilder()
     .select(['m.classname'])
-    .from('migrations', 'm')
+    .from(`${Schema_000.SCHEMA_NAME}.migrations`, 'm')
     .where('m.batch = :batch', { batch })
     .orderBy('m.id', 'DESC')
     .execute();
@@ -115,6 +118,6 @@ const getMigrations = (
   return connection
     .createQueryBuilder()
     .select(['m.id', 'm.classname'])
-    .from('migrations', 'm')
+    .from(`${Schema_000.SCHEMA_NAME}.migrations`, 'm')
     .execute();
 };

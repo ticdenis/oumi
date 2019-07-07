@@ -60,5 +60,6 @@ export const ContactEntity = new EntitySchema<ContactEntityType>({
       type: 'one-to-many',
     },
   },
+  schema: 'accounts',
   tableName: 'contacts',
 });

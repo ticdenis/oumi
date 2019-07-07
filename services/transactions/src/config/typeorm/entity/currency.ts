@@ -22,5 +22,6 @@ export const CurrencyEntity = new EntitySchema<CurrencyEntityType>({
     },
   },
   name: 'currency',
+  schema: 'transactions',
   tableName: 'currencies',
 });

@@ -20,5 +20,6 @@ export const DomainEventEntity = new EntitySchema({
     },
   },
   name: 'domain_event',
+  schema: 'accounts',
   tableName: 'domain_events',
 });

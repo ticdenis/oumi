@@ -2,9 +2,10 @@ import { Oumi } from '@oumi-package/shared/lib/core';
 
 import { QueryRunner, Table } from 'typeorm';
 
-export class Debts_004 implements Oumi.Migration<QueryRunner> {
-  public name = Debts_004.name;
+export class Debts_005 implements Oumi.Migration<QueryRunner> {
+  public name = Debts_005.name;
 
+  private readonly SCHEMA_NAME = 'accounts';
   private readonly TABLE_NAME = 'debts';
 
   public up(queryRunner: QueryRunner): Promise<any> {
@@ -17,7 +18,7 @@ export class Debts_004 implements Oumi.Migration<QueryRunner> {
           },
           {
             name: 'code',
-            type: 'string',
+            type: 'VARCHAR',
           },
           {
             name: 'contact_id',
@@ -25,7 +26,7 @@ export class Debts_004 implements Oumi.Migration<QueryRunner> {
           },
           {
             name: 'currency',
-            type: 'string',
+            type: 'VARCHAR',
           },
           {
             isPrimary: true,
@@ -43,17 +44,17 @@ export class Debts_004 implements Oumi.Migration<QueryRunner> {
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
             referencedColumnNames: ['id'],
-            referencedTableName: 'users',
+            referencedTableName: `${this.SCHEMA_NAME}.users`,
           },
           {
             columnNames: ['user_id'],
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
             referencedColumnNames: ['id'],
-            referencedTableName: 'users',
+            referencedTableName: `${this.SCHEMA_NAME}.users`,
           },
         ],
-        name: this.TABLE_NAME,
+        name: `${this.SCHEMA_NAME}.${this.TABLE_NAME}`,
       }),
     );
   }

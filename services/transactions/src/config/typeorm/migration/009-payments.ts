@@ -2,9 +2,10 @@ import { Oumi } from '@oumi-package/shared/lib/core';
 
 import { QueryRunner, Table } from 'typeorm';
 
-export class Payments_008 implements Oumi.Migration<QueryRunner> {
-  public name = Payments_008.name;
+export class Payments_009 implements Oumi.Migration<QueryRunner> {
+  public name = Payments_009.name;
 
+  private readonly SCHEMA_NAME = 'transactions';
   private readonly TABLE_NAME = 'payments';
 
   public async up(queryRunner: QueryRunner): Promise<any> {
@@ -23,7 +24,7 @@ export class Payments_008 implements Oumi.Migration<QueryRunner> {
           {
             isNullable: true,
             name: 'message',
-            type: 'string',
+            type: 'varchar',
           },
           {
             name: 'occurred_on',
@@ -40,10 +41,10 @@ export class Payments_008 implements Oumi.Migration<QueryRunner> {
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
             referencedColumnNames: ['id'],
-            referencedTableName: 'debts',
+            referencedTableName: `${this.SCHEMA_NAME}.debts`,
           },
         ],
-        name: this.TABLE_NAME,
+        name: `${this.SCHEMA_NAME}.${this.TABLE_NAME}`,
       }),
     );
   }

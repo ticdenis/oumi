@@ -60,5 +60,6 @@ export const DebtEntity = new EntitySchema<DebtEntityType & { id: string }>({
       type: 'one-to-many',
     },
   },
+  schema: 'accounts',
   tableName: 'debts',
 });

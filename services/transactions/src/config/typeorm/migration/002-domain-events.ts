@@ -2,32 +2,35 @@ import { Oumi } from '@oumi-package/shared/lib/core';
 
 import { QueryRunner, Table } from 'typeorm';
 
-export class Currencies_002 implements Oumi.Migration<QueryRunner> {
-  public name = Currencies_002.name;
+export class DomainEvents_002 implements Oumi.Migration<QueryRunner> {
+  public name = DomainEvents_002.name;
 
-  private readonly TABLE_NAME = 'currencies';
+  private readonly SCHEMA_NAME = 'transactions';
+  private readonly TABLE_NAME = 'domain_events';
 
   public async up(queryRunner: QueryRunner): Promise<any> {
     return queryRunner.createTable(
       new Table({
         columns: [
           {
-            isUnique: true,
-            name: 'code',
-            type: 'string',
+            name: 'data',
+            type: 'varchar',
           },
           {
-            isGenerated: true,
             isPrimary: true,
             name: 'id',
-            type: 'integer',
+            type: 'uuid',
           },
           {
-            name: 'symbol',
-            type: 'string',
+            name: 'occurred_on',
+            type: 'date',
+          },
+          {
+            name: 'type',
+            type: 'varchar',
           },
         ],
-        name: this.TABLE_NAME,
+        name: `${this.SCHEMA_NAME}.${this.TABLE_NAME}`,
       }),
     );
   }

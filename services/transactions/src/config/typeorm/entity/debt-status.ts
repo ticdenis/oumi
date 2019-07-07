@@ -18,5 +18,6 @@ export const DebtStatusEntity = new EntitySchema<DebtStatusEntityType>({
     },
   },
   name: 'debt_status',
+  schema: 'transactions',
   tableName: 'debts_statuses',
 });

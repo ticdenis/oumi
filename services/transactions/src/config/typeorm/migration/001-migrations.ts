@@ -1,6 +1,7 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class Migrations_000 implements MigrationInterface {
+export class Migrations_001 implements MigrationInterface {
+  private readonly SCHEMA_NAME = 'transactions';
   private readonly TABLE_NAME = 'migrations';
 
   public async up(queryRunner: QueryRunner): Promise<any> {
@@ -11,11 +12,11 @@ export class Migrations_000 implements MigrationInterface {
             isGenerated: true,
             isPrimary: true,
             name: 'id',
-            type: 'integer',
+            type: 'int',
           },
           {
             name: 'classname',
-            type: 'string',
+            type: 'varchar',
           },
           {
             name: 'batch',
@@ -26,7 +27,7 @@ export class Migrations_000 implements MigrationInterface {
             type: 'date',
           },
         ],
-        name: this.TABLE_NAME,
+        name: `${this.SCHEMA_NAME}.${this.TABLE_NAME}`,
       }),
     );
   }

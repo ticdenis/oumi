@@ -45,5 +45,6 @@ export const PaymentEntity = new EntitySchema<PaymentEntityType>({
       type: 'one-to-many',
     },
   },
+  schema: 'transactions',
   tableName: 'payments',
 });

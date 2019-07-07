@@ -16,13 +16,13 @@ make docker-yarn COMMAND="lint"
 
 make docker-yarn COMMAND="test"
 
-make docker-yarn COMMAND="workspace @oumi-service/accounts run migrator migrate"
+make docker-yarn NETWORK="oumi_database" COMMAND="workspace @oumi-service/accounts run migrator migrate"
 
-make docker-yarn COMMAND="workspace @oumi-service/transactions run migrator migrate"
+make docker-yarn NETWORK="oumi_database" COMMAND="workspace @oumi-service/transactions run migrator migrate"
 ```
 
 ### Dev
 
 ```bash
-make docker-compose-up COMMAND="..."
+make docker-compose-up COMMAND="proxy postgres ..."
 ```

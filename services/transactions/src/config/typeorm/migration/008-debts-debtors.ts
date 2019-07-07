@@ -2,10 +2,11 @@ import { Oumi } from '@oumi-package/shared/lib/core';
 
 import { QueryRunner, Table } from 'typeorm';
 
-export class DebtsLoaners_006 implements Oumi.Migration<QueryRunner> {
-  public name = DebtsLoaners_006.name;
+export class DebtsDebtors_008 implements Oumi.Migration<QueryRunner> {
+  public name = DebtsDebtors_008.name;
 
-  private readonly TABLE_NAME = 'debts_loaners';
+  private readonly SCHEMA_NAME = 'transactions';
+  private readonly TABLE_NAME = 'debts_debtors';
 
   public async up(queryRunner: QueryRunner): Promise<any> {
     return queryRunner.createTable(
@@ -17,13 +18,13 @@ export class DebtsLoaners_006 implements Oumi.Migration<QueryRunner> {
           },
           {
             name: 'debt_status_id',
-            type: 'integer',
+            type: 'int',
           },
           {
             isGenerated: true,
             isPrimary: true,
             name: 'id',
-            type: 'integer',
+            type: 'int',
           },
           {
             name: 'user_id',
@@ -36,24 +37,25 @@ export class DebtsLoaners_006 implements Oumi.Migration<QueryRunner> {
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
             referencedColumnNames: ['id'],
-            referencedTableName: 'debts',
+            referencedTableName: `${this.SCHEMA_NAME}.debts`,
           },
           {
             columnNames: ['debt_status_id'],
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
             referencedColumnNames: ['id'],
-            referencedTableName: 'debts_statuses',
+            referencedTableName: `${this.SCHEMA_NAME}.debts_statuses`,
           },
           {
             columnNames: ['user_id'],
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
             referencedColumnNames: ['id'],
-            referencedTableName: 'users',
+            referencedTableName: `${this.SCHEMA_NAME}.users`,
+
           },
         ],
-        name: this.TABLE_NAME,
+        name: `${this.SCHEMA_NAME}.${this.TABLE_NAME}`,
       }),
     );
   }

@@ -49,5 +49,6 @@ export const UserEntity = new EntitySchema<UserEntityType>({
     },
   },
   name: 'user',
+  schema: 'accounts',
   tableName: 'users',
 });

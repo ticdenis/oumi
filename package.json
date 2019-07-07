@@ -21,7 +21,6 @@
     "preinstall": "node -e 'if(!/yarn\\.js$/.test(process.env.npm_execpath))throw new Error(\"Use yarn\")'",
     "commit": "git-cz",
     "cli": "./tools/cli.ts",
-    "docker": "./tools/docker-stack.sh",
     "reset": "rimraf **/node_modules && rimraf node_modules && yarn install && yarn clean && yarn build",
     "build": "yarn workspaces run build",
     "watch": "concurrently \"yarn run watch:packages\" \"yarn run watch:services\"",

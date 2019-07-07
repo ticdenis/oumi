@@ -66,5 +66,6 @@ export const DebtDebtorEntity = new EntitySchema<DebtDebtorEntityType>({
       type: 'one-to-many',
     },
   },
+  schema: 'transactions',
   tableName: 'debts_debtors',
 });
