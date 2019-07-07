@@ -9,10 +9,8 @@ import { Oumi } from '@oumi-package/shared/lib/core';
 
 import { QueryRunner } from 'typeorm';
 
-import { DebtStatusEntity } from '../entity/debt-status';
-
-export class DebtStatuses_002 implements Oumi.Migration<QueryRunner> {
-  public name = DebtStatuses_002.name;
+export class InsertDebtStatuses1562505317000 implements Oumi.Migration<QueryRunner> {
+  public name = InsertDebtStatuses1562505317000.name;
 
   private readonly STATUSES = [
     DEBT_COMPLETED_STATUS,
@@ -23,23 +21,21 @@ export class DebtStatuses_002 implements Oumi.Migration<QueryRunner> {
   ];
 
   public async up(queryRunner: QueryRunner): Promise<any> {
-    return Promise.all(
-      this.STATUSES.map(status =>
-        queryRunner.manager.getRepository(DebtStatusEntity).insert({
-          status,
-        }),
-      ),
-    );
+    return Promise.all(this.STATUSES.map(status =>
+      queryRunner.query(`
+        INSERT INTO transactions.debts_statuses ("status")
+        VALUES ('${status}');
+      `)
+    ));
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {
     return Promise.all(
       this.STATUSES.map(status =>
-        queryRunner.manager.delete(DebtStatusEntity, {
-          where: {
-            status,
-          },
-        }),
+        queryRunner.query(`
+          DELETE FROM transactions.debts_statuses
+          WHERE status = '${status}';
+        `)
       ),
     );
   }

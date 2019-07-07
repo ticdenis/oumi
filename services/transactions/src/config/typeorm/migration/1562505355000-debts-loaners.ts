@@ -2,36 +2,29 @@ import { Oumi } from '@oumi-package/shared/lib/core';
 
 import { QueryRunner, Table } from 'typeorm';
 
-export class Debts_005 implements Oumi.Migration<QueryRunner> {
-  public name = Debts_005.name;
+export class DebtsLoaners1562505355000 implements Oumi.Migration<QueryRunner> {
+  public name = DebtsLoaners1562505355000.name;
 
-  private readonly SCHEMA_NAME = 'accounts';
-  private readonly TABLE_NAME = 'debts';
+  private readonly SCHEMA_NAME = 'transactions';
+  private readonly TABLE_NAME = 'debts_loaners';
 
-  public up(queryRunner: QueryRunner): Promise<any> {
+  public async up(queryRunner: QueryRunner): Promise<any> {
     return queryRunner.createTable(
       new Table({
         columns: [
           {
-            name: 'amount',
-            type: 'float',
-          },
-          {
-            name: 'code',
-            type: 'VARCHAR',
-          },
-          {
-            name: 'contact_id',
+            name: 'debt_id',
             type: 'uuid',
           },
           {
-            name: 'currency',
-            type: 'VARCHAR',
+            name: 'debt_status_id',
+            type: 'int',
           },
           {
+            isGenerated: true,
             isPrimary: true,
             name: 'id',
-            type: 'uuid',
+            type: 'int',
           },
           {
             name: 'user_id',
@@ -40,11 +33,18 @@ export class Debts_005 implements Oumi.Migration<QueryRunner> {
         ],
         foreignKeys: [
           {
-            columnNames: ['contact_id'],
+            columnNames: ['debt_id'],
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
             referencedColumnNames: ['id'],
-            referencedTableName: `${this.SCHEMA_NAME}.users`,
+            referencedTableName: `${this.SCHEMA_NAME}.debts`,
+          },
+          {
+            columnNames: ['debt_status_id'],
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+            referencedColumnNames: ['id'],
+            referencedTableName: `${this.SCHEMA_NAME}.debts_statuses`,
           },
           {
             columnNames: ['user_id'],
@@ -59,7 +59,7 @@ export class Debts_005 implements Oumi.Migration<QueryRunner> {
     );
   }
 
-  public down(queryRunner: QueryRunner): Promise<any> {
+  public async down(queryRunner: QueryRunner): Promise<any> {
     return queryRunner.dropTable(this.TABLE_NAME);
   }
 }

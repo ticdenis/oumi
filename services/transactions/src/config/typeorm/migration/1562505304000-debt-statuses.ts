@@ -1,35 +1,31 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import { Oumi } from '@oumi-package/shared/lib/core';
 
-export class Migrations_001 implements MigrationInterface {
-  private readonly SCHEMA_NAME = 'accounts';
-  private readonly TABLE_NAME = 'migrations';
+import { QueryRunner, Table } from 'typeorm';
+
+export class DebtStatuses1562505304000 implements Oumi.Migration<QueryRunner> {
+  public name = DebtStatuses1562505304000.name;
+
+  private readonly SCHEMA_NAME = 'transactions';
+  private readonly TABLE_NAME = 'debts_statuses';
 
   public async up(queryRunner: QueryRunner): Promise<any> {
     return queryRunner.createTable(
       new Table({
         columns: [
           {
+            isUnique: true,
+            name: 'status',
+            type: 'varchar',
+          },
+          {
             isGenerated: true,
             isPrimary: true,
             name: 'id',
             type: 'int',
           },
-          {
-            name: 'classname',
-            type: 'VARCHAR',
-          },
-          {
-            name: 'batch',
-            type: 'int',
-          },
-          {
-            name: 'executed_at',
-            type: 'date',
-          },
         ],
         name: `${this.SCHEMA_NAME}.${this.TABLE_NAME}`,
       }),
-      true
     );
   }
 

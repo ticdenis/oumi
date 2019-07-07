@@ -2,10 +2,10 @@ import { Oumi } from '@oumi-package/shared/lib/core';
 
 import { QueryRunner, Table } from 'typeorm';
 
-export class DomainEvents_002 implements Oumi.Migration<QueryRunner> {
-  public name = DomainEvents_002.name;
+export class DomainEvents1562503974000 implements Oumi.Migration<QueryRunner> {
+  public name = DomainEvents1562503974000.name;
 
-  private readonly SCHEMA_NAME = 'transactions';
+  private readonly SCHEMA_NAME = 'accounts';
   private readonly TABLE_NAME = 'domain_events';
 
   public async up(queryRunner: QueryRunner): Promise<any> {
@@ -14,7 +14,7 @@ export class DomainEvents_002 implements Oumi.Migration<QueryRunner> {
         columns: [
           {
             name: 'data',
-            type: 'varchar',
+            type: 'VARCHAR',
           },
           {
             isPrimary: true,
@@ -27,7 +27,7 @@ export class DomainEvents_002 implements Oumi.Migration<QueryRunner> {
           },
           {
             name: 'type',
-            type: 'varchar',
+            type: 'VARCHAR',
           },
         ],
         name: `${this.SCHEMA_NAME}.${this.TABLE_NAME}`,

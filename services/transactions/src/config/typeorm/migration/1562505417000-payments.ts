@@ -2,8 +2,8 @@ import { Oumi } from '@oumi-package/shared/lib/core';
 
 import { QueryRunner, Table } from 'typeorm';
 
-export class Payments_009 implements Oumi.Migration<QueryRunner> {
-  public name = Payments_009.name;
+export class Payments1562505417000 implements Oumi.Migration<QueryRunner> {
+  public name = Payments1562505417000.name;
 
   private readonly SCHEMA_NAME = 'transactions';
   private readonly TABLE_NAME = 'payments';

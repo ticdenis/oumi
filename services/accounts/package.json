@@ -5,12 +5,10 @@
   "private": true,
   "license": "UNLICENSED",
   "main": "./dist/main.js",
-  "copyFiles": [
-    {
-      "from": ".env.sample",
-      "to": ".env"
-    }
-  ],
+  "copyFiles": [{
+    "from": ".env.sample",
+    "to": ".env"
+  }],
   "scripts": {
     "prepare-env": "copy-files-from-to --config package.json",
     "clean": "rimraf dist",
@@ -27,7 +25,7 @@
     "test:watch": "jest --verbose --watch",
     "coverage": "jest --coverage",
     "report": "jest --coverage",
-    "migrator": "./tools/migrator.ts"
+    "migrator": "ts-node ./src/config/typeorm/migrator.ts"
   },
   "dependencies": {
     "@godaddy/terminus": "^4.1.0",
