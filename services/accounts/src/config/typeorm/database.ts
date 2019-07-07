@@ -22,7 +22,6 @@ export const loadDatabase = (env: Environment): Oumi.Database => {
           entities: [ContactEntity, DebtEntity, DomainEventEntity, UserEntity],
           host: env.DATABASE_HOST,
           logging: true,
-          migrations: ['src/config/typeorm/migration/**/*.ts'],
           password: env.DATABASE_PASSWORD,
           port: env.DATABASE_PORT as any,
           synchronize: env.DATABASE_SYNCHRONIZE === 'true',
