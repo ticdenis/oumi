@@ -102,7 +102,7 @@ services:
 
 volumes:
   oumi_database_data:
-    name: oumi_database_data
+    #name: oumi_database_data
 
 networks:
   oumi_proxy:
