@@ -59,8 +59,7 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES__PASSWORD}
     volumes:
       - oumi_database_data:/var/lib/postgresql/data
-    networks:
-      - oumi_database
+    networks: ['oumi_database']
   watch_service_accounts:
     image: oumi/node
     volumes:
