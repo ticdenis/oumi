@@ -101,16 +101,16 @@ services:
     command: ["yarn", "workspace", "@oumi-service/transactions", "debug"]
 
 volumes:
-  oumi_database_data:
+  database_data:
     #name: oumi_database_data
 
 networks:
-  oumi_proxy:
+  proxy:
     #name: oumi_proxy
     attachable: true
-  oumi_queue:
+  queue:
     #name: oumi_queue
     attachable: true
-  oumi_database:
+  database:
     #name: oumi_database
     attachable: true
