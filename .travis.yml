@@ -10,7 +10,7 @@ before_install:
   - cp .env.sample .env # Global
   - make travis-update-docker-compose
   - make docker-build
-  - make docker-compose-up COMMAND="postgres"
+  - make docker-compose-up COMMAND="-d postgres"
 
 install:
   - make docker-yarn COMMAND="install"
