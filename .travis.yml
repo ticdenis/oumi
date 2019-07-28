@@ -2,6 +2,7 @@ services:
   - docker
 
 before_install:
+  - cp .env.sample .env # Global
   - make docker-build
   - make docker-compose-up COMMAND="postgres"
 
@@ -11,10 +12,10 @@ install:
   - make docker-yarn COMMAND="build"
 
 script:
-  - make docker-yarn COMMAND="prepare-env"
+  - make docker-yarn COMMAND="prepare-env" # Services
   - make docker-yarn COMMAND="lint"
-  - make docker-yarn COMMAND="migrator:migrate" NETWORK="oumi_database"
-  - make docker-yarn COMMAND="migrator:rollback" NETWORK="oumi_database"
+  - make docker-yarn COMMAND="migrator:migrate" NETWORK="oumi_database" # Services
+  - make docker-yarn COMMAND="migrator:rollback" NETWORK="oumi_database" # Services
   - make docker-yarn COMMAND="test:packages"
   - make docker-yarn COMMAND="test:services" NETWORK="oumi_database"
 
