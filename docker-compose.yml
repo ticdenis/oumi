@@ -106,11 +106,11 @@ volumes:
 
 networks:
   oumi_proxy:
-    name: oumi_proxy
+    #name: oumi_proxy
     attachable: true
   oumi_queue:
-    name: oumi_queue
+    #name: oumi_queue
     attachable: true
   oumi_database:
-    name: oumi_database
+    #name: oumi_database
     attachable: true
