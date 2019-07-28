@@ -1,27 +1,22 @@
-language: node_js
-sudo: false
-dist: trusty
-node_js:
-  - "10.15.0"
+services:
+  - docker
 
 before_install:
-  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
-  - export PATH="$HOME/.yarn/bin:$PATH"
-
-cache:
-  yarn: true
-  directories:
-    - ./node_modules
+  - make docker-build
+  - make docker-compose-up COMMAND="postgres"
 
 install:
-  - yarn install
+  - make docker-yarn COMMAND="install"
+  - make docker-yarn COMMAND="clean"
+  - make docker-yarn COMMAND="build"
 
 script:
-  - yarn clean
-  - yarn build
-  - yarn lint
-  - yarn prepare-env
-  - yarn migrator:migrate
-  - yarn migrator:rollback
-  - yarn test:packages
-  - yarn test:services
+  - make docker-yarn COMMAND="prepare-env"
+  - make docker-yarn COMMAND="lint"
+  - make docker-yarn COMMAND="migrator:migrate" NETWORK="oumi_database"
+  - make docker-yarn COMMAND="migrator:rollback" NETWORK="oumi_database"
+  - make docker-yarn COMMAND="test:packages"
+  - make docker-yarn COMMAND="test:services" NETWORK="oumi_database"
+
+after_script:
+  - make docker-compose-down COMMAND="postgres"
