@@ -21,9 +21,9 @@ script:
   - make docker-yarn COMMAND="prepare-env" # Services
   - make docker-yarn COMMAND="lint"
   - make docker-yarn COMMAND="migrator:migrate" NETWORK="oumi_database" # Services
-  - make docker-yarn COMMAND="migrator:rollback" NETWORK="oumi_database" # Services
   - make docker-yarn COMMAND="test:packages"
   - make docker-yarn COMMAND="test:services" NETWORK="oumi_database"
+  - make docker-yarn COMMAND="migrator:rollback" NETWORK="oumi_database" # Services
 
 after_script:
   - make docker-compose-down COMMAND="postgres"
