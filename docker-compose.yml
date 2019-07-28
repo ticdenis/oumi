@@ -101,7 +101,7 @@ services:
     command: ["yarn", "workspace", "@oumi-service/transactions", "debug"]
 
 volumes:
-  database_data:
+  oumi_database_data:
     #name: oumi_database_data
 
 networks:
