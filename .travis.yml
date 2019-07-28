@@ -1,10 +1,14 @@
 language: minimal
 
+env:
+  - DOCKER_COMPOSE_VERSION=1.24.1
+
 services:
   - docker
 
 before_install:
   - cp .env.sample .env # Global
+  - make travis-update-docker-compose
   - make docker-build
   - make docker-compose-up COMMAND="postgres"
 

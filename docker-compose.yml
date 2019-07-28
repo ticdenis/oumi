@@ -1,4 +1,4 @@
-version: "3.3"
+version: "3.7"
 
 services:
   proxy:
@@ -59,7 +59,8 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES__PASSWORD}
     volumes:
       - oumi_database_data:/var/lib/postgresql/data
-    networks: ['oumi_database']
+    networks:
+      - oumi_database
   watch_service_accounts:
     image: oumi/node
     volumes:
@@ -101,15 +102,15 @@ services:
 
 volumes:
   oumi_database_data:
-    #name: oumi_database_data
+    name: oumi_database_data
 
 networks:
-  proxy:
-    #name: oumi_proxy
+  oumi_proxy:
+    name: oumi_proxy
     attachable: true
-  queue:
-    #name: oumi_queue
+  oumi_queue:
+    name: oumi_queue
     attachable: true
-  database:
-    #name: oumi_database
+  oumi_database:
+    name: oumi_database
     attachable: true
