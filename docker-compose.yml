@@ -55,7 +55,7 @@ services:
       - node.name=${ELASTICSEARCH__NODE_NAME}
       - cluster.initial_master_nodes=${ELASTICSEARCH__NODE_NAME}
       - cluster.name=${ELASTICSEARCH__CLUSTER_NAME}
-      - bootstrap.memory_lock=${ELASTICSEARCH__BOOTSTRAP_MEMORY_LOCK}
+      # - bootstrap.memory_lock=${ELASTICSEARCH__BOOTSTRAP_MEMORY_LOCK}
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     volumes:
       - oumi_elasticsearch_data:/usr/share/elasticsearch/data

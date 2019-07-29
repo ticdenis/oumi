@@ -10,6 +10,7 @@
     "packages/contact",
     "packages/movement",
     "packages/rabbitmq",
+    "packages/elasticsearch",
     "services/accounts",
     "services/transactions"
   ],
