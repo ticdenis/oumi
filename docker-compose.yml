@@ -49,6 +49,20 @@ services:
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ__PASSWORD}
     networks:
       - oumi_queue
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
+    environment:
+      - node.name=${ELASTICSEARCH__NODE_NAME}
+      - cluster.initial_master_nodes=${ELASTICSEARCH__NODE_NAME}
+      - cluster.name=${ELASTICSEARCH__CLUSTER_NAME}
+      - bootstrap.memory_lock=${ELASTICSEARCH__BOOTSTRAP_MEMORY_LOCK}
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - oumi_elasticsearch_data:/usr/share/elasticsearch/data
+    ports:
+      - "${ELASTICSEARCH__PORT}:9200"
+    networks:
+      - elk
   postgres:
     image: postgres:11-alpine
     ports:
@@ -103,6 +117,8 @@ services:
 volumes:
   oumi_database_data:
     name: oumi_database_data
+  oumi_elasticsearch_data:
+    name: oumi_elasticsearch_data
 
 networks:
   oumi_proxy:
