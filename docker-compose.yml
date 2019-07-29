@@ -62,7 +62,7 @@ services:
     ports:
       - "${ELASTICSEARCH__PORT}:9200"
     networks:
-      - elk
+      - oumi_elk
   postgres:
     image: postgres:11-alpine
     ports:
@@ -129,4 +129,7 @@ networks:
     attachable: true
   oumi_database:
     name: oumi_database
+    attachable: true
+  oumi_elk:
+    name: oumi_elk
     attachable: true
